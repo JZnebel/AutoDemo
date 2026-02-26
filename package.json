@@ -1,0 +1,40 @@
+{
+  "name": "agent-video",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Narrated demo video pipeline — scout → record → render with pluggable TTS, avatar, and multi-format export",
+  "scripts": {
+    "plan": "node cli.mjs plan",
+    "demo": "node lib/run.mjs",
+    "convert": "node cli.mjs convert",
+    "tts": "node cli.mjs tts",
+    "record": "node cli.mjs record",
+    "render": "node cli.mjs render",
+    "avatar": "node cli.mjs avatar",
+    "full": "node cli.mjs full",
+    "full:draft": "node cli.mjs full --preset draft",
+    "full:production": "node cli.mjs full --preset production",
+    "preview": "node cli.mjs preview",
+    "providers": "node cli.mjs providers",
+    "lambda:deploy": "node cli.mjs lambda deploy",
+    "lambda:render": "node cli.mjs lambda render",
+    "lambda:status": "node cli.mjs lambda status",
+    "lambda:policies": "node cli.mjs lambda policies",
+    "marketing": "node cli.mjs marketing",
+    "marketing:draft": "node cli.mjs marketing --preset draft",
+    "stitch": "node cli.mjs stitch",
+    "check-selectors": "node scripts/check-selectors.mjs",
+    "render:vertical": "node cli.mjs render --format vertical",
+    "render:square": "node cli.mjs render --format square",
+    "render:all": "node cli.mjs render --format all"
+  },
+  "bin": {
+    "run-demo": "./bin/run-demo",
+    "agent-video": "./cli.mjs"
+  },
+  "dependencies": {
+    "@remotion/install-whisper-cpp": "^4.0.429",
+    "dotenv": "^17.3.1",
+    "ws": "^8.19.0"
+  }
+}

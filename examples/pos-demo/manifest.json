@@ -1,0 +1,62 @@
+{
+  "name": "pos-demo",
+  "baseUrl": "http://localhost:3010/pos",
+  "voiceId": "iP95p4xoKVk53GoZ742B",
+  "viewport": { "width": 1920, "height": 1080 },
+  "burnCaptions": false,
+  "scenes": [
+    {
+      "name": "full-demo",
+      "module": "scenes/full-demo.mjs",
+      "url": "http://localhost:3010/pos",
+      "loadWaitMs": 5000,
+      "saveAuth": false,
+      "narration": [
+        {
+          "text": "Here's a quick look at Brother Point of Sale. A modern, fast system built for cannabis retail.",
+          "action": "intro"
+        },
+        {
+          "text": "Clerks sign in with a quick four digit pin. Cloud stores can require email and password first for extra security.",
+          "action": "pin-login"
+        },
+        {
+          "text": "The manager opens the cash drawer with a starting float, and the register is ready to sell.",
+          "action": "open-drawer"
+        },
+        {
+          "text": "This is the main register. Products on the left, cart on the right. Everything in one view.",
+          "action": "show-register"
+        },
+        {
+          "text": "You can look up customers instantly. Loyalty points, purchase history, and contact info all right here.",
+          "action": "customer"
+        },
+        {
+          "text": "Products can be scanned with a barcode reader, or searched and tapped from the grid.",
+          "action": "search-add"
+        },
+        {
+          "text": "Weight based products show preset sizes. An eighth, a quarter, a half ounce. One tap to add.",
+          "action": "weight-product"
+        },
+        {
+          "text": "Products with multiple options, like edibles or vape cartridges, let you choose the exact variation.",
+          "action": "variation-product"
+        },
+        {
+          "text": "Discounts are built right in. Percentage off, dollar amount, or store-wide promotions.",
+          "action": "discount"
+        },
+        {
+          "text": "Payment is flexible. Cash, debit, or split across multiple methods. All tracked automatically.",
+          "action": "payment"
+        },
+        {
+          "text": "That's the register in action. Now let's take a quick look at the admin dashboard, where you manage everything behind the scenes.",
+          "action": "outro"
+        }
+      ]
+    }
+  ]
+}

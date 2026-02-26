@@ -1,0 +1,20 @@
+{
+  "app": {
+    "name": "BrotherPOS",
+    "url": "http://localhost:3010",
+    "posPath": "/pos",
+    "adminPath": "/admin"
+  },
+  "knowledgeBase": "./knowledge-base/docs",
+  "recording": {
+    "walkthroughLog": "test-scout/walkthrough.jsonl",
+    "screenshotsDir": "test-scout/screenshots",
+    "viewport": { "width": 1920, "height": 1080 }
+  },
+  "defaults": {
+    "audience": "customers",
+    "duration": 90,
+    "tts": "edge",
+    "format": "landscape"
+  }
+}

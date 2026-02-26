@@ -1,0 +1,328 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-02-25T22:07:06.508Z",
+  "parameters": {
+    "audience": "customers",
+    "targetDuration": 60,
+    "actualDuration": 66,
+    "focus": "pos-register",
+    "preset": "quick-sale"
+  },
+  "storyArc": "This demo focuses on POS Core and Customer. Starting with Making a Sale and Product Search and Scanning, we walk through 5 key features, ending with Customer Lookup.",
+  "summary": {
+    "sceneCount": 5,
+    "totalDuration": 66,
+    "totalScreenshots": 10,
+    "groups": [
+      "POS Core",
+      "Customer"
+    ]
+  },
+  "scenes": [
+    {
+      "id": "pos-sales-making-a-sale",
+      "name": "Making a Sale",
+      "order": 1,
+      "estimatedDuration": 10,
+      "group": "POS Core",
+      "focusArea": "pos-register",
+      "featureHighlight": "Making a Sale",
+      "actions": [
+        {
+          "type": "action",
+          "target": "A success screen appears showing the total and, for cash payments, the change due.",
+          "selectorHint": "action: A success screen appears showing the total and, for cash payments, the change due."
+        },
+        {
+          "type": "click",
+          "target": "Tap the card -- the weight selection modal opens.",
+          "selectorHint": "click: Tap the card -- the weight selection modal opens."
+        },
+        {
+          "type": "screenshot"
+        },
+        {
+          "type": "click",
+          "target": "Tap 3.5g -- the item appears in the cart at the tier price (e.g., $35.00).",
+          "selectorHint": "click: Tap 3.5g -- the item appears in the cart at the tier price (e.g., $35.00)."
+        },
+        {
+          "type": "click",
+          "target": "Customer pays cash -- tap CASH, tap the $50 quick button, see change of $5.94.",
+          "selectorHint": "click: Customer pays cash -- tap CASH, tap the $50 quick button, see change of $5.94."
+        },
+        {
+          "type": "click",
+          "target": "Tap Complete Sale -- receipt prints, change amount shown on screen.",
+          "selectorHint": "click: Tap Complete Sale -- receipt prints, change amount shown on screen."
+        },
+        {
+          "type": "screenshot"
+        }
+      ],
+      "narrationGoal": "Complete end-to-end walkthrough of processing a sale in Brother POS",
+      "narrationHints": [
+        "Complete end-to-end walkthrough of processing a sale in Brother POS",
+        "This guide walks you through the complete process of ringing up a customer, from finding products to collecting payment and printing a receipt. Every sale in Brother POS follows the same core flow, regardless of the products involved.",
+        "Make sure the following are in place before processing your first sale:"
+      ],
+      "validation": {
+        "screenshotExpected": 2,
+        "successIndicator": "POS cart with items"
+      },
+      "_source": {
+        "docPath": "pos/sales/making-a-sale.md",
+        "impactScore": 10,
+        "roles": [
+          "cashier",
+          "manager",
+          "admin"
+        ]
+      }
+    },
+    {
+      "id": "pos-sales-product-search-and-scanning",
+      "name": "Product Search and Scanning",
+      "order": 2,
+      "estimatedDuration": 14,
+      "group": "POS Core",
+      "focusArea": "pos-register",
+      "featureHighlight": "Product Search and Scanning",
+      "actions": [
+        {
+          "type": "fill",
+          "target": "Search bar",
+          "selectorHint": "fill: Search bar"
+        },
+        {
+          "type": "action",
+          "target": "Category tabs",
+          "selectorHint": "action: Category tabs"
+        },
+        {
+          "type": "screenshot"
+        },
+        {
+          "type": "action",
+          "target": "Subcategory filter",
+          "selectorHint": "action: Subcategory filter"
+        },
+        {
+          "type": "action",
+          "target": "Brand filter",
+          "selectorHint": "action: Brand filter"
+        },
+        {
+          "type": "action",
+          "target": "Product grid",
+          "selectorHint": "action: Product grid"
+        },
+        {
+          "type": "screenshot"
+        }
+      ],
+      "narrationGoal": "How to find products using search, category filters, brand filters, and barcode scanning",
+      "narrationHints": [
+        "How to find products using search, category filters, brand filters, and barcode scanning",
+        "Brother POS gives you multiple ways to find products quickly. Whether you are typing a name, browsing categories, or scanning barcodes, the goal is the same: get the right product into the cart as fast as possible.",
+        "The left side of the POS screen is the **Product Pane**. From top to bottom, it contains:"
+      ],
+      "validation": {
+        "screenshotExpected": 2,
+        "successIndicator": "Product search with filtered results; Category filter with Flower category selected"
+      },
+      "_source": {
+        "docPath": "pos/sales/product-search-and-scanning.md",
+        "impactScore": 10,
+        "roles": [
+          "cashier",
+          "manager",
+          "admin"
+        ]
+      }
+    },
+    {
+      "id": "pos-sales-weight-based-products",
+      "name": "Weight-Based Products",
+      "order": 3,
+      "estimatedDuration": 14,
+      "group": "POS Core",
+      "focusArea": "pos-register",
+      "featureHighlight": "Weight-Based Products",
+      "actions": [
+        {
+          "type": "click",
+          "target": "Tap the weight-based product in the product grid.",
+          "selectorHint": "click: Tap the weight-based product in the product grid."
+        },
+        {
+          "type": "click",
+          "target": "Tap a preset to add the product at that weight and price to the cart.",
+          "selectorHint": "click: Tap a preset to add the product at that weight and price to the cart."
+        },
+        {
+          "type": "screenshot"
+        },
+        {
+          "type": "action",
+          "target": "Price per gram",
+          "selectorHint": "action: Price per gram"
+        },
+        {
+          "type": "fill",
+          "target": "A weight input field where you can type any weight in grams.",
+          "selectorHint": "fill: A weight input field where you can type any weight in grams."
+        },
+        {
+          "type": "fill",
+          "target": "A live price calculation that updates as you type (e.g., \"4.2g = $35.70\").",
+          "selectorHint": "fill: A live price calculation that updates as you type (e.g., \"4.2g = $35.70\")."
+        },
+        {
+          "type": "screenshot"
+        }
+      ],
+      "narrationGoal": "Weight presets, custom weight entry, USB scale integration, and tier pricing for cannabis and deli products",
+      "narrationHints": [
+        "Weight presets, custom weight entry, USB scale integration, and tier pricing for cannabis and deli products",
+        "Many cannabis and deli products are sold by weight rather than by unit. Brother POS handles weight-based products through a dedicated weight selection modal that appears when you tap one of these products in the product grid.",
+        "When you tap a weight-based product, instead of adding it to the cart immediately, a **Weight Selection Modal** opens. This modal presents the available weight options and pricing, letting you select the exact amount the customer wants."
+      ],
+      "validation": {
+        "screenshotExpected": 2,
+        "successIndicator": "Weight selection modal with preset buttons"
+      },
+      "_source": {
+        "docPath": "pos/sales/weight-based-products.md",
+        "impactScore": 10,
+        "roles": [
+          "cashier",
+          "manager",
+          "admin"
+        ]
+      }
+    },
+    {
+      "id": "pos-sales-applying-discounts",
+      "name": "Applying Discounts",
+      "order": 4,
+      "estimatedDuration": 14,
+      "group": "POS Core",
+      "focusArea": "pos-register",
+      "featureHighlight": "Applying Discounts",
+      "actions": [
+        {
+          "type": "action",
+          "target": "Make sure there is at least one item in the cart.",
+          "selectorHint": "action: Make sure there is at least one item in the cart."
+        },
+        {
+          "type": "click",
+          "target": "Tap the Discount button in the action buttons area below the cart.",
+          "selectorHint": "click: Tap the Discount button in the action buttons area below the cart."
+        },
+        {
+          "type": "screenshot"
+        },
+        {
+          "type": "fill",
+          "target": "A manager or admin must enter their 4-digit PIN.",
+          "selectorHint": "fill: A manager or admin must enter their 4-digit PIN."
+        },
+        {
+          "type": "click",
+          "target": "Select the scope (Entire Order or Single Item).",
+          "selectorHint": "click: Select the scope (Entire Order or Single Item)."
+        },
+        {
+          "type": "fill",
+          "target": "Choose the discount type (Percentage, Dollar, or Final Price).",
+          "selectorHint": "fill: Choose the discount type (Percentage, Dollar, or Final Price)."
+        },
+        {
+          "type": "screenshot"
+        }
+      ],
+      "narrationGoal": "Percentage discounts, dollar discounts, final price overrides, and manager authorization",
+      "narrationHints": [
+        "Percentage discounts, dollar discounts, final price overrides, and manager authorization",
+        "Brother POS supports several types of discounts that can be applied to individual items or to the entire order. This guide covers manual discounts applied at the register. For automatic promotions, see [Sale Campaigns and Freebies](./sale-campaigns-and-freebies).",
+        "1. Make sure there is at least one item in the cart. 2. Tap the **Discount** button in the action buttons area below the cart. 3. The discount modal opens."
+      ],
+      "validation": {
+        "screenshotExpected": 2,
+        "successIndicator": "Discount modal with percentage, dollar, and final price options"
+      },
+      "_source": {
+        "docPath": "pos/sales/applying-discounts.md",
+        "impactScore": 10,
+        "roles": [
+          "cashier",
+          "manager",
+          "admin"
+        ]
+      }
+    },
+    {
+      "id": "pos-customers-customer-lookup",
+      "name": "Customer Lookup",
+      "order": 5,
+      "estimatedDuration": 14,
+      "group": "Customer",
+      "focusArea": "pos-register",
+      "featureHighlight": "Customer Lookup",
+      "actions": [
+        {
+          "type": "click",
+          "target": "Tap the Customer button",
+          "selectorHint": "click: Tap the Customer button"
+        },
+        {
+          "type": "scan",
+          "target": "Scan a customer barcode",
+          "selectorHint": "scan: Scan a customer barcode"
+        },
+        {
+          "type": "screenshot"
+        },
+        {
+          "type": "action",
+          "target": "Swipe a loyalty card",
+          "selectorHint": "action: Swipe a loyalty card"
+        },
+        {
+          "type": "action",
+          "target": "Find the customer",
+          "selectorHint": "action: Find the customer"
+        },
+        {
+          "type": "click",
+          "target": "Tap the customer's name",
+          "selectorHint": "click: Tap the customer's name"
+        },
+        {
+          "type": "screenshot"
+        }
+      ],
+      "narrationGoal": "How to find existing customers at the POS register by name, phone number, email, customer code, or loyalty card.",
+      "narrationHints": [
+        "How to find existing customers at the POS register by name, phone number, email, customer code, or loyalty card.",
+        "Before you can attach a customer to a sale -- for loyalty points, store credits, purchase history, or compliance tracking -- you need to find them in the system. Brother POS provides several ways to look up customers directly from the POS register without leaving the sales screen.",
+        "Attaching a customer to a sale unlocks several features:"
+      ],
+      "validation": {
+        "screenshotExpected": 2,
+        "successIndicator": "Product Search"
+      },
+      "_source": {
+        "docPath": "pos/customers/customer-lookup.md",
+        "impactScore": 10,
+        "roles": [
+          "cashier",
+          "manager",
+          "admin"
+        ]
+      }
+    }
+  ]
+}

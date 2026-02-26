@@ -1,0 +1,30 @@
+{
+  "markers": [
+    { "action": "intro", "phrase": "quick look at", "label": null },
+    {
+      "action": "pin-login",
+      "phrase": "clerks sign in",
+      "label": "Quick PIN Login",
+      "zoom": { "focusX": 960, "focusY": 480, "scale": 1.3, "offsetSec": -1, "durationSec": 5 }
+    },
+    { "action": "open-drawer", "phrase": "manager opens", "label": "Cash Drawer Management" },
+    { "action": "show-register", "phrase": "main register", "label": null },
+    { "action": "customer", "phrase": "look up customers", "label": "Customer Lookup" },
+    { "action": "search-add", "phrase": "scanned with", "label": "Product Search" },
+    {
+      "action": "weight-product",
+      "phrase": "weight based",
+      "label": "Weight-Based Pricing",
+      "zoom": { "focusX": 960, "focusY": 450, "scale": 1.25, "offsetSec": 5, "durationSec": 4 }
+    },
+    { "action": "variation-product", "phrase": "multiple options", "label": "Product Variations" },
+    { "action": "discount", "phrase": "discounts are", "label": "Built-In Discounts" },
+    {
+      "action": "payment",
+      "phrase": "payment is",
+      "label": "Flexible Payments",
+      "zoom": { "focusX": 960, "focusY": 450, "scale": 1.25, "offsetSec": 3, "durationSec": 4 }
+    },
+    { "action": "outro", "phrase": "register in action", "label": null }
+  ]
+}

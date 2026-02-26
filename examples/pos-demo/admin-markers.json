@@ -1,0 +1,30 @@
+{
+  "markers": [
+    { "action": "intro", "phrase": "full back office", "label": null },
+    {
+      "action": "dashboard",
+      "phrase": "numbers at a glance",
+      "label": "Live Dashboard",
+      "zoom": { "focusX": 960, "focusY": 280, "scale": 1.3, "offsetSec": 0, "durationSec": 4 }
+    },
+    { "action": "products", "phrase": "product catalog", "label": "Product Management" },
+    { "action": "categories", "phrase": "categories keep", "label": "Category Organization" },
+    { "action": "campaigns", "phrase": "sale campaigns", "label": "Sale Campaigns" },
+    {
+      "action": "loyalty",
+      "phrase": "loyalty program",
+      "label": "Loyalty Program",
+      "zoom": { "focusX": 960, "focusY": 380, "scale": 1.25, "offsetSec": 1, "durationSec": 4 }
+    },
+    { "action": "reports", "phrase": "reports give", "label": "Sales Reports" },
+    {
+      "action": "orders",
+      "phrase": "order history",
+      "label": "Order History",
+      "zoom": { "focusX": 960, "focusY": 500, "scale": 1.25, "offsetSec": 1, "durationSec": 4 }
+    },
+    { "action": "cash-drawers", "phrase": "cash drawer sessions", "label": "Cash Drawer Sessions" },
+    { "action": "settings", "phrase": "settings let", "label": "Store Settings" },
+    { "action": "outro", "phrase": "complete point of sale", "label": null }
+  ]
+}
