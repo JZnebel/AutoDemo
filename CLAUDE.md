@@ -161,6 +161,10 @@ Provider routers live in `lib/tts/index.js` and `lib/avatar/index.js`.
 | `demo-render/src/ScoutReplay.tsx` | **Primary composition**: frame-by-frame rendering from screenshots + JSONL |
 | `demo-render/src/MarketingDemo.tsx` | **Marketing composition**: presenter + lip sync + intro/outro + captions |
 | `demo-render/src/Demo.tsx` | **Legacy composition**: screen recording-based |
+| `scripts/pitch-video-pipeline.mjs` | **Pitch video pipeline**: markdown script → images (OpenAI) → TTS → Whisper sync → timeline audit → Remotion render |
+| `scripts/generate-timeline-audit.mjs` | **Timeline audit**: machine-readable scene/audio alignment check — run before renders to catch misalignments |
+| `scripts/generate-pitch-images.js` | **Image generation**: batch OpenAI GPT Image 1.5 scene image generation |
+| `scripts/assemble-pitch-v2.mjs` | Manual assembly script for fine-tuned scene-to-image mapping |
 | `mcp-server/index.js` | MCP server exposing `create_narrated_recording` tool |
 
 ### Remotion Compositions
@@ -197,6 +201,34 @@ Each Chrome DevTools MCP action is logged as a JSONL entry with: `ts`, `seq`, `s
 
 Actions have estimated costs in milliseconds (e.g., cursorClick: 1200ms, type: 200ms/char). Before recording each segment, `lib/budget.js` compares estimated action cost against narration duration. If actions exceed the available time, silence padding is inserted after the narration audio. Zero hardcoded timestamps — everything derives from TTS character timing + Whisper word timing.
 
+### Pitch Video Pipeline
+
+`scripts/pitch-video-pipeline.mjs` creates narrated pitch/explainer videos from a markdown script. Unlike the scout path (which captures a live app), the pitch path uses a mix of AI-generated images, real scouted screenshots, and custom images.
+
+**Critical: Scene timing must use Whisper word boundaries, not character-ratio estimation.** The pipeline's `syncScenesToWordTimings()` function matches the first few words of each scene's narration text against Whisper word timings to find exact audio timestamps. This ensures slides change at the exact moment the narrator starts speaking that scene's content.
+
+**Audio cutoff prevention:** The last scene automatically gets +3s padding so outro transition crossfades don't clip the final narration.
+
+**Timeline audit** runs automatically before every render. It produces a machine-readable JSON mapping every scene transition to the exact narration words. Use `generate-timeline-audit.mjs` standalone or check the `runTimelineAudit()` output in the pipeline. Issues it catches:
+- Scenes with no matching words (audio not aligned)
+- Audio cutoff (video shorter than narration)
+- Late crossfades (image keyword spoken before the image appears)
+
+When reviewing a pitch video render, always run the timeline audit first and check for issues before re-rendering.
+
+### Pitch Script Markdown Format
+
+```markdown
+## Scene 1 — Title
+
+> Narration text in blockquotes.
+> Multiple lines become one continuous narration.
+
+**Visuals:** Description of what to show (used for image generation prompts).
+```
+
+The parser extracts narration from `>` blockquotes and visual descriptions from `**Visuals:**` sections. Scene durations come from either a duration table in the markdown or from Whisper word timing.
+
 ## Config Presets
 
 - **draft** — Free TTS (edge), small Whisper model, no avatar, skip verification
@@ -207,6 +239,7 @@ Actions have estimated costs in milliseconds (e.g., cursorClick: 1200ms, type: 2
 
 Key variables (see `.env.example` for full list):
 - `ELEVENLABS_API_KEY` — Premium TTS
+- `OPENAI_API_KEY` — Image generation (GPT Image 1.5)
 - `MUX_TOKEN_ID` / `MUX_TOKEN_SECRET` — Video hosting
 - `ANTHROPIC_API_KEY` — AI narration generation
 - `TTS_PROVIDER` / `AVATAR_PROVIDER` — Provider overrides
@@ -217,6 +250,7 @@ Key variables (see `.env.example` for full list):
 
 - `~/Movies/agent-recordings/` — Session recordings (raw footage, audio, walkthrough data)
 - `./final-output/` — Rendered video output
+- `./pitch-output/` — Pitch pipeline working directory (images, audio, props, audit)
 - `./demo-render/public/` — Assets staged for Remotion (screen.mp4, avatar.mp4, word-timings.json)
 
 ## Codebase Conventions

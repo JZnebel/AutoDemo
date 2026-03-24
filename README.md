@@ -54,7 +54,39 @@ node scripts/marketing-pipeline.mjs ~/Movies/agent-recordings/my-recording \
   --name my-product-demo
 ```
 
-### 4. Stitch
+### 4. Pitch Video Pipeline
+
+Create narrated pitch/explainer videos from a markdown script. Supports a mix of AI-generated images (OpenAI GPT Image 1.5), real app screenshots (scouted via Chrome DevTools), and custom images. Scene transitions are synced to actual audio using Whisper word-level timestamps — not estimated.
+
+```bash
+# Full pipeline: parse script → generate images → TTS → Whisper → render
+node scripts/pitch-video-pipeline.mjs scripts/my-pitch.md
+
+# Skip image generation (reuse existing)
+node scripts/pitch-video-pipeline.mjs scripts/my-pitch.md --skip-images
+
+# Draft mode (free Edge TTS, smaller Whisper model)
+node scripts/pitch-video-pipeline.mjs scripts/my-pitch.md --draft
+```
+
+**Timeline Audit** — Before every render, the pipeline generates a machine-readable timeline mapping every scene transition to the exact narration words, catching misalignments before wasting render time. Can also run standalone:
+
+```bash
+node scripts/generate-timeline-audit.mjs pitch-output/pitch-props.json
+```
+
+### 5. Image Generation
+
+Generate cinematic images via OpenAI GPT Image 1.5 for pitch videos:
+
+```bash
+# Edit prompts in the script, then run
+node scripts/generate-pitch-images.js
+```
+
+Requires `OPENAI_API_KEY` in `.env`. Supports `gpt-image-1.5` with configurable size/quality.
+
+### 6. Stitch
 
 Combine multiple rendered videos with animated transition cards:
 
@@ -93,6 +125,7 @@ cp .env.example .env
 | Variable | Required | Purpose |
 |----------|----------|---------|
 | `ELEVENLABS_API_KEY` | Production only | Premium TTS voices |
+| `OPENAI_API_KEY` | For image generation | GPT Image 1.5 scene images for pitch videos |
 | `ANTHROPIC_API_KEY` | For AI narration | Auto-generates narration from page content |
 | `MUX_TOKEN_ID` / `MUX_TOKEN_SECRET` | Optional | Video hosting and sharing |
 
@@ -127,22 +160,33 @@ npm run preview
 | `npm run stitch` | Combine multiple videos with transitions |
 | `npm run preview` | Start Remotion Studio |
 | `npm run providers` | List available TTS/avatar providers |
+| `node scripts/pitch-video-pipeline.mjs <script.md>` | Pitch video: markdown → images → TTS → render |
+| `node scripts/generate-pitch-images.js` | Generate scene images via OpenAI GPT Image 1.5 |
+| `node scripts/generate-timeline-audit.mjs <props.json>` | Audit scene/audio alignment before render |
 
 ## Architecture
 
 ```
-scout (Chrome DevTools MCP)
-  ↓ walkthrough.jsonl + screenshots
-convert (jsonl-to-manifest / jsonl-to-remotion-props)
-  ↓ manifest.json / remotion props
-tts (edge | elevenlabs | kokoro)
-  ↓ narration audio + timestamps
-whisper.cpp (word-level timing via @remotion/install-whisper-cpp)
-  ↓ word timings JSON
-remotion render (ScoutReplay.tsx | MarketingDemo.tsx)
-  ↓ rendered MP4
-ffmpeg optimize (h265/h264)
-  ↓ final-output/*.mp4
+Two paths — scout-based (app demos) and script-based (pitch videos):
+
+Scout Path:                           Pitch Path:
+scout (Chrome DevTools MCP)           markdown script + image prompts
+  ↓ walkthrough.jsonl + screenshots     ↓ parse scenes
+convert (jsonl-to-remotion-props)     generate images (OpenAI GPT Image 1.5)
+  ↓ remotion props                      ↓ scene images
+         ↓                                    ↓
+         └──────────── merge ─────────────────┘
+                         ↓
+              tts (edge | elevenlabs | kokoro)
+                         ↓ narration audio
+              whisper.cpp (word-level timing)
+                         ↓ word timings JSON
+              timeline audit (verify sync)
+                         ↓ issues or ✓
+              remotion render (ScoutReplay.tsx)
+                         ↓ rendered MP4
+              ffmpeg optimize (h265/h264)
+                         ↓ final-output/*.mp4
 ```
 
 ### Provider System
@@ -161,7 +205,7 @@ All external services are swappable via CLI flags or env vars.
 | Path | Purpose |
 |------|---------|
 | `lib/` | Core modules (TTS, avatar, whisper, recording engine) |
-| `scripts/` | Pipeline scripts (marketing, stitch, conversion) |
+| `scripts/` | Pipeline scripts (marketing, stitch, pitch video, image gen, timeline audit) |
 | `demo-render/` | Remotion project (compositions, components, rendering) |
 | `demo-render/src/` | ScoutReplay.tsx (primary), MarketingDemo.tsx, Demo.tsx (legacy) |
 | `examples/` | Example manifests and segment markers |
