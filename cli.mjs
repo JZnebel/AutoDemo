@@ -12,6 +12,7 @@
  *   node cli.mjs record <manifest.json>          Record all scenes from a manifest
  *   node cli.mjs render <recording-dir>          Run Remotion post-production pipeline
  *   node cli.mjs full <walkthrough.jsonl>        Full pipeline: convert → tts → record → render
+ *   node cli.mjs screencast <recording> [timeline] Screencast → edit → narrate → render
  *   node cli.mjs providers                       List available TTS/service providers
  *   node cli.mjs preview                         Start Remotion Studio for live preview
  *
@@ -133,6 +134,10 @@ switch (command) {
 
   case "stitch":
     await cmdStitch();
+    break;
+
+  case "screencast":
+    await cmdScreencast(positional[1], positional[2]);
     break;
 
   case "preview":
@@ -852,6 +857,29 @@ async function cmdMarketing(recordingDir) {
 async function cmdStitch() {
   // Forward all args to stitch.mjs (it handles its own parsing)
   const scriptArgs = [join(__dirname, "scripts/stitch.mjs"), ...args.slice(1)];
+
+  const result = spawnSync("node", scriptArgs, {
+    stdio: "inherit",
+    cwd: __dirname,
+    timeout: 900000,
+  });
+
+  if (result.status !== 0) {
+    process.exit(result.status || 1);
+  }
+}
+
+async function cmdScreencast(recording, timeline) {
+  // Forward all args to screencast-pipeline.mjs
+  const scriptArgs = [join(__dirname, "scripts/screencast-pipeline.mjs")];
+  if (recording) scriptArgs.push(recording);
+  if (timeline) scriptArgs.push(timeline);
+
+  // Forward flags
+  for (const [key, val] of Object.entries(flags)) {
+    if (val === true) scriptArgs.push(`--${key}`);
+    else if (val !== false && val !== undefined) scriptArgs.push(`--${key}`, String(val));
+  }
 
   const result = spawnSync("node", scriptArgs, {
     stdio: "inherit",

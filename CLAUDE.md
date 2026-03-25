@@ -4,35 +4,76 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Agent Video is a pluggable video production pipeline that automates narrated demo videos. An AI agent scouts a web app via Chrome DevTools MCP, capturing screenshots and element interaction data. Remotion then renders a polished video frame-by-frame from the captured data — no screen recording needed. Core philosophy: **scout once, render many** + **pluggable providers** (free ↔ premium) + **frame-by-frame rendering** (Remotion animates everything from screenshots).
+Agent Video is a pluggable video production pipeline that automates narrated demo videos. An AI agent interacts with a web app via Chrome DevTools MCP while screencast recording captures every frame with animated cursor overlays. Claude then writes narration timed to the footage, and the pipeline renders a polished video via Remotion. Core philosophy: **record once, narrate and render many** + **pluggable providers** (free ↔ premium) + **narration drives video timing** (footage stretches/compresses to match narration audio).
 
 ## The Pipeline (read this first)
 
-**Scout → Screenshots + JSONL → Remotion ScoutReplay → Video**
+**Screencast Record → Claude writes narration.json → Pipeline renders MarketingDemo → Video**
 
-There is no screen recording step. Remotion renders every frame from static screenshots + interaction data:
+The screencast pipeline is the PRIMARY way to produce demo videos. It uses a Chrome DevTools MCP fork with built-in screencast recording, SVG cursor animation, and auto-segmentation.
 
-1. **Scout** — Claude explores the app via Chrome DevTools MCP. The PostToolUse hook (`lib/log-devtools-action.mjs`) logs every action to `walkthrough.jsonl` with **element bounds, accessibility labels, scroll positions**. Screenshots are saved at each visual state change.
-2. **Render** — `node cli.mjs scout-to-video` generates narration → TTS audio → Whisper word timings → Remotion renders `ScoutReplay.tsx` frame-by-frame. Between each pair of screenshots, Remotion animates: smooth cursor movement along bezier paths to real element bounds, spring-based zoom into click targets, crossfade/transition between before→after states, click pulse effects, typing overlays, word-highlight captions, lower thirds, and intro/outro cards.
+### How it works
 
-**This works because Remotion renders React components frame-by-frame into video.** With 150 frames between two screenshots, you get smooth cursor animation, zoom easing, and transition effects that look better than a screen recording — and they're fully deterministic and re-renderable with different styles.
+1. **Record** — Chrome DevTools MCP fork (`/home/jordan/chrome-devtools-mcp-fork`) runs with `--human-mode --experimental-screencast --isolated`. Open a page, call `screencast_start`, interact with the app (click, fill, scroll, etc.), then `screencast_stop`. The fork handles: SVG cursor animation on clicks/fills, auto-segmentation (pauses recording after 15s idle, resumes on next action or `wait_for` completion), timeline JSONL logging, and webm-to-mp4 conversion with segment concatenation.
+2. **Narrate** — Claude writes `narration.json` by hand based on what happened during recording. Each segment has explicit `videoStartSec`/`videoEndSec` pointing at the relevant footage. This is intentionally manual — Claude watches the recording and writes narration timed to the action.
+3. **Render** — `node scripts/screencast-pipeline.mjs <recording.mp4> [timeline.jsonl] --skip-narration` runs the 9-step pipeline: narration-driven video editing (each video segment stretches/compresses to match narration audio duration) → TTS → Whisper word timings → Remotion renders MarketingDemo composition with IntroCard, narrated footage, WordHighlightCaptions, and OutroCard.
 
-**The scout data quality is everything.** The hook MUST capture real element bounds from the accessibility tree. Without bounds, the cursor has no target, the zoom has no focus point, and it degrades to a basic crossfade slideshow. The PostToolUse hook uses the new format: `{"matcher": "regex", "hooks": [{"type": "command", "command": "..."}]}`. The old flat format (`{"matcher": "...", "command": "..."}`) is deprecated and will cause a settings error.
+**Narration drives video timing, not the other way around.** The `buildNarrationDrivenEditList` function in `lib/video-editor.mjs` maps each narration segment to a slice of the source footage, then speeds up or slows down that slice to match the TTS audio duration. This means you can re-narrate the same footage with different scripts and get different edit timings.
+
+**The segment manager auto-pauses/resumes.** Long waits (e.g., AI generation in the app) get cut automatically because the screencast pauses after 15s of idle and resumes when the next action fires or a `wait_for` completes.
+
+**Cross-origin iframes cannot be scrolled** via DevTools protocol. Navigate directly to the target page instead of trying to scroll within an iframe.
+
+### narration.json format
+
+```json
+{
+  "introTagline": "Build a Website in 60 Seconds",
+  "introSubtitle": "Traffic Stores AI Website Builder",
+  "outroHeading": "Create yours free at trafficstores.ca",
+  "outroUrl": "trafficstores.ca",
+  "outroCtaText": "Start Free",
+  "accentColor": "rgba(16, 185, 129, 1)",
+  "segments": [
+    {
+      "text": "Narration text here",
+      "sceneIndex": 0,
+      "sceneLabel": "Sign Up",
+      "videoStartSec": 3.7,
+      "videoEndSec": 9.4
+    }
+  ],
+  "fullText": "All segments joined..."
+}
+```
+
+`introTagline`, `introSubtitle`, `outroHeading`, `outroUrl`, `outroCtaText`, and `accentColor` are passed through to IntroCard/OutroCard props. Each segment's `videoStartSec`/`videoEndSec` select the footage slice for that narration — useful when footage is not in timeline order or when scroll recordings were concatenated separately.
 
 ### Slash Commands
-- `/scout` — Scout a web app with Chrome DevTools MCP. Captures screenshots + interaction data to `test-scout/`. Verifies the hook is active.
-- `/demo` — Full automated pipeline: plan from knowledge base → scout → render
+- `/demo` — Full automated pipeline: plan from knowledge base → record screencast → narrate → render
 
-### Legacy: agent-browser recording path
-The `full` command and `lib/run.mjs` use agent-browser (Mux's headless browser CLI) for real-time screen recording with a fake SVG cursor. This was the original approach before the frame-by-frame ScoutReplay path. It still works (`npm run full <manifest>`) but requires hand-written scene modules (e.g. `examples/pos-demo/scenes/full-demo.mjs`) and is harder to automate. The ScoutReplay path is preferred because it needs zero scripting — just scout and render.
+### Secondary: ScoutReplay screenshot path (not tested e2e)
+The ScoutReplay path (`node cli.mjs scout-to-video`) renders frame-by-frame from screenshots + JSONL walkthrough data. Claude scouts the app, screenshots are captured at each visual state change, and Remotion animates cursor movement, zooms, crossfades, and typing overlays between screenshot pairs. This path was never tested end-to-end and is not recommended.
+
+### Legacy: agent-browser recording path (broken)
+The `full` command and `lib/run.mjs` used agent-browser (Mux's headless browser CLI) for real-time screen recording with a fake SVG cursor. This path is broken and no longer maintained. It required hand-written scene modules (e.g. `examples/pos-demo/scenes/full-demo.mjs`).
 
 ## Commands
 
+### Screencast Pipeline (primary)
+```bash
+node cli.mjs screencast <recording.mp4> [timeline.jsonl]          # Full screencast pipeline
+node scripts/screencast-pipeline.mjs <recording> [timeline] \
+  --preset draft --skip-narration --name <name>                    # With options
+node scripts/screencast-audit.mjs screencast-output/               # Check narration/video alignment
+```
+9-step pipeline: read narration.json → narration-driven video edit → TTS → Whisper word timings → assemble MarketingDemo props → Remotion render → h265 optimize → output to `screencast-output/`.
+
 ### Root project (ESM, Node.js)
 ```bash
-npm run full <walkthrough.jsonl>     # Full pipeline: JSONL → TTS → render
-npm run full:draft <walkthrough>     # Draft preset (free TTS, no avatar, skip verify)
-npm run full:production <walkthrough># Production preset (ElevenLabs, avatar, verify)
+npm run full <walkthrough.jsonl>     # Legacy: JSONL → TTS → render (broken)
+npm run full:draft <walkthrough>     # Legacy: Draft preset
+npm run full:production <walkthrough># Legacy: Production preset
 npm run convert <jsonl>              # JSONL walkthrough → manifest + Remotion props
 npm run tts <manifest>               # Generate TTS audio only
 npm run render <dir>                 # Remotion post-production only
@@ -62,31 +103,33 @@ node scripts/stitch.mjs \
 ```
 Validates inputs → renders TransitionCard via Remotion → trims part endings/beginnings → concat demuxer join → h265 optimize.
 
-### Slash Commands
-- `/demo` — Full automated pipeline: plan → scout → render (ScoutReplay path, no screen recording)
-- `/scout` — Scout a web app via Chrome DevTools MCP, capturing screenshots + interaction data to `test-scout/`
-
 ### Remotion project (`demo-render/`)
 ```bash
 cd demo-render
 npx remotion studio                  # Live preview with hot reload
-npx remotion render src/index.ts MarketingDemo  # Render marketing demo
-npx remotion render src/index.ts ScoutReplay    # Render scout replay
+npx remotion render src/index.ts MarketingDemo  # Render marketing demo (primary)
+npx remotion render src/index.ts ScoutReplay    # Render scout replay (secondary)
 ```
 
 No test runner or linter is configured.
 
 ## Architecture
 
-### Legacy Recording Engine (lib/run.mjs + lib/ab.js)
+### Screencast Recording Engine
 
-The legacy recording engine uses **agent-browser** (Mux's headless browser CLI), not Playwright directly. `lib/ab.js` wraps agent-browser commands. The recording flow:
+The screencast pipeline uses a Chrome DevTools MCP fork at `/home/jordan/chrome-devtools-mcp-fork` with flags `--human-mode --experimental-screencast --isolated`. The MCP server config is in `.mcp.json`. The recording flow:
 
-1. Generate TTS audio for all narration segments (in parallel)
-2. Budget preflight: compare estimated action cost (cursorClick: 1200ms, type: 200ms/char, etc.) vs narration duration. If actions overflow, splice silence padding into the audio.
-3. Open headed Chromium via agent-browser, inject fake SVG cursor (`lib/cursor.js`)
-4. Screen record while executing the scene module timed to narration segments
-5. Stop recording, merge raw .webm + narration audio via ffmpeg
+1. Open a page via `navigate_page` or `new_page`
+2. Call `screencast_start` to begin recording
+3. Interact with the app (click, fill, type, scroll, wait_for, etc.) — the fork renders an animated SVG cursor on all click/fill actions
+4. The segment manager auto-pauses recording after 15s of idle, resumes on the next action or `wait_for` completion — this automatically cuts dead time from long waits (e.g., AI generation)
+5. Call `screencast_stop` — the fork concatenates segments, converts webm to mp4, and writes a timeline JSONL
+6. Claude writes `narration.json` with explicit `videoStartSec`/`videoEndSec` per segment based on watching the recording
+7. Run `node scripts/screencast-pipeline.mjs` to render the final video
+
+### Legacy Recording Engine (lib/run.mjs + lib/ab.js) — broken
+
+The legacy recording engine used **agent-browser** (Mux's headless browser CLI). This path is broken and no longer maintained. The flow was: generate TTS → budget preflight → open headed Chromium via agent-browser → inject fake SVG cursor → screen record while executing scene module → merge raw .webm + narration audio via ffmpeg.
 
 ### Scene Modules
 
@@ -144,36 +187,40 @@ Provider routers live in `lib/tts/index.js` and `lib/avatar/index.js`.
 | Module | Role |
 |--------|------|
 | `cli.mjs` | CLI dispatcher; routes subcommands to modules |
+| `scripts/screencast-pipeline.mjs` | **Screencast pipeline** (primary): 9-step flow (narration.json → video edit → TTS → Whisper → render → optimize) |
+| `scripts/screencast-audit.mjs` | **Screencast audit**: check narration/video alignment before render |
+| `lib/video-editor.mjs` | **Narration-driven video editing**: `buildNarrationDrivenEditList` maps narration segments to footage slices with speed adjustment |
+| `.mcp.json` | MCP server config — points to Chrome DevTools MCP fork with `--human-mode --experimental-screencast --isolated` |
 | `scripts/marketing-pipeline.mjs` | **Marketing pipeline**: 10-step flow (video → Whisper → Rhubarb → markers → render → optimize) |
 | `scripts/stitch.mjs` | **Video stitcher**: combine multiple videos with transition cards via concat demuxer |
 | `lib/whisper.mjs` | Whisper.cpp transcription with BPE-aware word-level timestamps (DTW alignment) |
 | `lib/log-devtools-action.mjs` | PostToolUse hook — appends structured JSONL during Scout phase |
-| `lib/run.mjs` | Legacy recording engine (TTS → budget → agent-browser record → stitch) |
-| `lib/ab.js` | Agent-browser command wrapper (sends commands to headed Chromium) |
-| `lib/cursor.js` | Fake SVG cursor injection + click pulse animation |
-| `lib/budget.js` | Timeline budget calculator (action costs vs. narration duration) |
 | `lib/render.js` | FFmpeg operations (merge audio/video, burn captions, concat scenes) |
 | `scripts/jsonl-to-manifest.mjs` | Walkthrough JSONL → recording manifest |
 | `scripts/jsonl-to-remotion-props.mjs` | Walkthrough JSONL → Remotion scene graph props |
 | `scripts/jsonl-to-scout-props.mjs` | Walkthrough JSONL → ScoutReplay props |
 | `scripts/generate-narration.mjs` | AI narration generation from walkthrough data |
 | `demo-render/pipeline.mjs` | Post-production orchestration (Whisper → props → render → verify) |
-| `demo-render/src/ScoutReplay.tsx` | **Primary composition**: frame-by-frame rendering from screenshots + JSONL |
-| `demo-render/src/MarketingDemo.tsx` | **Marketing composition**: presenter + lip sync + intro/outro + captions |
-| `demo-render/src/Demo.tsx` | **Legacy composition**: screen recording-based |
+| `demo-render/src/MarketingDemo.tsx` | **Primary composition**: screencast footage + intro/outro + captions + narration |
+| `demo-render/src/ScoutReplay.tsx` | **Secondary composition**: frame-by-frame rendering from screenshots + JSONL (not tested e2e) |
+| `demo-render/src/Demo.tsx` | **Legacy composition**: screen recording-based (broken) |
 | `scripts/pitch-video-pipeline.mjs` | **Pitch video pipeline**: markdown script → images (OpenAI) → TTS → Whisper sync → timeline audit → Remotion render |
 | `scripts/generate-timeline-audit.mjs` | **Timeline audit**: machine-readable scene/audio alignment check — run before renders to catch misalignments |
 | `scripts/generate-pitch-images.js` | **Image generation**: batch OpenAI GPT Image 1.5 scene image generation |
 | `scripts/assemble-pitch-v2.mjs` | Manual assembly script for fine-tuned scene-to-image mapping |
+| `lib/run.mjs` | Legacy recording engine (broken) |
+| `lib/ab.js` | Legacy agent-browser command wrapper (broken) |
+| `lib/cursor.js` | Legacy fake SVG cursor injection (superseded by MCP fork's built-in cursor) |
+| `lib/budget.js` | Legacy timeline budget calculator |
 | `mcp-server/index.js` | MCP server exposing `create_narrated_recording` tool |
 
 ### Remotion Compositions
 
-**ScoutReplay.tsx** (primary) — Frame-by-frame rendering from screenshot data + JSONL. Renders ScreenshotScene + AnimatedCursor + TypingAnimation per action. Between each screenshot pair, Remotion has ~150 frames to animate: smooth cursor bezier paths to real element bounds, spring-based zoom into click targets, crossfade transitions, click pulse effects, typing overlays, lower thirds.
+**MarketingDemo.tsx** (primary) — Used by both the screencast pipeline and the marketing pipeline. IntroCard (accepts `introTagline`, `introSubtitle`, `accentColor`) → light leak transition → main content (narration-edited screen recording + WordHighlightCaptions + LowerThirds + ProgressBar + optional Presenter avatar with Rhubarb lip sync + music bed) → fade → OutroCard (accepts `outroHeading`, `outroUrl`, `outroCtaText`, `accentColor`). Used by `scripts/screencast-pipeline.mjs` and `scripts/marketing-pipeline.mjs`.
 
-**MarketingDemo.tsx** — Polished product demos: IntroCard (with Sora cinematic clip) → light leak transition → main content (screen recording + Presenter avatar with Rhubarb lip sync + WordHighlightCaptions + LowerThirds + ProgressBar + music bed) → fade → OutroCard. Used by `scripts/marketing-pipeline.mjs`.
+**ScoutReplay.tsx** (secondary, not tested e2e) — Frame-by-frame rendering from screenshot data + JSONL. Renders ScreenshotScene + AnimatedCursor + TypingAnimation per action. Between each screenshot pair, Remotion animates cursor bezier paths, spring-based zoom, crossfade transitions, click pulse effects, typing overlays, lower thirds.
 
-**Demo.tsx** (legacy) — Screen recording-based: IntroCard → TransitionClip → ZoomableVideo (with WordHighlightCaptions, LowerThirds, AvatarPip) → OutroCard. Requires agent-browser recording + hand-written scene modules.
+**Demo.tsx** (legacy, broken) — Screen recording-based: IntroCard → TransitionClip → ZoomableVideo → OutroCard. Required agent-browser recording + hand-written scene modules.
 
 ### Whisper Word Timing
 
@@ -248,8 +295,9 @@ Key variables (see `.env.example` for full list):
 
 ## Output Directories
 
+- `./screencast-output/` — Screencast pipeline working directory (edited video, audio, props, audit, final render)
 - `~/Movies/agent-recordings/` — Session recordings (raw footage, audio, walkthrough data)
-- `./final-output/` — Rendered video output
+- `./final-output/` — Rendered video output (marketing pipeline)
 - `./pitch-output/` — Pitch pipeline working directory (images, audio, props, audit)
 - `./demo-render/public/` — Assets staged for Remotion (screen.mp4, avatar.mp4, word-timings.json)
 
@@ -259,5 +307,6 @@ Key variables (see `.env.example` for full list):
 - No bundler — raw Node.js with `.mjs` extensions for scripts, `.js` for library modules
 - Remotion project uses TypeScript (`.tsx`/`.ts`) in `demo-render/src/`
 - Provider pattern: router module (`index.js`) dispatches to provider modules that export a common interface
-- Agent-browser is the recording tool (not Playwright). `lib/ab.js` wraps it.
-- Props are always derived programmatically from walkthrough data — no manual prop editing needed
+- Chrome DevTools MCP fork is the recording tool (not Playwright, not agent-browser). Config in `.mcp.json`.
+- Narration is written by Claude by hand in `narration.json` — not auto-generated
+- Props are derived programmatically from narration.json + walkthrough data

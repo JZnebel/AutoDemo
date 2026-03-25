@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   AbsoluteFill,
   Img,
@@ -21,6 +21,14 @@ const { fontFamily: interFont } = loadFont("normal", {
   subsets: ["latin"],
 });
 
+export type IntroCardProps = {
+  tagline?: string;
+  subtitle?: string;
+  logoSrc?: string;
+  videoSrc?: string;
+  accentColor?: string;
+};
+
 // Generate deterministic particle positions from a seed
 function seededParticles(count: number) {
   const particles = [];
@@ -40,9 +48,33 @@ function seededParticles(count: number) {
 
 const PARTICLES = seededParticles(40);
 
-export const IntroCard: React.FC = () => {
+export const IntroCard: React.FC<IntroCardProps> = ({
+  tagline = "Product Demo",
+  subtitle = "",
+  logoSrc,
+  videoSrc,
+  accentColor = "rgba(34,197,94,1)",
+}) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
+
+  // Derive accent color components for use in rgba() expressions
+  const accent = useMemo(() => {
+    // Parse "rgba(r,g,b,a)" or "rgb(r,g,b)" to extract r,g,b
+    const match = accentColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) return { r: match[1], g: match[2], b: match[3] };
+    return { r: "34", g: "197", b: "94" }; // fallback green
+  }, [accentColor]);
+
+  // Resolve file sources with graceful fallbacks
+  const resolvedLogoSrc = useMemo(() => {
+    if (logoSrc !== undefined) return logoSrc;
+    try { return staticFile("logo.png"); } catch { return ""; }
+  }, [logoSrc]);
+  const resolvedVideoSrc = useMemo(() => {
+    if (videoSrc !== undefined) return videoSrc;
+    try { return staticFile("intro-sora.mp4"); } catch { return ""; }
+  }, [videoSrc]);
 
   // ── Background gradient shift ──────────────────────────────────────────
   const gradAngle = interpolate(frame, [0, durationInFrames], [135, 155], {
@@ -52,9 +84,9 @@ export const IntroCard: React.FC = () => {
 
   // ── Floating accent orbs (ambient motion) ──────────────────────────────
   const orbs = [
-    { x: 15, y: 25, size: 320, color: "rgba(34,197,94,0.06)", speed: 0.4, phase: 0 },
-    { x: 75, y: 65, size: 260, color: "rgba(34,197,94,0.04)", speed: 0.3, phase: 2 },
-    { x: 50, y: 80, size: 400, color: "rgba(34,197,94,0.03)", speed: 0.25, phase: 4 },
+    { x: 15, y: 25, size: 320, color: `rgba(${accent.r},${accent.g},${accent.b},0.06)`, speed: 0.4, phase: 0 },
+    { x: 75, y: 65, size: 260, color: `rgba(${accent.r},${accent.g},${accent.b},0.04)`, speed: 0.3, phase: 2 },
+    { x: 50, y: 80, size: 400, color: `rgba(${accent.r},${accent.g},${accent.b},0.03)`, speed: 0.25, phase: 4 },
     { x: 85, y: 20, size: 180, color: "rgba(255,255,255,0.02)", speed: 0.35, phase: 1 },
   ];
 
@@ -134,19 +166,21 @@ export const IntroCard: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ background: bg, opacity: fadeOut }}>
-      {/* Sora dispensary video background */}
-      <OffthreadVideo
-        src={staticFile("intro-sora.mp4")}
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          opacity: 0.35,
-          filter: "brightness(0.7)",
-        }}
-        volume={0}
-      />
+      {/* Cinematic video background (optional) */}
+      {resolvedVideoSrc ? (
+        <OffthreadVideo
+          src={resolvedVideoSrc}
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            opacity: 0.35,
+            filter: "brightness(0.7)",
+          }}
+          volume={0}
+        />
+      ) : null}
 
       {/* Floating orbs */}
       {orbs.map((orb, i) => {
@@ -185,8 +219,8 @@ export const IntroCard: React.FC = () => {
               width: p.size,
               height: p.size,
               borderRadius: "50%",
-              backgroundColor: "rgba(34,197,94,0.5)",
-              boxShadow: `0 0 ${p.size * 3}px rgba(34,197,94,0.2)`,
+              backgroundColor: `rgba(${accent.r},${accent.g},${accent.b},0.5)`,
+              boxShadow: `0 0 ${p.size * 3}px rgba(${accent.r},${accent.g},${accent.b},0.2)`,
               opacity: particleOpacity * twinkle,
               transform: `translate(${driftX}px, ${driftY}px)`,
               pointerEvents: "none",
@@ -204,7 +238,7 @@ export const IntroCard: React.FC = () => {
           width: `${line1W * 25}%`,
           height: 1,
           background:
-            "linear-gradient(90deg, transparent, rgba(34,197,94,0.15), transparent)",
+            `linear-gradient(90deg, transparent, rgba(${accent.r},${accent.g},${accent.b},0.15), transparent)`,
         }}
       />
       <div
@@ -215,7 +249,7 @@ export const IntroCard: React.FC = () => {
           width: `${line2W * 20}%`,
           height: 1,
           background:
-            "linear-gradient(90deg, transparent, rgba(34,197,94,0.12), transparent)",
+            `linear-gradient(90deg, transparent, rgba(${accent.r},${accent.g},${accent.b},0.12), transparent)`,
         }}
       />
 
@@ -233,7 +267,7 @@ export const IntroCard: React.FC = () => {
             ...pos,
             width: 40,
             height: 40,
-            borderColor: "rgba(34,197,94,0.3)",
+            borderColor: `rgba(${accent.r},${accent.g},${accent.b},0.3)`,
             opacity: bracketOpacity,
             transform: `scale(${bracketScale})`,
           } as React.CSSProperties}
@@ -248,32 +282,34 @@ export const IntroCard: React.FC = () => {
           flexDirection: "column",
         }}
       >
-        {/* Logo */}
-        <Img
-          src={staticFile("logo.png")}
-          style={{
-            width: 380,
-            transform: `scale(${logoScale})`,
-            opacity: logoOpacity,
-            filter: "drop-shadow(0 4px 30px rgba(34,197,94,0.15))",
-          }}
-        />
+        {/* Logo (optional — if not available, tagline renders larger) */}
+        {resolvedLogoSrc ? (
+          <Img
+            src={resolvedLogoSrc}
+            style={{
+              width: 380,
+              transform: `scale(${logoScale})`,
+              opacity: logoOpacity,
+              filter: `drop-shadow(0 4px 30px rgba(${accent.r},${accent.g},${accent.b},0.15))`,
+            }}
+          />
+        ) : null}
 
         {/* Tagline */}
         <div
           style={{
             opacity: tagOpacity,
             transform: `translateY(${tagY}px)`,
-            fontSize: 34,
-            fontWeight: 500,
+            fontSize: resolvedLogoSrc ? 34 : 52,
+            fontWeight: resolvedLogoSrc ? 500 : 700,
             color: "rgba(255, 255, 255, 0.9)",
             fontFamily: interFont,
             letterSpacing: "0.04em",
             textAlign: "center",
-            marginTop: 32,
+            marginTop: resolvedLogoSrc ? 32 : 0,
           }}
         >
-          Point of Sale for Cannabis Retail
+          {tagline}
         </div>
 
         {/* Separator */}
@@ -282,28 +318,30 @@ export const IntroCard: React.FC = () => {
             width: sepW,
             height: 2,
             background:
-              "linear-gradient(90deg, transparent, rgba(34,197,94,0.5), transparent)",
+              `linear-gradient(90deg, transparent, rgba(${accent.r},${accent.g},${accent.b},0.5), transparent)`,
             marginTop: 24,
             marginBottom: 24,
           }}
         />
 
         {/* Subtitle */}
-        <div
-          style={{
-            opacity: subOpacity,
-            transform: `translateY(${subY}px)`,
-            fontSize: 20,
-            fontWeight: 400,
-            color: "rgba(255, 255, 255, 0.5)",
-            fontFamily: interFont,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            textAlign: "center",
-          }}
-        >
-          Product Demo
-        </div>
+        {subtitle ? (
+          <div
+            style={{
+              opacity: subOpacity,
+              transform: `translateY(${subY}px)`,
+              fontSize: 20,
+              fontWeight: 400,
+              color: "rgba(255, 255, 255, 0.5)",
+              fontFamily: interFont,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              textAlign: "center",
+            }}
+          >
+            {subtitle}
+          </div>
+        ) : null}
       </AbsoluteFill>
 
       {/* Subtle vignette */}

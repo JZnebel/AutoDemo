@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   AbsoluteFill,
   Img,
@@ -16,9 +16,40 @@ const { fontFamily: interFont } = loadFont("normal", {
   subsets: ["latin"],
 });
 
-export const OutroCard: React.FC = () => {
+export type OutroCardProps = {
+  heading?: string;
+  url?: string;
+  ctaText?: string;
+  logoSrc?: string;
+  videoSrc?: string;
+  accentColor?: string;
+};
+
+export const OutroCard: React.FC<OutroCardProps> = ({
+  heading = "Thanks for watching",
+  url = "",
+  ctaText = "",
+  logoSrc,
+  videoSrc,
+  accentColor = "rgba(34,197,94,1)",
+}) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
+
+  const accent = useMemo(() => {
+    const match = accentColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) return { r: match[1], g: match[2], b: match[3] };
+    return { r: "34", g: "197", b: "94" };
+  }, [accentColor]);
+
+  const resolvedLogoSrc = useMemo(() => {
+    if (logoSrc !== undefined) return logoSrc;
+    try { return staticFile("logo.png"); } catch { return ""; }
+  }, [logoSrc]);
+  const resolvedVideoSrc = useMemo(() => {
+    if (videoSrc !== undefined) return videoSrc;
+    try { return staticFile("outro-cinematic.mp4"); } catch { return ""; }
+  }, [videoSrc]);
 
   // Fade in from black
   const fadeIn = interpolate(frame, [0, 25], [0, 1], {
@@ -81,14 +112,16 @@ export const OutroCard: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000", opacity: fadeIn }}>
-      {/* Ken Burns dispensary background */}
-      <AbsoluteFill style={{ opacity: videoOpacity }}>
-        <OffthreadVideo
-          src={staticFile("outro-cinematic.mp4")}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          muted
-        />
-      </AbsoluteFill>
+      {/* Ken Burns cinematic background (optional) */}
+      {resolvedVideoSrc ? (
+        <AbsoluteFill style={{ opacity: videoOpacity }}>
+          <OffthreadVideo
+            src={resolvedVideoSrc}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            muted
+          />
+        </AbsoluteFill>
+      ) : null}
 
       {/* Dark overlay */}
       <AbsoluteFill
@@ -106,16 +139,18 @@ export const OutroCard: React.FC = () => {
           transform: `scale(${endScale})`,
         }}
       >
-        {/* Logo */}
-        <Img
-          src={staticFile("logo.png")}
-          style={{
-            width: 380,
-            transform: `scale(${logoScale})`,
-            opacity: logoOpacity,
-            filter: "drop-shadow(0 4px 24px rgba(0,0,0,0.5))",
-          }}
-        />
+        {/* Logo (optional) */}
+        {resolvedLogoSrc ? (
+          <Img
+            src={resolvedLogoSrc}
+            style={{
+              width: 380,
+              transform: `scale(${logoScale})`,
+              opacity: logoOpacity,
+              filter: "drop-shadow(0 4px 24px rgba(0,0,0,0.5))",
+            }}
+          />
+        ) : null}
 
         {/* Accent line */}
         <div
@@ -130,7 +165,7 @@ export const OutroCard: React.FC = () => {
           }}
         />
 
-        {/* CTA */}
+        {/* Heading */}
         <div
           style={{
             opacity: ctaOpacity,
@@ -143,51 +178,55 @@ export const OutroCard: React.FC = () => {
             textShadow: "0 2px 12px rgba(0,0,0,0.6)",
           }}
         >
-          Modern POS for Cannabis Retail
+          {heading}
         </div>
 
         {/* URL */}
-        <div
-          style={{
-            opacity: urlOpacity,
-            marginTop: 24,
-            fontSize: 26,
-            fontWeight: 400,
-            color: "rgba(255, 255, 255, 0.7)",
-            fontFamily: interFont,
-            textAlign: "center",
-            letterSpacing: "0.04em",
-            textShadow: "0 2px 8px rgba(0,0,0,0.5)",
-          }}
-        >
-          brotherpos.ca
-        </div>
-
-        {/* CTA Button */}
-        <div
-          style={{
-            opacity: btnOpacity,
-            marginTop: 36,
-            transform: `scale(${btnScale})`,
-          }}
-        >
+        {url ? (
           <div
             style={{
-              background: `linear-gradient(135deg, rgba(34,197,94,${btnGlow}), rgba(22,163,74,${btnGlow}))`,
-              padding: "16px 48px",
-              borderRadius: 12,
-              fontSize: 22,
-              fontWeight: 700,
+              opacity: urlOpacity,
+              marginTop: 24,
+              fontSize: 26,
+              fontWeight: 400,
+              color: "rgba(255, 255, 255, 0.7)",
               fontFamily: interFont,
-              color: "white",
-              letterSpacing: "0.02em",
-              boxShadow: `0 0 30px rgba(34,197,94,${btnGlow * 0.4}), 0 4px 20px rgba(0,0,0,0.4)`,
               textAlign: "center",
+              letterSpacing: "0.04em",
+              textShadow: "0 2px 8px rgba(0,0,0,0.5)",
             }}
           >
-            Book a Free Demo
+            {url}
           </div>
-        </div>
+        ) : null}
+
+        {/* CTA Button */}
+        {ctaText ? (
+          <div
+            style={{
+              opacity: btnOpacity,
+              marginTop: 36,
+              transform: `scale(${btnScale})`,
+            }}
+          >
+            <div
+              style={{
+                background: `linear-gradient(135deg, rgba(${accent.r},${accent.g},${accent.b},${btnGlow}), rgba(${accent.r},${accent.g},${accent.b},${btnGlow * 0.8}))`,
+                padding: "16px 48px",
+                borderRadius: 12,
+                fontSize: 22,
+                fontWeight: 700,
+                fontFamily: interFont,
+                color: "white",
+                letterSpacing: "0.02em",
+                boxShadow: `0 0 30px rgba(${accent.r},${accent.g},${accent.b},${btnGlow * 0.4}), 0 4px 20px rgba(0,0,0,0.4)`,
+                textAlign: "center",
+              }}
+            >
+              {ctaText}
+            </div>
+          </div>
+        ) : null}
       </AbsoluteFill>
     </AbsoluteFill>
   );

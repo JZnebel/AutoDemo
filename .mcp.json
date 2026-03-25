@@ -3,6 +3,16 @@
     "narrator": {
       "command": "node",
       "args": ["./mcp-server/index.js"]
+    },
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "./chrome-devtools-mcp/build/src/bin/chrome-devtools-mcp.js",
+        "--human-mode",
+        "--experimental-screencast",
+        "--isolated"
+      ]
     }
   }
 }

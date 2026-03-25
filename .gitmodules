@@ -1,0 +1,3 @@
+[submodule "chrome-devtools-mcp"]
+	path = chrome-devtools-mcp
+	url = git@github.com:JZnebel/humanchromedevtools.git
