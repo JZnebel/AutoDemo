@@ -35,6 +35,7 @@
   "dependencies": {
     "@remotion/install-whisper-cpp": "^4.0.429",
     "dotenv": "^17.3.1",
+    "puppeteer-core": "^24.40.0",
     "ws": "^8.19.0"
   }
 }

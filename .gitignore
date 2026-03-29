@@ -37,6 +37,18 @@ demo-render/skills-lock.json
 
 # Rendered videos and recordings (produced by pipeline)
 final-output/
+screencast-output/
+demos/
+
+# Session-specific sync/audit reports
+sync-report.json
+
+# Remotion session props (generated per render)
+demo-render/public/screencast-props.json
+demo-render/public/screencast-props.json.bak
+
+# Stray directories
+undefined/
 
 # Pitch video assets (session-specific generated images, audio, props)
 pitch-output/

@@ -61,6 +61,7 @@ if (!recordingPath) {
 const skipEdit = args.includes("--skip-edit");
 const skipNarration = args.includes("--skip-narration");
 const narrationDriven = !args.includes("--no-narration-driven"); // default: true
+const narrationSource = parseFlag("narration"); // --narration <path> to override narration.json source
 const preset = parseFlag("preset");
 const speedLoading = parseFloat(parseFlag("speed-loading") || "6");
 const cutThreshold = parseInt(parseFlag("cut-threshold") || "3000", 10);
@@ -324,10 +325,21 @@ const narrationPath = join(outputDir, "narration.json");
 
 let narration;
 
-if (skipNarration && existsSync(narrationPath)) {
-  console.log("  Skipping narration generation (--skip-narration)");
+// If --narration <path> provided, copy it to outputDir first (avoids hook overwrites)
+if (narrationSource) {
+  const absNarrationSource = resolve(narrationSource);
+  if (!existsSync(absNarrationSource)) {
+    console.error(`  ❌ Narration source not found: ${absNarrationSource}`);
+    process.exit(1);
+  }
+  console.log(`  Copying narration from: ${absNarrationSource}`);
+  copyFileSync(absNarrationSource, narrationPath);
+}
+
+if ((skipNarration || narrationSource) && existsSync(narrationPath)) {
+  console.log("  Loading narration from file");
   narration = JSON.parse(readFileSync(narrationPath, "utf8"));
-  console.log(`  Loaded existing narration: ${narration.fullText.length} chars`);
+  console.log(`  Loaded narration: ${narration.segments?.length || 0} segments, ${narration.fullText?.length || 0} chars`);
 } else {
   narration = await generateNarration(hints);
   writeFileSync(narrationPath, JSON.stringify(narration, null, 2));
@@ -393,11 +405,19 @@ try {
   console.log(`  Model: ${whisperModel}`);
   console.log("  Transcribing...");
 
-  const { transcribeAudio } = await import(join(ROOT, "lib", "whisper.mjs"));
-  const result = await transcribeAudio(narrationAudioPath, { model: whisperModel });
-  wordTimings = result.wordTimings;
-  writeFileSync(wordTimingsPath, JSON.stringify(wordTimings, null, 2));
-  console.log(`  ${wordTimings.length} words transcribed`);
+  // Try whisperx forced alignment first (perfect word timing), fall back to basic whisper
+  const { forcedAlignWordTimings, transcribeAudio } = await import(join(ROOT, "lib", "whisper.mjs"));
+  try {
+    console.log("  Attempting whisperx forced alignment...");
+    wordTimings = await forcedAlignWordTimings(narrationAudioPath, wordTimingsPath, { model: whisperModel });
+  } catch (err) {
+    console.log(`  Forced alignment unavailable: ${err.message}`);
+    console.log("  Falling back to basic whisper...");
+    const result = await transcribeAudio(narrationAudioPath, { model: whisperModel });
+    wordTimings = result.wordTimings;
+    writeFileSync(wordTimingsPath, JSON.stringify(wordTimings, null, 2));
+  }
+  console.log(`  ${wordTimings.length} words with timing data`);
   if (wordTimings.length > 0) {
     console.log(`  Span: ${wordTimings[0].startMs}ms - ${wordTimings[wordTimings.length - 1].endMs}ms`);
   }

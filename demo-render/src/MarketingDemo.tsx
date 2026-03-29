@@ -53,6 +53,8 @@ export type MarketingDemoProps = {
   outroUrl?: string;
   outroCtaText?: string;
   accentColor?: string;
+  introVideoSrc?: string;
+  outroVideoSrc?: string;
 };
 
 const LIGHT_LEAK_FRAMES = 40;
@@ -91,6 +93,8 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
   outroUrl,
   outroCtaText,
   accentColor,
+  introVideoSrc,
+  outroVideoSrc,
 }) => {
   const mainContentDuration =
     (transitionDurationFrames || 0) + videoDurationFrames;
@@ -100,7 +104,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
       <TransitionSeries>
         {/* ═══ INTRO — motion graphics ═══ */}
         <TransitionSeries.Sequence durationInFrames={introDurationFrames}>
-          <IntroCard tagline={introTagline} subtitle={introSubtitle} accentColor={accentColor} />
+          <IntroCard tagline={introTagline} subtitle={introSubtitle} accentColor={accentColor} videoSrc={introVideoSrc} />
         </TransitionSeries.Sequence>
 
         {/* Light leak flash transition: intro → content */}
@@ -172,7 +176,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
 
         {/* ═══ OUTRO — CTA ═══ */}
         <TransitionSeries.Sequence durationInFrames={outroDurationFrames}>
-          <OutroCard heading={outroHeading} url={outroUrl} ctaText={outroCtaText} accentColor={accentColor} />
+          <OutroCard heading={outroHeading} url={outroUrl} ctaText={outroCtaText} accentColor={accentColor} videoSrc={outroVideoSrc} />
         </TransitionSeries.Sequence>
       </TransitionSeries>
 
