@@ -653,7 +653,9 @@ mkdirSync(bundleDir, { recursive: true });
 mkdirSync(join(bundleDir, "segments"), { recursive: true });
 
 // Copy replay script and narration
-copyFileSync(resolve(scriptPath), join(bundleDir, "replay-script.json"));
+if (scriptPath && scriptPath !== "/dev/null" && existsSync(resolve(scriptPath))) {
+  copyFileSync(resolve(scriptPath), join(bundleDir, "replay-script.json"));
+}
 copyFileSync(resolve(narrationPath), join(bundleDir, "narration.json"));
 copyFileSync(ttsPath, join(bundleDir, "narration.mp3"));
 if (existsSync(wordTimingsPath)) copyFileSync(wordTimingsPath, join(bundleDir, "word-timings.json"));
