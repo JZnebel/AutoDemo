@@ -706,19 +706,41 @@ console.log(`    final.mp4`);
 console.log(`    manifest.json`);
 
 // ═══════════════════════════════════════════════════════════════════════
+// STEP 9: H265 compressed output (email-friendly)
+// ═══════════════════════════════════════════════════════════════════════
+const compressedPath = outputPath.replace(/\.mp4$/, "-compressed.mp4");
+if (existsSync(outputPath)) {
+  console.log("\n══ STEP 9: Compress (h265) ══\n");
+  try {
+    execSync(`ffmpeg -y -i "${outputPath}" -c:v libx265 -preset medium -crf 28 -tag:v hvc1 -c:a aac -b:a 128k -vf "scale=1920:1080" "${compressedPath}" 2>/dev/null`);
+    const compSize = (readFileSync(compressedPath).length / 1024 / 1024).toFixed(1);
+    console.log(`  Compressed: ${compressedPath} (${compSize} MB)`);
+  } catch (err) {
+    console.log(`  ⚠️  Compression failed: ${err.message}`);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
 // DONE
 // ═══════════════════════════════════════════════════════════════════════
 const outSize = existsSync(outputPath) ? (readFileSync(outputPath).length / 1024 / 1024).toFixed(1) : "?";
 const outDur = existsSync(outputPath)
-  ? parseFloat(execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 ${outputPath}`, { encoding: "utf8" }).trim()).toFixed(1)
+  ? parseFloat(execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${outputPath}"`, { encoding: "utf8" }).trim()).toFixed(1)
   : "?";
+
+const compSize = existsSync(compressedPath) ? (readFileSync(compressedPath).length / 1024 / 1024).toFixed(1) : null;
 
 console.log("\n╔══════════════════════════════════════════╗");
 console.log("║           AutoDemo Complete               ║");
 console.log("╠══════════════════════════════════════════╣");
-console.log(`║  Output:   ${basename(outputPath).padEnd(29)}║`);
-console.log(`║  Duration: ${(outDur + "s").padEnd(29)}║`);
-console.log(`║  Size:     ${(outSize + " MB").padEnd(29)}║`);
-console.log(`║  Bundle:   bundle-${timestamp.padEnd(21)}║`);
+console.log(`║  Output:     ${basename(outputPath).padEnd(27)}║`);
+console.log(`║  Duration:   ${(outDur + "s").padEnd(27)}║`);
+console.log(`║  Size:       ${(outSize + " MB").padEnd(27)}║`);
+if (compSize) {
+  console.log(`║  Compressed: ${(compSize + " MB").padEnd(27)}║`);
+}
+console.log(`║  Bundle:     bundle-${timestamp.padEnd(19)}║`);
 console.log("╚══════════════════════════════════════════╝\n");
-console.log(`  Re-record: node scripts/autodemo.mjs --script ${bundleDir}/replay-script.json --narration ${bundleDir}/narration.json\n`);
+if (scriptPath && scriptPath !== "/dev/null") {
+  console.log(`  Re-record: node scripts/autodemo.mjs --script ${bundleDir}/replay-script.json --narration ${bundleDir}/narration.json\n`);
+}
