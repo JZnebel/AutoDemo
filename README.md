@@ -6,7 +6,19 @@ AI agent records your web app, writes narration, and renders a polished demo vid
 /demo https://your-app.com
 ```
 
-Claude Code opens the URL, explores the app while screencast recording, writes narration timed to the action, and renders a finished video with TTS voiceover, word-highlight captions, intro/outro cards, and speed ramps — all from a single slash command.
+Pass login credentials and a brief to demo apps behind auth:
+
+```
+/demo https://your-app.com --login admin@test.com:password123 --brief "show the dashboard, create a project, and preview it"
+```
+
+Or just describe it naturally:
+
+```
+/demo https://app.com — log in as demo@example.com / pass123, show the billing page and team settings
+```
+
+Claude Code opens the URL, logs in if needed, explores the features you asked for (or freely if no brief), records a screencast with animated cursor, writes narration timed to the action, and renders a finished video with TTS voiceover, word-highlight captions, intro/outro cards, and speed ramps.
 
 **Narration drives video timing.** Footage stretches or compresses to match narration audio. A 15-second sequence narrated in 5 seconds plays at 3x. A 2-second click narrated in 8 seconds plays in slow motion. Re-narrate the same footage with a different script and get a completely different edit.
 
@@ -33,7 +45,7 @@ bash scripts/setup-devtools-mcp.sh
 Open Claude Code in the AutoDemo directory. The Chrome DevTools MCP connects automatically.
 
 ```
-/demo https://your-app.com
+/demo https://your-app.com --login user@example.com:pass --brief "show the main features"
 ```
 
 Or step by step:

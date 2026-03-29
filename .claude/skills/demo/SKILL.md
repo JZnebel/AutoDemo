@@ -2,7 +2,7 @@
 name: demo
 description: Record a narrated demo video of a web app. Opens the URL, explores it while screencast recording, writes narration, and renders a polished video.
 disable-model-invocation: true
-argument-hint: <url> [--name <name>] [--duration <seconds>] [--voice <voice>]
+argument-hint: <url> [--login <email:password>] [--brief <"what to show">] [--name <name>] [--duration <seconds>]
 allowed-tools: Bash, Read, Write, Glob, Grep, Agent, mcp__chrome-devtools__new_page, mcp__chrome-devtools__navigate_page, mcp__chrome-devtools__click, mcp__chrome-devtools__fill, mcp__chrome-devtools__type_text, mcp__chrome-devtools__press_key, mcp__chrome-devtools__hover, mcp__chrome-devtools__wait_for, mcp__chrome-devtools__take_screenshot, mcp__chrome-devtools__take_snapshot, mcp__chrome-devtools__screencast_start, mcp__chrome-devtools__screencast_stop, mcp__chrome-devtools__evaluate_script, mcp__chrome-devtools__list_pages, mcp__chrome-devtools__select_page, mcp__chrome-devtools__resize_page
 ---
 
@@ -14,10 +14,20 @@ You are creating a narrated demo video of a web application. The entire flow —
 
 Parse from `$ARGUMENTS`:
 - First positional arg: **URL** to demo (required)
+- `--login <credentials>`: Login credentials in `email:password` format. If provided, log in before recording.
+- `--brief <"what to show">`: Natural language description of what the demo should cover. Can be very short — "show the dashboard and create a project" is enough. If omitted, explore freely.
 - `--name <name>`: Output name (default: derived from URL hostname)
 - `--duration <seconds>`: Target video duration (default: 60)
 - `--voice <voice>`: TTS voice (default: `en-US-GuyNeural`)
 - `--preset <draft|production>`: Quality preset (default: `draft`)
+
+Arguments can also be passed as natural language after the URL. All of these are equivalent:
+```
+/demo https://app.com --login admin@test.com:pass123 --brief "show the billing page and add a payment method"
+/demo https://app.com — log in as admin@test.com / pass123, show billing and add a payment method
+/demo https://app.com login: admin@test.com pass123. Show the billing page.
+```
+Parse what you can. If the user gives you credentials and instructions in plain English, use them.
 
 ## Pipeline
 
@@ -26,14 +36,18 @@ Parse from `$ARGUMENTS`:
 Before recording, understand what you're working with:
 
 1. Open the URL via `new_page` or `navigate_page`
-2. Take a screenshot and snapshot to understand the app
-3. Identify the key features, navigation, and interesting flows
-4. Plan 3-6 demo segments that showcase the app in ~`duration` seconds of narration
+2. **If credentials provided** (`--login`), find the login form and sign in first. Look for common patterns: `/login`, `/sign-in`, a "Sign In" link, etc. Use `fill` for email/password fields, then click submit. Wait for the dashboard/home page to load before continuing.
+3. Take a screenshot and snapshot to understand the app
+4. **If a brief was provided** (`--brief`), use it to guide your exploration. The brief tells you what the user cares about — prioritize those features. If no brief, explore freely.
+5. Identify the key features, navigation, and interesting flows
+6. Plan 3-6 demo segments that showcase the app in ~`duration` seconds of narration
 
 Think about what makes a compelling demo:
+- If there's a brief, follow it — the user knows what they want to show
 - Start with the most visually impressive or unique feature
 - Show breadth (navigate different sections) not depth (don't get stuck on one form)
 - End with something that ties it together (dashboard, settings, results)
+- Skip login screens, loading spinners, and error states in the recording — handle those in setup before `screencast_start`
 
 ### Phase 2: Record
 
