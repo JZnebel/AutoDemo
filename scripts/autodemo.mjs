@@ -51,20 +51,31 @@ const skipTts = args.includes("--skip-tts");
 const skipRender = args.includes("--skip-render");
 const noRemotion = args.includes("--no-remotion");
 
-if (!scriptPath || !narrationPath) {
-  console.error("Usage: node scripts/autodemo.mjs --script <replay.json> --narration <narration.json>");
+if (!narrationPath) {
+  console.error("Usage: node scripts/autodemo.mjs --narration <narration.json> [--script <replay.json>] [flags]");
+  console.error("  --script is optional with --skip-record (uses existing recordings)");
   process.exit(1);
 }
 
 mkdirSync(outputDir, { recursive: true });
 
-const script = JSON.parse(readFileSync(resolve(scriptPath), "utf8"));
+// Script is optional when --skip-record — generate a stub from narration segments
+const script = scriptPath && scriptPath !== "/dev/null" && existsSync(resolve(scriptPath))
+  ? JSON.parse(readFileSync(resolve(scriptPath), "utf8"))
+  : { segments: [] };
 const narration = JSON.parse(readFileSync(resolve(narrationPath), "utf8"));
+
+// If no script segments, create stubs from narration so segment count matches
+if (script.segments.length === 0 && narration.segments?.length) {
+  for (const seg of narration.segments) {
+    script.segments.push({ name: seg.sceneLabel || `Segment ${seg.sceneIndex}`, actions: [] });
+  }
+}
 
 console.log("\n╔══════════════════════════════════════════╗");
 console.log("║           AutoDemo Pipeline              ║");
 console.log("╚══════════════════════════════════════════╝\n");
-console.log(`  Script:    ${scriptPath} (${script.segments?.length} segments)`);
+console.log(`  Script:    ${scriptPath || "(auto from narration)"} (${script.segments?.length} segments)`);
 console.log(`  Narration: ${narrationPath} (${narration.segments?.length} segments)`);
 console.log(`  Output:    ${outputPath}`);
 console.log(`  Voice:     ${voice}\n`);
@@ -368,13 +379,23 @@ if (!skipRecord) {
 
 } else {
   console.log("\n══ STEP 3: Recording (skipped — using existing) ══\n");
-  // Look for existing segment files
+  // Look for existing segment files (seg0.mp4, seg1.mp4, ...)
   for (let si = 0; si < script.segments.length; si++) {
     const segFile = join(outputDir, `seg${si}.mp4`);
     if (existsSync(segFile)) {
       segmentFiles.push(segFile);
-      const dur = parseFloat(execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 ${segFile}`, { encoding: "utf8" }).trim() || "0");
+      const dur = parseFloat(execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${segFile}"`, { encoding: "utf8" }).trim() || "0");
       console.log(`  seg${si}: ${dur.toFixed(1)}s`);
+    }
+  }
+  // Fallback: if no numbered segments, look for a single recording.mp4
+  if (segmentFiles.length === 0) {
+    const singleRecording = join(outputDir, "recording.mp4");
+    if (existsSync(singleRecording)) {
+      console.log("  Found single recording.mp4 — using as one segment");
+      segmentFiles.push(singleRecording);
+      const dur = parseFloat(execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${singleRecording}"`, { encoding: "utf8" }).trim() || "0");
+      console.log(`  recording.mp4: ${dur.toFixed(1)}s`);
     }
   }
 }
@@ -384,12 +405,18 @@ if (!skipRecord) {
 // ═══════════════════════════════════════════════════════════════════════
 console.log("\n══ STEP 4: Speed match segments to narration ══\n");
 
+// If single recording with multiple narration segments, treat as one unit
+if (segmentFiles.length === 1 && segmentAudio.length > 1) {
+  const totalAudioDur = segmentAudio.reduce((sum, s) => sum + s.audioDur, 0);
+  segmentAudio.splice(0, segmentAudio.length, { startSec: 0, endSec: totalAudioDur, audioDur: totalAudioDur });
+}
+
 const speedFiles = [];
 for (let i = 0; i < segmentFiles.length; i++) {
   const segFile = segmentFiles[i];
   if (!existsSync(segFile)) continue;
 
-  const segDur = parseFloat(execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 ${segFile}`, { encoding: "utf8" }).trim());
+  const segDur = parseFloat(execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${segFile}"`, { encoding: "utf8" }).trim());
   const audioDur = segmentAudio[i]?.audioDur || segDur;
   const speed = segDur / audioDur;
   const speedFile = join(outputDir, `seg${i}_speed.mp4`);
@@ -399,7 +426,7 @@ for (let i = 0; i < segmentFiles.length; i++) {
     copyFileSync(segFile, speedFile);
     console.log(`  seg${i}: ${segDur.toFixed(0)}s → ${audioDur.toFixed(1)}s (1.0x, copy)`);
   } else {
-    execSync(`ffmpeg -y -i ${segFile} -filter:v "setpts=PTS/${speed.toFixed(4)}" -an -c:v libx264 -preset fast -crf 23 ${speedFile} 2>/dev/null`);
+    execSync(`ffmpeg -y -i "${segFile}" -filter:v "setpts=PTS/${speed.toFixed(4)}" -an -c:v libx264 -preset fast -crf 23 "${speedFile}" 2>/dev/null`);
     console.log(`  seg${i}: ${segDur.toFixed(0)}s → ${audioDur.toFixed(1)}s (${speed.toFixed(2)}x)`);
   }
   speedFiles.push(speedFile);

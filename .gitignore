@@ -107,5 +107,6 @@ pos-demo.mjs
 # Session-specific seed scripts
 seed_pitch_stores.rb
 
-# Claude Code local state
-.claude/
+# Claude Code local state (but keep skills)
+.claude/*
+!.claude/skills/
