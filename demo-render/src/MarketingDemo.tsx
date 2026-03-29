@@ -55,6 +55,7 @@ export type MarketingDemoProps = {
   accentColor?: string;
   introVideoSrc?: string;
   outroVideoSrc?: string;
+  introLogoSrc?: string;
 };
 
 const LIGHT_LEAK_FRAMES = 40;
@@ -95,6 +96,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
   accentColor,
   introVideoSrc,
   outroVideoSrc,
+  introLogoSrc,
 }) => {
   const mainContentDuration =
     (transitionDurationFrames || 0) + videoDurationFrames;
@@ -104,7 +106,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
       <TransitionSeries>
         {/* ═══ INTRO — motion graphics ═══ */}
         <TransitionSeries.Sequence durationInFrames={introDurationFrames}>
-          <IntroCard tagline={introTagline} subtitle={introSubtitle} accentColor={accentColor} videoSrc={introVideoSrc} />
+          <IntroCard tagline={introTagline} subtitle={introSubtitle} accentColor={accentColor} videoSrc={introVideoSrc} logoSrc={introLogoSrc} />
         </TransitionSeries.Sequence>
 
         {/* Light leak flash transition: intro → content */}

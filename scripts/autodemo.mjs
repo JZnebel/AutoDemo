@@ -481,9 +481,27 @@ if (!noRemotion && !skipRender) {
   const introDurationFrames = 90;
   const outroDurationFrames = 90;
 
+  // Auto-generate lower thirds from narration segment labels
+  const lowerThirds = narration.segments
+    .filter(seg => seg.sceneLabel)
+    .map((seg, i) => {
+      const segTiming = segmentAudio[i];
+      if (!segTiming) return null;
+      const startFrame = Math.round(segTiming.startSec * FPS);
+      const durationFrames = Math.min(Math.round(segTiming.audioDur * FPS), 150); // max 5 seconds
+      return {
+        label: seg.sceneLabel,
+        startFrame: startFrame + 15, // slight delay after segment starts
+        durationFrames,
+      };
+    })
+    .filter(Boolean);
+
+  console.log(`  Lower thirds: ${lowerThirds.length} segment labels`);
+
   const props = {
     wordTimings,
-    lowerThirds: [],
+    lowerThirds,
     zoomRegions: [],
     callouts: [],
     showAvatar: false,
@@ -502,7 +520,32 @@ if (!noRemotion && !skipRender) {
     accentColor: narration.accentColor || "rgba(16, 185, 129, 1)",
     introVideoSrc: narration.introVideoSrc ?? "",
     outroVideoSrc: narration.outroVideoSrc ?? "",
+    introLogoSrc: "",
   };
+
+  // If narration specifies a logo, copy it to public dir and set the prop
+  if (narration.introLogoSrc) {
+    const logoSource = resolve(narration.introLogoSrc);
+    if (existsSync(logoSource)) {
+      const logoExt = logoSource.split(".").pop();
+      const logoDest = join(publicDir, `intro-logo.${logoExt}`);
+      copyFileSync(logoSource, logoDest);
+      props.introLogoSrc = `intro-logo.${logoExt}`;
+      console.log(`  Intro logo: ${logoSource}`);
+    }
+  }
+  // Also check outputDir for a logo.png/logo.svg captured during recording
+  if (!props.introLogoSrc) {
+    for (const ext of ["png", "svg", "webp", "jpg"]) {
+      const logoFile = join(outputDir, `logo.${ext}`);
+      if (existsSync(logoFile)) {
+        copyFileSync(logoFile, join(publicDir, `intro-logo.${ext}`));
+        props.introLogoSrc = `intro-logo.${ext}`;
+        console.log(`  Intro logo (auto-detected): logo.${ext}`);
+        break;
+      }
+    }
+  }
 
   const propsPath = join(publicDir, "screencast-props.json");
   writeFileSync(propsPath, JSON.stringify(props, null, 2));

@@ -38,9 +38,12 @@ Before recording, understand what you're working with:
 1. Open the URL via `new_page` or `navigate_page`
 2. **If credentials provided** (`--login`), find the login form and sign in first. Look for common patterns: `/login`, `/sign-in`, a "Sign In" link, etc. Use `fill` for email/password fields, then click submit. Wait for the dashboard/home page to load before continuing.
 3. Take a screenshot and snapshot to understand the app
-4. **If a brief was provided** (`--brief`), use it to guide your exploration. The brief tells you what the user cares about — prioritize those features. If no brief, explore freely.
-5. Identify the key features, navigation, and interesting flows
-6. Plan 3-6 demo segments that showcase the app in ~`duration` seconds of narration
+4. **Capture the brand**: Identify the app's logo and accent/brand color.
+   - Try to download the logo image to `screencast-output/<name>/logo.png` (or .svg/.webp). Use `evaluate_script` to find the logo `<img>` src URL, then use Bash `curl` or `wget` to save it. The pipeline will auto-detect it and use it in the intro card.
+   - Pick the accent color from the app's primary button/brand color and use it as `accentColor` in narration.json (rgba format).
+5. **If a brief was provided** (`--brief`), use it to guide your exploration. The brief tells you what the user cares about — prioritize those features. If no brief, explore freely.
+6. Identify the key features, navigation, and interesting flows
+7. Plan 3-6 demo segments that showcase the app in ~`duration` seconds of narration
 
 Think about what makes a compelling demo:
 - If there's a brief, follow it — the user knows what they want to show
@@ -84,6 +87,7 @@ Write `screencast-output/<name>/narration.json` based on what you just recorded.
   "outroUrl": "website.com",
   "outroCtaText": "Get Started",
   "accentColor": "rgba(59, 130, 246, 1)",
+  "introLogoSrc": "screencast-output/<name>/logo.png",
   "segments": [
     {
       "text": "Narration for this segment. Write conversationally, like a human presenting.",
@@ -102,6 +106,8 @@ Write `screencast-output/<name>/narration.json` based on what you just recorded.
 - Keep total narration around the `--duration` target
 - Each segment should be 5-20 seconds of speech (~15-50 words)
 - The `accentColor` should match the app's brand color (pick from what you saw)
+- Each segment's `sceneLabel` becomes an animated lower third in the video — keep them short (2-3 words max): "Sign Up", "AI Builder", "Live Website"
+- Set `introLogoSrc` to the logo file you downloaded in Phase 1 — it shows with a spring animation in the intro card
 
 ### Phase 4: Render
 
