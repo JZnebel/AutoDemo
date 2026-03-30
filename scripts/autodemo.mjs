@@ -104,12 +104,15 @@ if (!skipTts || !existsSync(ttsPath)) {
   console.log("══ STEP 1b: WhisperX forced alignment ══\n");
 
   try {
-    execSync(`python3 -c "
-import whisperx, json, torch
+    const whisperScript = join(outputDir, "_whisperx_align.py");
+    writeFileSync(whisperScript, `
+import whisperx, json, torch, sys
 device = 'cpu'
 compute_type = 'int8'
+audio_path = sys.argv[1]
+output_path = sys.argv[2]
 model = whisperx.load_model('base', device, compute_type=compute_type)
-audio = whisperx.load_audio('${ttsPath}')
+audio = whisperx.load_audio(audio_path)
 result = model.transcribe(audio, batch_size=16)
 align_model, metadata = whisperx.load_align_model(language_code='en', device=device)
 aligned = whisperx.align(result['segments'], align_model, metadata, audio, device, return_char_alignments=False)
@@ -118,10 +121,14 @@ for seg in aligned['segments']:
     for w in seg.get('words', []):
         if 'start' in w and 'end' in w:
             words.append({'text': w['word'].strip(), 'startMs': int(w['start']*1000), 'endMs': int(w['end']*1000)})
-with open('${wordTimingsPath}', 'w') as f:
+with open(output_path, 'w') as f:
     json.dump(words, f, indent=2)
-print(f'{len(words)} words aligned, last at {words[-1][\"endMs\"]/1000:.1f}s')
-"`, { stdio: "inherit", timeout: 180000 });
+if words:
+    print(f"{len(words)} words aligned, last at {words[-1]['endMs']/1000:.1f}s")
+else:
+    print("0 words aligned")
+`);
+    execSync(`python3 "${whisperScript}" "${ttsPath}" "${wordTimingsPath}"`, { stdio: "inherit", timeout: 180000 });
   } catch (err) {
     console.log("  WhisperX failed, falling back to VTT phrase timing");
     // Fallback: parse VTT for approximate timing
@@ -405,10 +412,39 @@ if (!skipRecord) {
 // ═══════════════════════════════════════════════════════════════════════
 console.log("\n══ STEP 4: Speed match segments to narration ══\n");
 
-// If single recording with multiple narration segments, treat as one unit
-if (segmentFiles.length === 1 && segmentAudio.length > 1) {
-  const totalAudioDur = segmentAudio.reduce((sum, s) => sum + s.audioDur, 0);
-  segmentAudio.splice(0, segmentAudio.length, { startSec: 0, endSec: totalAudioDur, audioDur: totalAudioDur });
+// If single recording with multiple narration segments, slice the recording
+// using videoStartSec/videoEndSec from narration, or distribute evenly
+if (segmentFiles.length === 1 && narration.segments.length > 1) {
+  const singleFile = segmentFiles[0];
+  const totalDur = parseFloat(execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${singleFile}"`, { encoding: "utf8" }).trim());
+
+  // Check if narration segments have explicit video timestamps
+  const hasVideoTimes = narration.segments.some(s => s.videoStartSec != null || s.videoEndSec != null);
+
+  console.log(`  Slicing single recording (${totalDur.toFixed(1)}s) into ${narration.segments.length} segments${hasVideoTimes ? " using videoStartSec/videoEndSec" : " (evenly distributed)"}...\n`);
+
+  segmentFiles.length = 0;
+  for (let i = 0; i < narration.segments.length; i++) {
+    const seg = narration.segments[i];
+    let startSec, endSec;
+
+    if (hasVideoTimes) {
+      startSec = seg.videoStartSec ?? 0;
+      endSec = seg.videoEndSec ?? (i + 1 < narration.segments.length ? (narration.segments[i + 1].videoStartSec ?? totalDur) : totalDur);
+    } else {
+      // Distribute evenly across the recording
+      const sliceDur = totalDur / narration.segments.length;
+      startSec = i * sliceDur;
+      endSec = (i + 1) * sliceDur;
+    }
+
+    const sliceDur = endSec - startSec;
+    const sliceFile = join(outputDir, `seg${i}.mp4`);
+    execSync(`ffmpeg -y -ss ${startSec.toFixed(3)} -to ${endSec.toFixed(3)} -i "${singleFile}" -c:v libx264 -preset fast -crf 23 -an "${sliceFile}" 2>/dev/null`);
+    segmentFiles.push(sliceFile);
+    console.log(`  seg${i} (${seg.sceneLabel || ""}): ${startSec.toFixed(1)}-${endSec.toFixed(1)}s (${sliceDur.toFixed(1)}s footage)`);
+  }
+  console.log();
 }
 
 const speedFiles = [];
@@ -424,10 +460,10 @@ for (let i = 0; i < segmentFiles.length; i++) {
   if (Math.abs(speed - 1.0) < 0.05) {
     // Close to 1x — just copy
     copyFileSync(segFile, speedFile);
-    console.log(`  seg${i}: ${segDur.toFixed(0)}s → ${audioDur.toFixed(1)}s (1.0x, copy)`);
+    console.log(`  seg${i}: ${segDur.toFixed(1)}s → ${audioDur.toFixed(1)}s (1.0x, copy)`);
   } else {
     execSync(`ffmpeg -y -i "${segFile}" -filter:v "setpts=PTS/${speed.toFixed(4)}" -an -c:v libx264 -preset fast -crf 23 "${speedFile}" 2>/dev/null`);
-    console.log(`  seg${i}: ${segDur.toFixed(0)}s → ${audioDur.toFixed(1)}s (${speed.toFixed(2)}x)`);
+    console.log(`  seg${i}: ${segDur.toFixed(1)}s → ${audioDur.toFixed(1)}s (${speed.toFixed(2)}x)`);
   }
   speedFiles.push(speedFile);
 }
@@ -518,8 +554,8 @@ if (!noRemotion && !skipRender) {
     outroUrl: narration.outroUrl || "",
     outroCtaText: narration.outroCtaText || "",
     accentColor: narration.accentColor || "rgba(16, 185, 129, 1)",
-    introVideoSrc: narration.introVideoSrc ?? "",
-    outroVideoSrc: narration.outroVideoSrc ?? "",
+    introVideoSrc: narration.introVideoSrc || undefined,
+    outroVideoSrc: narration.outroVideoSrc || undefined,
     introLogoSrc: "",
   };
 

@@ -49,7 +49,7 @@ export const OutroCard: React.FC<OutroCardProps> = ({
     try { return staticFile("logo.png"); } catch { return ""; }
   }, [logoSrc]);
   const resolvedVideoSrc = useMemo(() => {
-    if (videoSrc !== undefined) {
+    if (videoSrc) {
       try { return staticFile(videoSrc); } catch { return videoSrc; }
     }
     try { return staticFile("outro-cinematic.mp4"); } catch { return ""; }

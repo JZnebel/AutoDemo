@@ -74,7 +74,7 @@ export const IntroCard: React.FC<IntroCardProps> = ({
     try { return staticFile("logo.png"); } catch { return ""; }
   }, [logoSrc]);
   const resolvedVideoSrc = useMemo(() => {
-    if (videoSrc !== undefined) {
+    if (videoSrc) {
       try { return staticFile(videoSrc); } catch { return videoSrc; }
     }
     try { return staticFile("intro-sora.mp4"); } catch { return ""; }
