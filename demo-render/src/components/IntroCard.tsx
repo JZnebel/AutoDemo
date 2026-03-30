@@ -68,11 +68,15 @@ export const IntroCard: React.FC<IntroCardProps> = ({
 
   // Resolve file sources with graceful fallbacks
   const resolvedLogoSrc = useMemo(() => {
-    if (logoSrc !== undefined) return logoSrc;
+    if (logoSrc !== undefined) {
+      try { return staticFile(logoSrc); } catch { return logoSrc; }
+    }
     try { return staticFile("logo.png"); } catch { return ""; }
   }, [logoSrc]);
   const resolvedVideoSrc = useMemo(() => {
-    if (videoSrc !== undefined) return videoSrc;
+    if (videoSrc !== undefined) {
+      try { return staticFile(videoSrc); } catch { return videoSrc; }
+    }
     try { return staticFile("intro-sora.mp4"); } catch { return ""; }
   }, [videoSrc]);
 
