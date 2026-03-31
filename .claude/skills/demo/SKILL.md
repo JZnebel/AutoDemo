@@ -39,7 +39,7 @@ Before recording, understand what you're working with:
 2. **If credentials provided** (`--login`), find the login form and sign in first. Look for common patterns: `/login`, `/sign-in`, a "Sign In" link, etc. Use `fill` for email/password fields, then click submit. Wait for the dashboard/home page to load before continuing.
 3. Take a screenshot and snapshot to understand the app
 4. **Capture the brand**: Identify the app's logo and accent/brand color.
-   - Try to download the logo image to `screencast-output/<name>/logo.png` (or .svg/.webp). Use `evaluate_script` to find the logo `<img>` src URL, then use Bash `curl` or `wget` to save it. The pipeline will auto-detect it and use it in the intro card.
+   - Try to download the logo image to the output directory (resolved in Phase 2) as `logo.png` (or .svg/.webp). During scouting, save it to a temp location first, then move it into the final output dir once the unique name is resolved. Use `evaluate_script` to find the logo `<img>` src URL, then use Bash `curl` or `wget` to save it. The pipeline will auto-detect it and use it in the intro card.
    - Pick the accent color from the app's primary button/brand color and use it as `accentColor` in narration.json (rgba format).
 5. **If a brief was provided** (`--brief`), use it to guide your exploration. The brief tells you what the user cares about — prioritize those features. If no brief, explore freely.
 6. Identify the key features, navigation, and interesting flows
@@ -61,7 +61,20 @@ Output dir: screencast-output/<name>/
 Recording: screencast-output/<name>/recording.mp4
 ```
 
-1. Create the output directory
+1. **Pick a unique output directory.** Before creating the directory, check if `screencast-output/<name>/` already exists. If it does, append an incrementing suffix: `<name>-v2`, `<name>-v3`, etc. Use the first available name. For example:
+   ```bash
+   # Check and find next available name
+   NAME="trafficstores"
+   DIR="screencast-output/$NAME"
+   if [ -d "$DIR" ]; then
+     V=2; while [ -d "screencast-output/${NAME}-v${V}" ]; do V=$((V+1)); done
+     NAME="${NAME}-v${V}"
+     DIR="screencast-output/$NAME"
+   fi
+   mkdir -p "$DIR"
+   ```
+   Use the resolved `<name>` (with suffix if needed) for ALL subsequent paths in this run — recording, narration.json, composition, render output, etc.
+2. Create the output directory
 2. Call `screencast_start` with path `screencast-output/<name>/recording.mp4`
 3. **Interact with the app naturally** — click through the features you planned
    - Pause briefly (1-2 seconds) on each important screen so viewers can read it
