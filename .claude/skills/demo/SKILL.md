@@ -123,24 +123,76 @@ Write `screencast-output/<name>/narration.json` based on what you just recorded.
   - `en-US-GuyNeural` — Passionate (creative tools, media)
   - `en-GB-RyanNeural` / `en-GB-SoniaNeural` — British (international, luxury)
 
-### Phase 3.5: Design Custom Intro & Outro (optional but recommended)
+### Phase 3.5: Design Custom Video Composition
 
-The default IntroCard/OutroCard are generic templates. For a polished demo, design custom intro/outro components that match the app's personality and brand.
+Write a custom Remotion composition for this specific video. Save it as `screencast-output/<name>/composition.tsx`. The pipeline will use it instead of the default MarketingDemo template.
 
-**Load the Remotion skills first:** Read the rules you need from `demo-render/.agents/skills/remotion-best-practices/rules/` — especially `animations.md`, `timing.md`, `text-animations.md`, `transitions.md`, and `sequencing.md`. These contain the patterns you should use.
+**Load the Remotion skills first:** Read the rules from `demo-render/.agents/skills/remotion-best-practices/rules/` — especially `animations.md`, `timing.md`, `text-animations.md`, `transitions.md`, and `sequencing.md`.
 
-**Write custom components** to `demo-render/src/components/CustomIntro.tsx` and `demo-render/src/components/CustomOutro.tsx`:
+**Your composition must:**
+1. Export `VideoComposition` (the React component) and `calculateMarketingDemoDuration` (duration function)
+2. Export `MarketingDemoProps` type (re-export from `./MarketingDemo`)
+3. Accept the same props as MarketingDemo — the pipeline passes the same JSON
 
-- **Match the app's vibe:** A cannabis directory should feel earthy/organic. A SaaS tool should feel techy/clean. A restaurant POS should feel warm/inviting. Pick colors, motion styles, and typography that fit.
-- **Use varied animations:** Don't always use the same fade-in + spring pattern. Mix typewriter text, wipe reveals, scale-up entrances, slide-in elements, staggered word animations. The Remotion skills show you how.
-- **Use the accent color prominently:** Don't just tint a few particles — make it a real design element. Background blocks, gradient washes, colored text, accent shapes.
-- **Show the logo big and early:** Spring-in with a bounce, or scale from 0 with a blur clear, or slide in from the side.
-- **Timing rules:** At 30fps, the intro is typically 90-150 frames (3-5s). Everything must be driven by `useCurrentFrame()` — no CSS animations. Use `interpolate()` and `spring()` from Remotion. Ensure text is fully readable for at least 1 second before any fade-out begins.
-- **Export the same prop interface** as `IntroCardProps` / `OutroCardProps` so the pipeline can use them as drop-in replacements.
+**Available building blocks** (import from `./components/`):
+- `DeviceMockup` — Screen recording in browser chrome (`videoSrc`, `accentColor`, `displayUrl`, `zoomRegions`, `layout`)
+- `IntroCard` / `OutroCard` — Default intro/outro templates (`tagline`, `subtitle`, `accentColor`, `logoSrc`)
+- `WordHighlightCaptions` — Word-by-word captions (`wordTimings`, `style`, `accentColor`)
+- `LowerThird` — Scene label overlay (`label`, `accentColor`, `leftOffset`)
+- `ProgressBar` — Progress indicator (`accentColor`)
+- `AudioWaveform` — Audio-reactive visualizer (`variant`, `accentColor`, `samples`)
+- `FeatureCallout` — Annotation callout (`label`, `side`, `y`, `accentColor`)
+- `ChapterCard` — Scene divider card (`chapterNumber`, `title`, `accentColor`)
+- `Presenter` — 2D character with lip sync (`mouthCues`, `side`)
+- `AvatarPip` — Avatar picture-in-picture
+- `SceneBreak` — Brief visual flash at scene boundaries
 
-Then update `MarketingDemo.tsx` to import your custom components instead of the defaults. Or, if you prefer, just modify `IntroCard.tsx` and `OutroCard.tsx` directly for this demo.
+You can also write custom components inline in the composition file.
 
-If time is tight or the user wants speed over polish, skip this phase — the default templates work fine.
+**Design decisions to make per video:**
+- **Intro style:** Write a custom intro or use IntroCard. Match the app's personality — earthy/organic, techy/clean, warm/inviting, bold/punchy.
+- **Outro style:** Write a custom outro or use OutroCard. Same personality matching.
+- **Which overlays to include:** Not every video needs every overlay. Skip AudioWaveform for clean SaaS demos. Skip ProgressBar for short videos. Skip LowerThird if segments are obvious.
+- **Overlay positions:** LowerThird doesn't have to be top-left. Captions don't have to be bottom-center. Choose positions that don't overlap with important UI elements in the recording.
+- **Animation variety:** Don't always use the same spring-in. Mix fade, slide, wipe, typewriter, stagger. The Remotion skills show the patterns.
+- **Transition between intro → content → outro:** Fade, slide, wipe, or light leak. Pick what fits.
+
+**Template literal example** for composition.tsx:
+```tsx
+import React from "react";
+import { AbsoluteFill, Audio, Sequence, interpolate, staticFile } from "remotion";
+import { TransitionSeries, linearTiming } from "@remotion/transitions";
+import { fade } from "@remotion/transitions/fade";
+// Import building blocks
+import { DeviceMockup } from "./components/DeviceMockup";
+import { WordHighlightCaptions } from "./components/WordHighlightCaptions";
+import { ProgressBar } from "./components/ProgressBar";
+// Import your custom intro/outro (write them inline or as separate components)
+// Import types
+import type { MarketingDemoProps } from "./MarketingDemo";
+export type { MarketingDemoProps };
+
+export function calculateMarketingDemoDuration(props: MarketingDemoProps) {
+  return props.introDurationFrames + props.videoDurationFrames + props.outroDurationFrames - 20;
+}
+
+// Your custom intro component (inline)
+const MyIntro: React.FC<{...}> = (...) => { ... };
+
+export const VideoComposition: React.FC<MarketingDemoProps> = (props) => {
+  // Your unique composition layout here
+};
+```
+
+**Remotion rules to follow:**
+- All animations driven by `useCurrentFrame()` — NO CSS transitions/animations
+- Use `interpolate()` for keyframes, `spring()` for physics motion
+- Use `staticFile()` for assets in `demo-render/public/`
+- Use `<Sequence from={frame}>` to delay elements
+- Use `<TransitionSeries>` for scene transitions
+- Ensure text is readable for at least 1.5 seconds before fading
+
+**Template mode:** For a series of consistent videos (e.g. how-to series), save the composition to a shared template folder and set `"template": "path/to/template-folder"` in narration.json. Every video in the series will use that composition.
 
 ### Phase 4: Render
 

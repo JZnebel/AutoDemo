@@ -508,6 +508,9 @@ if (!noRemotion && !skipRender) {
     copyFileSync(syncedVideo, join(publicDir, "screen.mp4"));
   }
 
+  // Copy narration audio to public dir so Remotion can access it via staticFile()
+  copyFileSync(ttsPath, join(publicDir, "narration.mp3"));
+
   // Build props
   const wordTimings = JSON.parse(readFileSync(wordTimingsPath, "utf8"));
   const FPS = 30;
@@ -593,11 +596,38 @@ if (!noRemotion && !skipRender) {
   console.log(`  Props: ${totalFrames} frames (${(totalFrames / FPS).toFixed(1)}s)`);
   console.log(`  Word timings: ${wordTimings.length}`);
 
+  // Check for custom composition (per-video or template)
+  const videoCompPath = join(ROOT, "demo-render", "src", "VideoComposition.tsx");
+  const videoCompDefault = readFileSync(videoCompPath, "utf8");
+  let compositionId = "VideoComposition";
+  let swappedComposition = false;
+
+  // Priority: template > custom composition in output dir
+  const templateDir = narration.template ? resolve(narration.template) : null;
+  const customCompPath = templateDir
+    ? join(templateDir, "composition.tsx")
+    : join(outputDir, "composition.tsx");
+
+  if (existsSync(customCompPath)) {
+    console.log(`  Custom composition: ${customCompPath}`);
+    writeFileSync(videoCompPath, readFileSync(customCompPath, "utf8"));
+    swappedComposition = true;
+  } else {
+    console.log(`  Composition: default (MarketingDemo)`);
+  }
+
   // Render
-  execSync(
-    `cd ${join(ROOT, "demo-render")} && npx remotion render src/index.ts MarketingDemo --props=public/screencast-props.json --output=${outputPath} --overwrite`,
-    { stdio: "inherit", timeout: 600000 }
-  );
+  try {
+    execSync(
+      `cd ${join(ROOT, "demo-render")} && npx remotion render src/index.ts ${compositionId} --props=public/screencast-props.json --output=${outputPath} --overwrite`,
+      { stdio: "inherit", timeout: 600000 }
+    );
+  } finally {
+    // Always restore default VideoComposition after render
+    if (swappedComposition) {
+      writeFileSync(videoCompPath, videoCompDefault);
+    }
+  }
 
   console.log(`\n  ✅ Rendered: ${outputPath}`);
 } else if (noRemotion) {

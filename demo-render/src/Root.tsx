@@ -2,6 +2,7 @@ import React from "react";
 import { Composition } from "remotion";
 import { Demo } from "./Demo";
 import { MarketingDemo, calculateMarketingDemoDuration } from "./MarketingDemo";
+import { VideoComposition, calculateMarketingDemoDuration as calcVideoDuration } from "./VideoComposition";
 import { ScoutReplay, calculateScoutReplayDuration } from "./ScoutReplay";
 import { AnimatedKPICards } from "./components/scenes/AnimatedKPICards";
 import { ProductShowcase } from "./components/scenes/ProductShowcase";
@@ -106,6 +107,34 @@ export const RemotionRoot: React.FC = () => (
         mouthCues: [],
         audioVolume: 1.3,
         introDurationFrames: 240,
+        transitionDurationFrames: 0,
+        videoDurationFrames: 2100,
+        outroDurationFrames: 180,
+        captionStyle: "pop" as const,
+      }}
+    />
+
+    {/* VideoComposition — swappable per-demo render target */}
+    <Composition
+      id="VideoComposition"
+      component={VideoComposition}
+      calculateMetadata={({ props }) => ({
+        durationInFrames: calcVideoDuration(props),
+      })}
+      durationInFrames={2600}
+      fps={FPS}
+      width={1920}
+      height={1080}
+      defaultProps={{
+        wordTimings: [],
+        lowerThirds: [],
+        zoomRegions: [],
+        callouts: [],
+        showAvatar: false,
+        showPresenter: false,
+        mouthCues: [],
+        audioVolume: 1.3,
+        introDurationFrames: 150,
         transitionDurationFrames: 0,
         videoDurationFrames: 2100,
         outroDurationFrames: 180,
