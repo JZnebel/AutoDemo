@@ -776,8 +776,8 @@ function syncScenesToWordTimings(scenes, wordTimings, audioDurationSec) {
 /**
  * Generate narration via Edge TTS (free). Uses --file flag to avoid shell escaping issues.
  */
-async function generateEdgeTts(text, outputPath, audioDir) {
-  const voice = "en-US-GuyNeural";
+async function generateEdgeTts(text, outputPath, audioDir, voiceOverride) {
+  const voice = voiceOverride || "en-US-AndrewNeural";
   const subsPath = join(audioDir, "narration.vtt");
   const textFile = join(audioDir, "narration-input.txt");
 

@@ -16,20 +16,24 @@ import {
  */
 
 export const AudioWaveform: React.FC<{
-  /** "bars" = vertical bars, "ring" = circular ring */
   variant?: "bars" | "ring";
-  /** Number of frequency buckets (power of 2) */
   samples?: number;
-  /** Base color */
   color?: string;
-  /** Overall height of the visualizer region */
   height?: number;
+  accentColor?: string;
 }> = ({
   variant = "bars",
   samples = 64,
-  color = "rgba(34,197,94,0.4)",
+  color: colorProp,
   height = 200,
+  accentColor = "rgba(${ar},${ag},${ab},1)",
 }) => {
+  // Derive color from accentColor if not explicitly set
+  const acMatch = accentColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  const ar = acMatch ? acMatch[1] : "34";
+  const ag = acMatch ? acMatch[2] : "197";
+  const ab = acMatch ? acMatch[3] : "94";
+  const color = colorProp || `rgba(${ar},${ag},${ab},0.4)`;
   const frame = useCurrentFrame();
   const { fps, width } = useVideoConfig();
 
@@ -93,9 +97,9 @@ export const AudioWaveform: React.FC<{
               width: barWidth,
               height: Math.max(2, scaledHeight),
               borderRadius: barWidth / 2,
-              background: `linear-gradient(to top, ${color}, rgba(34,197,94,${0.1 + v * 0.5}))`,
+              background: `linear-gradient(to top, ${color}, rgba(${ar},${ag},${ab},${0.1 + v * 0.5}))`,
               boxShadow: v > 0.3
-                ? `0 0 ${v * 12}px rgba(34,197,94,${v * 0.3})`
+                ? `0 0 ${v * 12}px rgba(${ar},${ag},${ab},${v * 0.3})`
                 : "none",
             }}
           />
@@ -110,7 +114,7 @@ export const AudioWaveform: React.FC<{
           left: "25%",
           right: "25%",
           height: 60,
-          background: `radial-gradient(ellipse at center bottom, rgba(34,197,94,${bassIntensity * 0.2}) 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse at center bottom, rgba(${ar},${ag},${ab},${bassIntensity * 0.2}) 0%, transparent 70%)`,
           filter: "blur(20px)",
         }}
       />
@@ -173,7 +177,7 @@ const RingVisualizer: React.FC<{
           cy={center}
           r={baseRadius * (1 + bassIntensity * 0.05)}
           fill="none"
-          stroke="rgba(34,197,94,0.15)"
+          stroke="rgba(${ar},${ag},${ab},0.15)"
           strokeWidth={2}
         />
       </svg>

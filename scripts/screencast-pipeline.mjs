@@ -379,7 +379,7 @@ if (skipNarration && existsSync(narrationAudioPath)) {
       const textFile = join(outputDir, "narration-input.txt");
       writeFileSync(textFile, narration.fullText);
       execSync(
-        `edge-tts --voice "en-US-GuyNeural" --rate="-10%" --file "${textFile}" --write-media "${narrationAudioPath}"`,
+        `edge-tts --voice "${narration.voice || "en-US-AndrewNeural"}" --rate="-10%" --file "${textFile}" --write-media "${narrationAudioPath}"`,
         { timeout: 120000, stdio: "pipe" }
       );
       console.log(`  Audio generated via edge-tts CLI: ${narrationAudioPath}`);

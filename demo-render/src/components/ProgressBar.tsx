@@ -1,14 +1,18 @@
-import React from "react";
-import { useCurrentFrame, useVideoConfig, interpolate, spring } from "remotion";
+import React, { useMemo } from "react";
+import { useCurrentFrame, useVideoConfig, interpolate } from "remotion";
 
 /**
  * Sleek animated progress bar at the bottom of the video.
  * Shows video progression with a glowing head and subtle gradient.
  */
 export const ProgressBar: React.FC<{
-  /** Delay before the bar appears */
   delayFrames?: number;
-}> = ({ delayFrames = 0 }) => {
+  accentColor?: string;
+}> = ({ delayFrames = 0, accentColor = "rgba(${ac.r},${ac.g},${ac.b},1)" }) => {
+  const ac = useMemo(() => {
+    const m = accentColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    return m ? { r: m[1], g: m[2], b: m[3] } : { r: "34", g: "197", b: "94" };
+  }, [accentColor]);
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
@@ -59,7 +63,7 @@ export const ProgressBar: React.FC<{
             width: `${progress * 100}%`,
             height: "100%",
             borderRadius: 2,
-            background: "linear-gradient(90deg, rgba(34,197,94,0.3), rgba(34,197,94,0.8))",
+            background: `linear-gradient(90deg, rgba(${ac.r},${ac.g},${ac.b},0.3), rgba(${ac.r},${ac.g},${ac.b},0.8))`,
           }}
         />
       </div>
@@ -73,8 +77,8 @@ export const ProgressBar: React.FC<{
           width: 8,
           height: 8,
           borderRadius: "50%",
-          backgroundColor: "rgba(34,197,94,0.9)",
-          boxShadow: "0 0 10px rgba(34,197,94,0.6), 0 0 20px rgba(34,197,94,0.3)",
+          backgroundColor: `rgba(${ac.r},${ac.g},${ac.b},0.9)`,
+          boxShadow: `0 0 10px rgba(${ac.r},${ac.g},${ac.b},0.6), 0 0 20px rgba(${ac.r},${ac.g},${ac.b},0.3)`,
           transform: "translateX(-50%)",
         }}
       />

@@ -150,13 +150,13 @@ if (!skipTts && !renderOnly) {
       console.log("  Falling back to Edge TTS...");
       const textFile = join(audioDir, "narration-v2-input.txt");
       writeFileSync(textFile, fullNarration);
-      execSync(`edge-tts --voice "en-US-GuyNeural" --rate="+20%" --file "${textFile}" --write-media "${narrationPath}"`, { timeout: 120000, stdio: "pipe" });
+      execSync(`edge-tts --voice "en-US-AndrewNeural" --rate="+20%" --file "${textFile}" --write-media "${narrationPath}"`, { timeout: 120000, stdio: "pipe" });
     }
   } else {
     console.log("  Provider: Edge TTS (+20% speed)");
     const textFile = join(audioDir, "narration-v2-input.txt");
     writeFileSync(textFile, fullNarration);
-    execSync(`edge-tts --voice "en-US-GuyNeural" --rate="+20%" --file "${textFile}" --write-media "${narrationPath}"`, { timeout: 120000, stdio: "pipe" });
+    execSync(`edge-tts --voice "en-US-AndrewNeural" --rate="+20%" --file "${textFile}" --write-media "${narrationPath}"`, { timeout: 120000, stdio: "pipe" });
   }
   console.log("  ✓ TTS done");
 }

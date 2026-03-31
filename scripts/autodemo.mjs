@@ -44,7 +44,7 @@ const scriptPath = flag("script");
 const narrationPath = flag("narration");
 const outputPath = resolve(flag("output") || "final-output/demo.mp4");
 const outputDir = resolve(flag("output-dir") || "screencast-output/autodemo");
-const voice = flag("voice") || "en-US-GuyNeural";
+const _voiceFlag = flag("voice");
 const replaySpeed = parseFloat(flag("speed") || "1.0");
 const skipRecord = args.includes("--skip-record");
 const skipTts = args.includes("--skip-tts");
@@ -64,6 +64,7 @@ const script = scriptPath && scriptPath !== "/dev/null" && existsSync(resolve(sc
   ? JSON.parse(readFileSync(resolve(scriptPath), "utf8"))
   : { segments: [] };
 const narration = JSON.parse(readFileSync(resolve(narrationPath), "utf8"));
+const voice = _voiceFlag || narration.voice || "en-US-AndrewNeural";
 
 // If no script segments, create stubs from narration so segment count matches
 if (script.segments.length === 0 && narration.segments?.length) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   useCurrentFrame,
   useVideoConfig,
@@ -30,6 +30,7 @@ export type CalloutData = {
   y: number;
   /** Optional icon/emoji */
   icon?: string;
+  accentColor?: string;
 };
 
 export const FeatureCallout: React.FC<CalloutData> = ({
@@ -39,7 +40,12 @@ export const FeatureCallout: React.FC<CalloutData> = ({
   side,
   y,
   icon,
+  accentColor = "rgba(34,197,94,1)",
 }) => {
+  const ac = useMemo(() => {
+    const m = accentColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    return m ? { r: m[1], g: m[2], b: m[3] } : { r: "34", g: "197", b: "94" };
+  }, [accentColor]);
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -121,7 +127,7 @@ export const FeatureCallout: React.FC<CalloutData> = ({
         style={{
           width: lineWidth,
           height: 2,
-          background: "linear-gradient(90deg, rgba(34,197,94,0.5), rgba(34,197,94,0.1))",
+          background: `linear-gradient(90deg, rgba(${ac.r},${ac.g},${ac.b},0.5), rgba(${ac.r},${ac.g},${ac.b},0.1))`,
           ...(isLeft ? {} : { transform: "scaleX(-1)" }),
         }}
       />
@@ -132,8 +138,8 @@ export const FeatureCallout: React.FC<CalloutData> = ({
           width: 8,
           height: 8,
           borderRadius: "50%",
-          backgroundColor: "rgba(34,197,94,0.6)",
-          boxShadow: "0 0 12px rgba(34,197,94,0.4)",
+          backgroundColor: `rgba(${ac.r},${ac.g},${ac.b},0.6)`,
+          boxShadow: `0 0 12px rgba(${ac.r},${ac.g},${ac.b},0.4)`,
           transform: `scale(${enterProgress})`,
         }}
       />

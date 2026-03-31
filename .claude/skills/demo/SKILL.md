@@ -87,6 +87,8 @@ Write `screencast-output/<name>/narration.json` based on what you just recorded.
   "outroUrl": "website.com",
   "outroCtaText": "Get Started",
   "accentColor": "rgba(59, 130, 246, 1)",
+  "captionStyle": "pop",
+  "voice": "en-US-AndrewNeural",
   "introLogoSrc": "screencast-output/<name>/logo.png",
   "segments": [
     {
@@ -108,6 +110,18 @@ Write `screencast-output/<name>/narration.json` based on what you just recorded.
 - The `accentColor` should match the app's brand color (pick from what you saw)
 - Each segment's `sceneLabel` becomes an animated lower third in the video — keep them short (2-3 words max): "Sign Up", "AI Builder", "Live Website"
 - Set `introLogoSrc` to the logo file you downloaded in Phase 1 — it shows with a spring animation in the intro card
+- Set `captionStyle` to match the app's feel: `"pop"` (bouncy, playful), `"clean"` (frosted glass, elegant), `"bold"` (large, punchy), `"minimal"` (subtle), `"karaoke"` (no background), or `"outline"` (glow shadow)
+- Choose a `voice` that matches the app's tone:
+  - `en-US-AndrewNeural` — Warm, confident (good default)
+  - `en-US-BrianNeural` — Approachable, casual (startups, friendly apps)
+  - `en-US-ChristopherNeural` — Reliable, authoritative (enterprise, fintech)
+  - `en-US-AriaNeural` — Positive, confident (marketing, consumer apps)
+  - `en-US-EmmaNeural` — Cheerful, clear (e-commerce, social)
+  - `en-US-AvaNeural` — Expressive, caring (health, wellness, community)
+  - `en-US-JennyNeural` — Friendly, considerate (education, support)
+  - `en-US-EricNeural` — Rational (analytics, data tools)
+  - `en-US-GuyNeural` — Passionate (creative tools, media)
+  - `en-GB-RyanNeural` / `en-GB-SoniaNeural` — British (international, luxury)
 
 ### Phase 3.5: Design Custom Intro & Outro (optional but recommended)
 

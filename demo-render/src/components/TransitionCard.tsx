@@ -23,9 +23,14 @@ const { fontFamily: interFont } = loadFont("normal", {
 export const TransitionCard: React.FC<{
   heading?: string;
   subtitle?: string;
-}> = ({ heading = "Admin Dashboard", subtitle = "Managing Everything Behind the Scenes" }) => {
+  accentColor?: string;
+}> = ({ heading = "Admin Dashboard", subtitle = "Managing Everything Behind the Scenes", accentColor = "rgba(34,197,94,1)" }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
+  const acMatch = accentColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  const ar = acMatch ? acMatch[1] : "34";
+  const ag = acMatch ? acMatch[2] : "197";
+  const ab = acMatch ? acMatch[3] : "94";
 
   // ── Logo entrance ──
   const logoScale = spring({
@@ -116,7 +121,7 @@ export const TransitionCard: React.FC<{
             width: 260,
             transform: `scale(${logoScale}) translateY(${logoY}px)`,
             opacity: logoOpacity,
-            filter: "drop-shadow(0 4px 20px rgba(34,197,94,0.2))",
+            filter: `drop-shadow(0 4px 20px rgba(${ar},${ag},${ab},0.2))`,
           }}
         />
 
@@ -144,7 +149,7 @@ export const TransitionCard: React.FC<{
             width: sepW,
             height: 2,
             background:
-              "linear-gradient(90deg, transparent, rgba(34,197,94,0.6), transparent)",
+              `linear-gradient(90deg, transparent, rgba(${ar},${ag},${ab},0.6), transparent)`,
             marginTop: 16,
             marginBottom: 16,
           }}

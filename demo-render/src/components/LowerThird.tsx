@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useCurrentFrame, useVideoConfig, interpolate, spring } from "remotion";
 
 export type LowerThirdData = {
@@ -7,7 +7,12 @@ export type LowerThirdData = {
   durationFrames: number;
 };
 
-export const LowerThird: React.FC<{ label: string; leftOffset?: number }> = ({ label, leftOffset = 48 }) => {
+export const LowerThird: React.FC<{ label: string; leftOffset?: number; accentColor?: string }> = ({ label, leftOffset = 48, accentColor = "rgba(34,197,94,1)" }) => {
+  const accent = useMemo(() => {
+    const match = accentColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) return `rgb(${match[1]},${match[2]},${match[3]})`;
+    return "#22c55e";
+  }, [accentColor]);
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
@@ -52,7 +57,7 @@ export const LowerThird: React.FC<{ label: string; leftOffset?: number }> = ({ l
         style={{
           width: 4,
           height: interpolate(barWidth, [0, 1], [0, 40]),
-          backgroundColor: "#22c55e",
+          backgroundColor: accent,
           borderRadius: 2,
           marginRight: 14,
         }}

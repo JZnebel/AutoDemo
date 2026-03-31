@@ -137,7 +137,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
           )}
 
           {/* Audio-reactive waveform behind the content */}
-          <AudioWaveform variant="bars" samples={64} height={160} />
+          <AudioWaveform variant="bars" samples={64} height={160} accentColor={accentColor} />
 
           {/* Lower thirds — feature labels */}
           {lowerThirds.map((lt, i) => (
@@ -146,7 +146,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
               from={lt.startFrame}
               durationInFrames={lt.durationFrames}
             >
-              <LowerThird label={lt.label} leftOffset={showPresenter ? 500 : 48} />
+              <LowerThird label={lt.label} leftOffset={showPresenter ? 500 : 48} accentColor={accentColor} />
             </Sequence>
           ))}
 
@@ -160,6 +160,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
               side={c.side}
               y={c.y}
               icon={c.icon}
+              accentColor={accentColor}
             />
           ))}
 
@@ -174,7 +175,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
           )}
 
           {/* Progress bar at the bottom */}
-          <ProgressBar />
+          <ProgressBar accentColor={accentColor} />
 
           {/* Avatar PIP */}
           {showAvatar && <AvatarPip />}
