@@ -514,8 +514,8 @@ if (!noRemotion && !skipRender) {
   // so the outro crossfade doesn't clip the final narration
   const narrationDur = parseFloat(execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${ttsPath}"`, { encoding: "utf8" }).trim()) || 0;
   const videoDurationFrames = Math.round(Math.max(finalDur, narrationDur + 3) * FPS);
-  const introDurationFrames = 90;
-  const outroDurationFrames = 90;
+  const introDurationFrames = 150;
+  const outroDurationFrames = 180;
 
   // Auto-generate lower thirds from narration segment labels
   const lowerThirds = narration.segments
@@ -557,6 +557,8 @@ if (!noRemotion && !skipRender) {
     introVideoSrc: narration.introVideoSrc || undefined,
     outroVideoSrc: narration.outroVideoSrc || undefined,
     introLogoSrc: "",
+    displayUrl: narration.outroUrl || narration.displayUrl || "",
+    captionStyle: narration.captionStyle || "pop",
   };
 
   // If narration specifies a logo, copy it to public dir and set the prop

@@ -10,6 +10,8 @@ import { slide } from "@remotion/transitions/slide";
 import { LightLeak } from "@remotion/light-leaks";
 import { IntroCard } from "./components/IntroCard";
 import { OutroCard } from "./components/OutroCard";
+import { CustomIntro } from "./components/CustomIntro";
+import { CustomOutro } from "./components/CustomOutro";
 import { DeviceMockup } from "./components/DeviceMockup";
 import { FeatureCallout, type CalloutData } from "./components/FeatureCallout";
 import { LowerThird, type LowerThirdData } from "./components/LowerThird";
@@ -56,20 +58,23 @@ export type MarketingDemoProps = {
   introVideoSrc?: string;
   outroVideoSrc?: string;
   introLogoSrc?: string;
+  /** URL shown in browser chrome bar (e.g. "rezweed.com") */
+  displayUrl?: string;
 };
 
-const LIGHT_LEAK_FRAMES = 40;
+const INTRO_TRANSITION_FRAMES = 20;
 const OUTRO_TRANSITION_FRAMES = 20;
 
 export function calculateMarketingDemoDuration(
   props: MarketingDemoProps,
 ): number {
-  // Light leak overlay doesn't shorten timeline, only the outro fade transition does
+  // Both intro and outro fade transitions shorten the timeline
   return (
     (props.introDurationFrames || 240) +
     (props.transitionDurationFrames || 0) +
     (props.videoDurationFrames || 2100) +
     (props.outroDurationFrames || 150) -
+    INTRO_TRANSITION_FRAMES -
     OUTRO_TRANSITION_FRAMES
   );
 }
@@ -97,6 +102,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
   introVideoSrc,
   outroVideoSrc,
   introLogoSrc,
+  displayUrl,
 }) => {
   const mainContentDuration =
     (transitionDurationFrames || 0) + videoDurationFrames;
@@ -106,13 +112,14 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
       <TransitionSeries>
         {/* ═══ INTRO — motion graphics ═══ */}
         <TransitionSeries.Sequence durationInFrames={introDurationFrames}>
-          <IntroCard tagline={introTagline} subtitle={introSubtitle} accentColor={accentColor} videoSrc={introVideoSrc} logoSrc={introLogoSrc} />
+          <CustomIntro tagline={introTagline} subtitle={introSubtitle} accentColor={accentColor} logoSrc={introLogoSrc} />
         </TransitionSeries.Sequence>
 
-        {/* Light leak flash transition: intro → content */}
-        <TransitionSeries.Overlay durationInFrames={LIGHT_LEAK_FRAMES}>
-          <LightLeak seed={3} hueShift={140} />
-        </TransitionSeries.Overlay>
+        {/* Fade transition: intro → content */}
+        <TransitionSeries.Transition
+          presentation={fade()}
+          timing={linearTiming({ durationInFrames: 20 })}
+        />
 
         {/* ═══ MAIN CONTENT — device mockup + overlays ═══ */}
         <TransitionSeries.Sequence durationInFrames={mainContentDuration}>
@@ -120,6 +127,8 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
           <DeviceMockup
             zoomRegions={zoomRegions}
             layout={showPresenter ? "right" : "center"}
+            accentColor={accentColor}
+            displayUrl={displayUrl || outroUrl}
           />
 
           {/* 2D presenter character with Rhubarb lip sync */}
@@ -160,6 +169,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
               wordTimings={wordTimings}
               style={captionStyle}
               leftOffset={showPresenter ? 420 : 0}
+              accentColor={accentColor}
             />
           )}
 
@@ -178,7 +188,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
 
         {/* ═══ OUTRO — CTA ═══ */}
         <TransitionSeries.Sequence durationInFrames={outroDurationFrames}>
-          <OutroCard heading={outroHeading} url={outroUrl} ctaText={outroCtaText} accentColor={accentColor} videoSrc={outroVideoSrc} />
+          <CustomOutro heading={outroHeading} url={outroUrl} ctaText={outroCtaText} accentColor={accentColor} logoSrc={introLogoSrc} />
         </TransitionSeries.Sequence>
       </TransitionSeries>
 

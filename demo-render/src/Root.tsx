@@ -8,6 +8,9 @@ import { ProductShowcase } from "./components/scenes/ProductShowcase";
 import { FeatureHighlight } from "./components/scenes/FeatureHighlight";
 import { AnimatedBarChart } from "./components/scenes/AnimatedBarChart";
 import { TransitionCard } from "./components/TransitionCard";
+import { ChapterCard } from "./components/ChapterCard";
+import { CustomIntro } from "./components/CustomIntro";
+import { CustomOutro } from "./components/CustomOutro";
 
 const FPS = 30;
 
@@ -157,6 +160,68 @@ export const RemotionRoot: React.FC = () => (
       defaultProps={{
         heading: "Admin Dashboard",
         subtitle: "Managing Everything Behind the Scenes",
+      }}
+    />
+
+    {/* RezWeed custom intro */}
+    <Composition
+      id="RezWeed-Intro"
+      component={CustomIntro}
+      durationInFrames={150}
+      fps={FPS}
+      width={1920}
+      height={1080}
+      defaultProps={{
+        tagline: "Find Native Dispensaries Near You",
+        subtitle: "RezWeed — Indigenous Cannabis Directory",
+        accentColor: "rgba(45, 74, 62, 1)",
+      }}
+    />
+
+    {/* RezWeed custom outro */}
+    <Composition
+      id="RezWeed-Outro"
+      component={CustomOutro}
+      durationInFrames={120}
+      fps={FPS}
+      width={1920}
+      height={1080}
+      defaultProps={{
+        heading: "Find yours at rezweed.com",
+        url: "rezweed.com",
+        ctaText: "Browse Now",
+        accentColor: "rgba(45, 74, 62, 1)",
+      }}
+    />
+
+    {/* Chapter card — cinematic segment divider between scenes */}
+    <Composition
+      id="ChapterCard"
+      component={ChapterCard}
+      durationInFrames={75}
+      fps={FPS}
+      width={1920}
+      height={1080}
+      defaultProps={{
+        chapterNumber: 1,
+        title: "Quick PIN Login",
+        subtitle: "Streamlined staff authentication",
+        accentColor: "rgba(34, 197, 94, 1)",
+      }}
+    />
+
+    <Composition
+      id="ChapterCard-Blue"
+      component={ChapterCard}
+      durationInFrames={75}
+      fps={FPS}
+      width={1920}
+      height={1080}
+      defaultProps={{
+        chapterNumber: 3,
+        title: "AI Website Builder",
+        subtitle: "Generate a full site in seconds",
+        accentColor: "rgba(59, 130, 246, 1)",
       }}
     />
 

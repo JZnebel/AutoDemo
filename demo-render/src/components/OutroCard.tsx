@@ -43,16 +43,17 @@ export const OutroCard: React.FC<OutroCardProps> = ({
   }, [accentColor]);
 
   const resolvedLogoSrc = useMemo(() => {
-    if (logoSrc !== undefined) {
+    if (logoSrc) {
       try { return staticFile(logoSrc); } catch { return logoSrc; }
     }
-    try { return staticFile("logo.png"); } catch { return ""; }
+    // No fallback — each demo must provide its own logo
+    return "";
   }, [logoSrc]);
   const resolvedVideoSrc = useMemo(() => {
     if (videoSrc) {
       try { return staticFile(videoSrc); } catch { return videoSrc; }
     }
-    try { return staticFile("outro-cinematic.mp4"); } catch { return ""; }
+    return "";
   }, [videoSrc]);
 
   // Fade in from black

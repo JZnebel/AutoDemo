@@ -15,7 +15,7 @@ ROOT="$(dirname "$SCRIPT_DIR")"
 TARGET="$ROOT/chrome-devtools-mcp"
 
 echo "══════════════════════════════════════════"
-echo "AutoDemo: Chrome DevTools MCP Setup"
+echo "AutoDemo: Setup (MCP + Remotion Skills)"
 echo "══════════════════════════════════════════"
 echo ""
 
@@ -39,12 +39,22 @@ echo "→ Building..."
 npm run build 2>&1 | tail -3
 echo "  Build complete"
 
+# Step 4: Install Remotion agent skills
+echo "→ Installing Remotion agent skills..."
+cd "$ROOT/demo-render"
+npx --yes skills add remotion-dev/skills --yes 2>&1 | tail -3
+# Ensure root symlink exists so skills are available project-wide
+if [ ! -L "$ROOT/.claude/skills/remotion-best-practices" ]; then
+  ln -s ../demo-render/.agents/skills/remotion-best-practices "$ROOT/.claude/skills/remotion-best-practices"
+  echo "  Symlinked to .claude/skills/"
+fi
+
 echo ""
 echo "══════════════════════════════════════════"
-echo "Done! Chrome DevTools MCP fork is ready."
+echo "Done! AutoDemo is ready."
 echo ""
-echo "  Build: $TARGET/build/src/bin/chrome-devtools-mcp.js"
-echo "  .mcp.json already points at: ./chrome-devtools-mcp/build/..."
+echo "  MCP: $TARGET/build/src/bin/chrome-devtools-mcp.js"
+echo "  Remotion skills: .claude/skills/remotion-best-practices"
 echo ""
-echo "Restart Claude Code to pick up the MCP server."
+echo "Restart Claude Code to pick up the MCP server and skills."
 echo "══════════════════════════════════════════"

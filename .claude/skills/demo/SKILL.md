@@ -109,6 +109,25 @@ Write `screencast-output/<name>/narration.json` based on what you just recorded.
 - Each segment's `sceneLabel` becomes an animated lower third in the video — keep them short (2-3 words max): "Sign Up", "AI Builder", "Live Website"
 - Set `introLogoSrc` to the logo file you downloaded in Phase 1 — it shows with a spring animation in the intro card
 
+### Phase 3.5: Design Custom Intro & Outro (optional but recommended)
+
+The default IntroCard/OutroCard are generic templates. For a polished demo, design custom intro/outro components that match the app's personality and brand.
+
+**Load the Remotion skills first:** Read the rules you need from `demo-render/.agents/skills/remotion-best-practices/rules/` — especially `animations.md`, `timing.md`, `text-animations.md`, `transitions.md`, and `sequencing.md`. These contain the patterns you should use.
+
+**Write custom components** to `demo-render/src/components/CustomIntro.tsx` and `demo-render/src/components/CustomOutro.tsx`:
+
+- **Match the app's vibe:** A cannabis directory should feel earthy/organic. A SaaS tool should feel techy/clean. A restaurant POS should feel warm/inviting. Pick colors, motion styles, and typography that fit.
+- **Use varied animations:** Don't always use the same fade-in + spring pattern. Mix typewriter text, wipe reveals, scale-up entrances, slide-in elements, staggered word animations. The Remotion skills show you how.
+- **Use the accent color prominently:** Don't just tint a few particles — make it a real design element. Background blocks, gradient washes, colored text, accent shapes.
+- **Show the logo big and early:** Spring-in with a bounce, or scale from 0 with a blur clear, or slide in from the side.
+- **Timing rules:** At 30fps, the intro is typically 90-150 frames (3-5s). Everything must be driven by `useCurrentFrame()` — no CSS animations. Use `interpolate()` and `spring()` from Remotion. Ensure text is fully readable for at least 1 second before any fade-out begins.
+- **Export the same prop interface** as `IntroCardProps` / `OutroCardProps` so the pipeline can use them as drop-in replacements.
+
+Then update `MarketingDemo.tsx` to import your custom components instead of the defaults. Or, if you prefer, just modify `IntroCard.tsx` and `OutroCard.tsx` directly for this demo.
+
+If time is tight or the user wants speed over polish, skip this phase — the default templates work fine.
+
 ### Phase 4: Render
 
 Run the autodemo pipeline to produce the final video:

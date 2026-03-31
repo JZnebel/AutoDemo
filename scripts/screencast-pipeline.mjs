@@ -553,6 +553,7 @@ const props = {
   outroUrl,
   outroCtaText,
   accentColor,
+  displayUrl: outroUrl || narration.displayUrl || "",
 };
 
 // Generate lower thirds from narration segments if available

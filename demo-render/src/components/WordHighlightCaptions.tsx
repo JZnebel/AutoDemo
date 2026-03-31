@@ -13,7 +13,7 @@ export type WordTiming = {
   endMs: number;
 };
 
-export type CaptionStyle = "minimal" | "bold" | "karaoke" | "pop";
+export type CaptionStyle = "minimal" | "bold" | "karaoke" | "pop" | "clean" | "outline";
 
 type Page = {
   words: { text: string; startMs: number; endMs: number }[];
@@ -51,78 +51,127 @@ function groupIntoPages(words: WordTiming[], maxWords = 6): Page[] {
   return pages;
 }
 
-// Style presets
-const STYLES = {
-  minimal: {
-    bg: "rgba(0, 0, 0, 0.6)",
-    blur: "blur(10px)",
-    activeColor: "#22c55e",
-    pastColor: "rgba(255, 255, 255, 0.95)",
-    futureColor: "rgba(255, 255, 255, 0.45)",
-    fontSize: 44,
-    fontWeight: 600,
-    activeFontWeight: 700,
-    borderRadius: 16,
-    padding: "16px 30px",
-    activeScale: 1.0,
-    popIn: false,
-  },
-  bold: {
-    bg: "rgba(0, 0, 0, 0.85)",
-    blur: "blur(12px)",
-    activeColor: "#facc15", // yellow
-    pastColor: "#ffffff",
-    futureColor: "rgba(255, 255, 255, 0.35)",
-    fontSize: 52,
-    fontWeight: 800,
-    activeFontWeight: 900,
-    borderRadius: 12,
-    padding: "20px 36px",
-    activeScale: 1.08,
-    popIn: false,
-  },
-  karaoke: {
-    bg: "transparent",
-    blur: "none",
-    activeColor: "#3b82f6", // blue
-    pastColor: "#ffffff",
-    futureColor: "rgba(255, 255, 255, 0.3)",
-    fontSize: 56,
-    fontWeight: 900,
-    activeFontWeight: 900,
-    borderRadius: 0,
-    padding: "0",
-    activeScale: 1.15,
-    popIn: false,
-    textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 0 4px rgba(0,0,0,0.6)",
-  },
-  pop: {
-    bg: "rgba(0, 0, 0, 0.75)",
-    blur: "blur(10px)",
-    activeColor: "#3b82f6", // blue
-    pastColor: "rgba(255, 255, 255, 0.9)",
-    futureColor: "rgba(255, 255, 255, 0.2)",
-    fontSize: 48,
-    fontWeight: 700,
-    activeFontWeight: 800,
-    borderRadius: 20,
-    padding: "18px 32px",
-    activeScale: 1.2,
-    popIn: true,
-  },
-} as const;
+// Style presets — accent color is injected so each demo gets unique caption colors
+function getStyles(accentColor: string) {
+  // Parse accent color for use in styles
+  const match = accentColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  const r = match ? match[1] : "34";
+  const g = match ? match[2] : "197";
+  const b = match ? match[3] : "94";
+  const accent = `rgb(${r},${g},${b})`;
+  // Lighter tint for active highlight
+  const lr = Math.min(255, (+r) + 80);
+  const lg = Math.min(255, (+g) + 80);
+  const lb = Math.min(255, (+b) + 60);
+  const accentLight = `rgb(${lr},${lg},${lb})`;
+
+  return {
+    minimal: {
+      bg: "rgba(0, 0, 0, 0.6)",
+      blur: "blur(10px)",
+      activeColor: accentLight,
+      pastColor: "rgba(255, 255, 255, 0.95)",
+      futureColor: "rgba(255, 255, 255, 0.45)",
+      fontSize: 44,
+      fontWeight: 600,
+      activeFontWeight: 700,
+      borderRadius: 16,
+      padding: "16px 30px",
+      activeScale: 1.0,
+      popIn: false,
+      textShadow: "none",
+    },
+    bold: {
+      bg: "rgba(0, 0, 0, 0.85)",
+      blur: "blur(12px)",
+      activeColor: accentLight,
+      pastColor: "#ffffff",
+      futureColor: "rgba(255, 255, 255, 0.35)",
+      fontSize: 52,
+      fontWeight: 800,
+      activeFontWeight: 900,
+      borderRadius: 12,
+      padding: "20px 36px",
+      activeScale: 1.08,
+      popIn: false,
+      textShadow: "none",
+    },
+    karaoke: {
+      bg: "transparent",
+      blur: "none",
+      activeColor: accent,
+      pastColor: "#ffffff",
+      futureColor: "rgba(255, 255, 255, 0.3)",
+      fontSize: 56,
+      fontWeight: 900,
+      activeFontWeight: 900,
+      borderRadius: 0,
+      padding: "0",
+      activeScale: 1.15,
+      popIn: false,
+      textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 0 4px rgba(0,0,0,0.6)",
+    },
+    pop: {
+      bg: "rgba(0, 0, 0, 0.75)",
+      blur: "blur(10px)",
+      activeColor: accentLight,
+      pastColor: "rgba(255, 255, 255, 0.9)",
+      futureColor: "rgba(255, 255, 255, 0.2)",
+      fontSize: 48,
+      fontWeight: 700,
+      activeFontWeight: 800,
+      borderRadius: 20,
+      padding: "18px 32px",
+      activeScale: 1.2,
+      popIn: true,
+      textShadow: "none",
+    },
+    clean: {
+      bg: `rgba(${r},${g},${b},0.15)`,
+      blur: "blur(16px)",
+      activeColor: "#ffffff",
+      pastColor: "rgba(255,255,255,0.6)",
+      futureColor: `rgba(${r},${g},${b},0.5)`,
+      fontSize: 42,
+      fontWeight: 600,
+      activeFontWeight: 700,
+      borderRadius: 24,
+      padding: "14px 28px",
+      activeScale: 1.0,
+      popIn: false,
+      textShadow: `0 1px 8px rgba(${r},${g},${b},0.4)`,
+    },
+    outline: {
+      bg: "transparent",
+      blur: "none",
+      activeColor: "#ffffff",
+      pastColor: "rgba(255,255,255,0.5)",
+      futureColor: "rgba(255,255,255,0.2)",
+      fontSize: 54,
+      fontWeight: 900,
+      activeFontWeight: 900,
+      borderRadius: 0,
+      padding: "0",
+      activeScale: 1.05,
+      popIn: true,
+      textShadow: `0 0 2px rgba(0,0,0,0.9), 0 0 20px rgba(${r},${g},${b},0.6), 0 4px 8px rgba(0,0,0,0.5)`,
+    },
+  };
+}
 
 export const WordHighlightCaptions: React.FC<{
   wordTimings: WordTiming[];
   style?: CaptionStyle;
   leftOffset?: number;
-}> = ({ wordTimings, style: styleName = "pop", leftOffset = 0 }) => {
+  accentColor?: string;
+}> = ({ wordTimings, style: styleName = "pop", leftOffset = 0, accentColor = "rgba(34,197,94,1)" }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const currentMs = (frame / fps) * 1000;
 
   const pages = useMemo(() => groupIntoPages(wordTimings, 6), [wordTimings]);
-  const s = STYLES[styleName] || STYLES.pop;
+  const styles = useMemo(() => getStyles(accentColor), [accentColor]);
+  const s = styles[styleName] || styles.pop;
 
   // Find active page
   const activePage = pages.find(
@@ -223,7 +272,7 @@ export const WordHighlightCaptions: React.FC<{
                 transformOrigin: "center bottom",
                 display: "inline-block",
                 lineHeight: 1.3,
-                textShadow: (s as any).textShadow || "none",
+                textShadow: s.textShadow || "none",
                 transition: isActive ? "none" : "color 0.15s ease, opacity 0.15s ease",
               }}
             >

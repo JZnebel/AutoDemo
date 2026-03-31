@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   AbsoluteFill,
-  Img,
   OffthreadVideo,
   staticFile,
   useCurrentFrame,
@@ -20,9 +19,19 @@ export const DeviceMockup: React.FC<{
   zoomRegions: ZoomRegion[];
   /** "center" = full width centered, "right" = shifted right for presenter */
   layout?: "center" | "right";
-}> = ({ zoomRegions, layout = "center" }) => {
+  /** Accent color in rgba() format — used for grid, glow, reflection */
+  accentColor?: string;
+  /** URL to display in the browser chrome bar */
+  displayUrl?: string;
+}> = ({ zoomRegions, layout = "center", accentColor = "rgba(34,197,94,1)", displayUrl = "" }) => {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
+
+  const accent = useMemo(() => {
+    const match = accentColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) return { r: match[1], g: match[2], b: match[3] };
+    return { r: "34", g: "197", b: "94" };
+  }, [accentColor]);
 
   // ── Entrance animation ───────────────────────────────────────────
   const entranceProgress = spring({
@@ -86,16 +95,11 @@ export const DeviceMockup: React.FC<{
 
   return (
     <AbsoluteFill>
-      {/* Dispensary photo background */}
-      <Img
-        src={staticFile("presenter-bg.png")}
+      {/* Ambient background — derived from accent color */}
+      <AbsoluteFill
         style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          filter: "blur(4px) brightness(0.45)",
-          transform: `scale(1.05) translate(${Math.sin(frame * 0.008) * 8}px, ${Math.cos(frame * 0.006) * 5}px)`,
+          background: `radial-gradient(ellipse at 30% 40%, rgba(${accent.r},${accent.g},${accent.b},0.08) 0%, transparent 60%), radial-gradient(ellipse at 70% 60%, rgba(${accent.r},${accent.g},${accent.b},0.05) 0%, transparent 50%)`,
+          transform: `translate(${Math.sin(frame * 0.008) * 8}px, ${Math.cos(frame * 0.006) * 5}px)`,
         }}
       />
 
@@ -110,7 +114,7 @@ export const DeviceMockup: React.FC<{
       <AbsoluteFill
         style={{
           backgroundImage:
-            "linear-gradient(rgba(34,197,94,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(34,197,94,0.03) 1px, transparent 1px)",
+            `linear-gradient(rgba(${accent.r},${accent.g},${accent.b},0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(${accent.r},${accent.g},${accent.b},0.03) 1px, transparent 1px)`,
           backgroundSize: "60px 60px",
           opacity: 0.3,
         }}
@@ -165,7 +169,7 @@ export const DeviceMockup: React.FC<{
               fontFamily: "SF Mono, Menlo, monospace",
             }}
           >
-            brotherpos.ca/pos
+            {displayUrl || ""}
           </div>
         </div>
 
@@ -202,7 +206,7 @@ export const DeviceMockup: React.FC<{
             left: "10%",
             right: "10%",
             height: 80,
-            background: "radial-gradient(ellipse at center, rgba(34,197,94,0.08) 0%, transparent 70%)",
+            background: `radial-gradient(ellipse at center, rgba(${accent.r},${accent.g},${accent.b},0.08) 0%, transparent 70%)`,
             filter: "blur(20px)",
           }}
         />
