@@ -1,0 +1,4 @@
+Invoice #,Date,Customer,Amount Due,Terms
+INV-1001,2026-01-14,Acme Holdings,"$4,210.00",Net 30
+INV-1002,2026-01-19,Bay Logistics,"$980.50",Net 15
+INV-1003,2026-02-02,Northern Freight,"$12,004.75",Due on receipt

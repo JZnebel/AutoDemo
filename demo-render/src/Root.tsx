@@ -8,6 +8,7 @@ import { AnimatedKPICards } from "./components/scenes/AnimatedKPICards";
 import { ProductShowcase } from "./components/scenes/ProductShowcase";
 import { FeatureHighlight } from "./components/scenes/FeatureHighlight";
 import { AnimatedBarChart } from "./components/scenes/AnimatedBarChart";
+import { StartClip, calculateStartClipMetadata } from "./StartClip";
 import { TransitionCard } from "./components/TransitionCard";
 import { ChapterCard } from "./components/ChapterCard";
 import { CustomIntro } from "./components/CustomIntro";
@@ -57,6 +58,27 @@ const sampleBars = [
 export const RemotionRoot: React.FC = () => (
   <>
     {/* Main demo composition */}
+    {/* rezweed.com/start owner walkthrough clips — 25fps to match the screencast
+        source exactly, so no frames are resampled. */}
+    <Composition
+      id="StartClip"
+      component={StartClip}
+      durationInFrames={600}
+      fps={25}
+      width={1280}
+      height={720}
+      calculateMetadata={calculateStartClipMetadata}
+      defaultProps={{
+        videoSrc: "rezweed/01-claim.mp4",
+        audioSrc: "rezweed/01-claim.mp3",
+        wordTimings: [],
+        accentColor: "rgba(45,74,62,1)",
+        durationInFrames: 600,
+        frame: "none" as const,
+        shots: undefined,
+      }}
+    />
+
     <Composition
       id="Demo"
       component={Demo}

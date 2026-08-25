@@ -1,0 +1,22 @@
+SKU,Item Name,Dept,Vendor,Size,Retail,On Hand,THC %,CBD %,Notes
+SKU-1001,Blue Heron OG,FLOWER-IND,Kenhtè:ke Growers,3.5g,$35.00,14,24.1,0.2,top seller
+SKU-1002,Quinte Sunrise,FLOWER-SAT,Kenhtè:ke Growers,3.5g,32,9,21.4,0.1,
+SKU-1003,Riverstone Kush,FLOWER-IND,Kenhtè:ke Growers,3.5g,$38.00,6,26.0,0.1,
+SKU-1004,Bay Breeze,FLOWER-HYB,Northshore,3.5g,34,11,22.2,,
+SKU-1005,Weathervane Haze,FLOWER-SAT,Northshore,7g,$60.00,4,20.3,,
+SKU-1006,Cedar Smoke,FLOWER-IND,Northshore,28g,150,2,23.0,,bulk
+SKU-2001,Blue Heron OG Pre-Roll,PREROLL,Kenhtè:ke Growers,1g,$10.00,40,24.1,,
+SKU-2002,Sativa Three Pack,PREROLL,Kenhtè:ke Growers,1.5g,18,22,21.0,,
+SKU-2003,Hash Hole,PREROLL-INF,Northshore,1.2g,$22.00,8,44.0,,infused
+SKU-3001,Wild Berry Gummies,EDIBLE,Ridge Road Confections,10mg,8,60,,,
+SKU-3002,Maple Chews 4pk,EDIBLE,Ridge Road Confections,5mg,$12.00,35,,,
+SKU-3003,Salted Caramels,EDIBLE,Ridge Road Confections,10mg,11,28,,,
+SKU-4001,Live Resin Cart,VAPE-CART,Northshore,1g,$45.00,17,82.0,,
+SKU-4002,Heron Distillate Cart,VAPE-CART,Northshore,0.5g,30,21,88.0,,
+SKU-5001,Live Rosin,CONC,Kenhtè:ke Growers,1g,55,5,72.0,,
+SKU-5002,Bay Quinte Hash,CONC,Kenhtè:ke Growers,2g,$30.00,12,48.0,,
+SKU-9001,Bic Lighter,SUNDRY,Bic,each,$2.50,200,,,
+SKU-9002,RAW Rolling Papers 1 1/4,SUNDRY,RAW,32 leaves,$3.00,150,,,
+SKU-9003,Grinder 4-Piece,SUNDRY,Generic,each,$18.00,22,,,
+SKU-9004,Bottled Water,DRINKS,Aquafina,500ml,$1.50,80,,,
+SKU-9005,Gift Card,MISC,House,each,25,,,,not a product

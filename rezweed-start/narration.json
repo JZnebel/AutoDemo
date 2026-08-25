@@ -1,0 +1,223 @@
+{
+  "voice": "en-CA-ClaraNeural",
+  "rate": "-4%",
+  "clips": [
+    {
+      "id": "01-claim",
+      "title": "Find your shop and claim it",
+      "text": "Start on the owner page and type your shop's name. Pick it out of the list, and the claim form opens up. Fill in your name and an email we can reach you on, add a phone number and your role if you like, then hit submit. That's it. Somebody here checks it over and emails you back."
+    },
+    {
+      "id": "02-details",
+      "title": "Put your details and menu up",
+      "segments": [
+        {
+          "atSec": 0.8,
+          "text": "Signing in takes you to your own dashboard, with a checklist of what your listing still needs."
+        },
+        {
+          "atSec": 9.0,
+          "text": "Open Edit Store and you'll find your hours. Set Monday, copy it across the week, and save."
+        },
+        {
+          "atSec": 22.5,
+          "text": "That's one ticked off."
+        },
+        {
+          "atSec": 27.0,
+          "text": "The Products tab is your menu."
+        },
+        {
+          "atSec": 30.0,
+          "text": "Start typing — if it's something we already know, pick it from the catalogue and the details fill themselves in."
+        },
+        {
+          "atSec": 37.8,
+          "text": "Set a price, add it, and it's live on your listing straight away. Nothing here waits to be approved."
+        }
+      ]
+    },
+    {
+      "id": "03-loyalty-owner",
+      "title": "Rewards — the shop's side",
+      "segments": [
+        {
+          "atSec": 0.8,
+          "text": "Rewards are already on for every shop, so there is nothing to switch on."
+        },
+        {
+          "atSec": 6.2,
+          "text": "What is worth setting up is a till link for your staff."
+        },
+        {
+          "atSec": 10.8,
+          "text": "They get a PIN, shown once and never again, so write it down."
+        },
+        {
+          "atSec": 16.5,
+          "text": "Then day to day: put in their number, or the code from their phone."
+        },
+        {
+          "atSec": 22.2,
+          "text": "New customer? Sign them up right there."
+        },
+        {
+          "atSec": 27.0,
+          "text": "Type what they spent, hit record, and the points are on their card."
+        },
+        {
+          "atSec": 32.3,
+          "text": "A dollar is a point. What they are worth is up to you."
+        }
+      ]
+    },
+    {
+      "id": "04-loyalty-customer",
+      "title": "Rewards — the customer's side",
+      "segments": [
+        {
+          "atSec": 0.6,
+          "text": "This is what a customer sees when they scan the card on your counter."
+        },
+        {
+          "atSec": 6.4,
+          "text": "One tap. No account, no app."
+        },
+        {
+          "atSec": 10.2,
+          "text": "They get a code to show the budtender, and that is the whole thing."
+        },
+        {
+          "atSec": 15.9,
+          "text": "Or they save it straight to their phone's wallet."
+        }
+      ]
+    },
+    {
+      "id": "05-tv-menu",
+      "title": "A menu board for the shop TV",
+      "segments": [
+        {
+          "atSec": 0.8,
+          "text": "Every shop gets a free menu board for a screen behind the counter."
+        },
+        {
+          "atSec": 5.8,
+          "text": "Pick the categories to show, and size the text for the room."
+        },
+        {
+          "atSec": 11.0,
+          "text": "It tells you how many screens that is, so you can keep it to one."
+        },
+        {
+          "atSec": 16.5,
+          "text": "Take the short link — four characters to type into a TV."
+        },
+        {
+          "atSec": 21.5,
+          "text": "Load it on any screen. It updates itself as your menu changes."
+        }
+      ]
+    },
+    {
+      "id": "06-import",
+      "title": "Bring your menu across from your POS",
+      "segments": [
+        {
+          "atSec": 0.8,
+          "text": "If your menu already lives in another system, you do not have to retype it."
+        },
+        {
+          "atSec": 6.5,
+          "text": "Export it from your POS — any POS — and drop the file in."
+        },
+        {
+          "atSec": 11.5,
+          "text": "It reads the columns itself, whatever they happen to be called."
+        },
+        {
+          "atSec": 16.5,
+          "text": "Then it shows you what it worked out, grouped the way your export was."
+        },
+        {
+          "atSec": 22.5,
+          "text": "Untick whatever does not belong on a cannabis menu. The lighters, the gift card."
+        },
+        {
+          "atSec": 29.0,
+          "text": "Check the list, and add the lot."
+        },
+        {
+          "atSec": 32.5,
+          "text": "Sizes, prices and brands all come across with it."
+        }
+      ]
+    },
+    {
+      "id": "07-loyalty",
+      "title": "Rewards, start to finish",
+      "segments": [
+        {
+          "atSec": 0.8,
+          "text": "Rewards are already on for every shop. A dollar spent is a point."
+        },
+        {
+          "atSec": 6.5,
+          "text": "What a point is worth is yours. Set a rate and the till does the arithmetic for you."
+        },
+        {
+          "atSec": 14.5,
+          "text": "Ten cents a point here, so a hundred points is ten dollars off."
+        },
+        {
+          "atSec": 20.5,
+          "text": "Next, a till your staff can use without your login."
+        },
+        {
+          "atSec": 25.5,
+          "text": "A link they bookmark, and a PIN shown once. Lose it and you make a new one."
+        },
+        {
+          "atSec": 33.0,
+          "text": "A customer at the counter: put in their number."
+        },
+        {
+          "atSec": 38.0,
+          "text": "Not a member? Sign them up right there. No app, no account."
+        },
+        {
+          "atSec": 44.5,
+          "text": "Turn the screen round and let them scan the card onto their phone."
+        },
+        {
+          "atSec": 53.5,
+          "text": "Type what they spent, and the points are on their card."
+        },
+        {
+          "atSec": 63.5,
+          "text": "Next time in, their balance is waiting, and what it is worth here."
+        },
+        {
+          "atSec": 69.5,
+          "text": "When they claim a reward, use the points."
+        },
+        {
+          "atSec": 74.0,
+          "text": "It takes them off, so nothing gets claimed twice."
+        },
+        {
+          "atSec": 83.5,
+          "text": "And this is what the customer got."
+        },
+        {
+          "atSec": 87.0,
+          "text": "One tap, and a code to read out at the counter."
+        },
+        {
+          "atSec": 92.5,
+          "text": "Or straight into Apple or Google Wallet, so the card lives on their phone."
+        }
+      ]
+    }
+  ]
+}

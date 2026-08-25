@@ -1,0 +1,20 @@
+# Remotion props — derived from narration.json plus the raw recording by
+# build-props.mjs, and they reference recordings that are not committed either.
+props/
+
+# Recordings and renders — large, and reproducible from the flow scripts.
+raw/
+out/
+dist/
+audio/
+frames/
+
+# This instance's identifiers and the app's env path. See config.mjs.
+config.local.json
+
+# Per-run demo-owner password, minted by seed-owner and read by signin.
+.local/
+
+# Local state written during a recording pass.
+moonwater-snapshot.json
+recording-session.json

@@ -1,0 +1,7 @@
+{
+  "base": "http://localhost:3007",
+  "envFile": "../rezweed/.env.local",
+  "storeId": "00000000-0000-0000-0000-000000000000",
+  "standCode": "abcdefgh",
+  "ownerEmail": "demo.owner@example.invalid"
+}
