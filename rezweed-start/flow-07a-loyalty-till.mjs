@@ -17,9 +17,13 @@ import { BASE } from "./recorder.mjs";
  */
 const PHONE = "9055550177";
 const SPEND = "60";
-const RATE = "0.10";          // 10c a point — $10 per 100, a legible round number
-const REDEEM = "50";          // of the 60 they just earned, so a remainder is left over
-const REWARD = "$5 off an eighth";
+const WORTH = "0.10";         // 10c a point. At the default 1pt/$1 this is 10% back,
+                              // which trips the till's own warning — that is the point.
+const EARN = "0.2";           // dialled back to a point per $5, which lands on 2%.
+const SPEND_PTS = "10";       // a $60 sale at 0.2/dollar earns 12, so spending 10
+                              // leaves a remainder — a balance that goes to zero
+                              // hides whether the subtraction was real.
+const REWARD = "$1 off a pre-roll";
 
 export const meta = {
   name: "07a-loyalty-till",
@@ -27,6 +31,26 @@ export const meta = {
   url: `${BASE}/admin/loyalty`,
   viewport: { width: 1280, height: 720 },
 };
+
+/** The settings panels are separate cards with identical control labels — two
+ *  Saves, two decimal inputs — so everything here is scoped to the card whose
+ *  text begins with the heading, never matched globally. */
+const inCard = (page, heading, name, css = "input", label = null) =>
+  page.evaluate((h, n, c, lab) => {
+    const card = [...document.querySelectorAll("div")]
+      .filter((d) => (d.innerText || "").trim().startsWith(h) && d.querySelector("input"))
+      .sort((a, b) => a.innerText.length - b.innerText.length)[0];
+    if (!card) return false;
+    const el = lab
+      ? [...card.querySelectorAll(c)].find((x) => x.innerText.trim() === lab)
+      : card.querySelector(c);
+    if (!el) return false;
+    el.setAttribute("data-rec", n);
+    return true;
+  }, heading, name, css, label).then((ok) => {
+    if (!ok) throw new Error(`not found: ${css}${label ? ` "${label}"` : ""} in card "${heading}"`);
+    return `[data-rec="${name}"]`;
+  });
 
 const byText = (page, text, name, css = "button") =>
   page.evaluate((c, t, n) => {
@@ -57,16 +81,26 @@ export async function run(ctx) {
   // ── What this is ─────────────────────────────────────────────────────────
   await ctx.pause(2800);        // "record what they spent, or use their points"
 
-  // ── What a point is worth ────────────────────────────────────────────────
-  // The shop's own rate, and the first thing an owner asks. Optional: left unset
-  // the till just does not quote a discount, which is a real way to run it.
-  const rate = 'input[placeholder="0.10"]';
-  await ctx.scrollToEl(rate, { block: 0.34 });
+  // ── The two settings, and why they only make sense together ──────────────
+  // Set what a point is worth first. At the default of one point per dollar, ten
+  // cents is a ten percent giveaway, and the till says so — that warning is the
+  // most useful thing on the page and it should be on camera.
+  const worth = await inCard(page, "What a point is worth", "worthbox");
+  await ctx.scrollToEl(worth, { block: 0.3 });
   await ctx.pause(1300);        // "Not set — you decide each reward at the counter"
-  await ctx.type(rate, RATE, { delay: 220, settle: 700 });
-  await ctx.clickDom(await byText(page, "Save", "saverate"), { settle: 2400 });
-  await ctx.waitForText("A point is worth");
-  await ctx.pause(2400);        // "$0.10 here. $10.00 per 100 points."
+  await ctx.type(worth, WORTH, { delay: 220, settle: 600 });
+  await ctx.clickDom(await inCard(page, "What a point is worth", "worthsave", "button", "Save"), { settle: 2600 });
+  await ctx.waitForText("What this costs you");
+  await ctx.pause(3400);        // "A $50 sale earns 50 points, worth $5.00 — 10% back" + the warning
+
+  // Now dial the earning back, and watch the same panel land on something sane.
+  const earn = await inCard(page, "Points for spending", "earnbox");
+  await ctx.scrollToEl(earn, { block: 0.28 });
+  await ctx.pause(900);
+  await ctx.type(earn, EARN, { delay: 240, settle: 600 });
+  await ctx.clickDom(await inCard(page, "Points for spending", "earnsave", "button", "Save"), { settle: 2600 });
+  await ctx.waitForText("One point for every");
+  await ctx.pause(3200);        // "One point for every $5 spent." and "— 2% back", warning gone
 
   // ── A till your staff can use ────────────────────────────────────────────
   const create = await byText(page, "Create a staff till link", "createtill");
@@ -122,7 +156,7 @@ export async function run(ctx) {
   await ctx.waitForText("Use points from this card");
   await ctx.pause(1800);        // "takes the points off so they cannot be used twice"
 
-  await ctx.type('input[placeholder="Points"]', REDEEM, { delay: 230, settle: 1400 });
+  await ctx.type('input[placeholder="Points"]', SPEND_PTS, { delay: 260, settle: 1400 });
   await ctx.pause(900);         // "50 points = $5.00 off" appears as they type
   await ctx.type('input[placeholder^="What for"]', REWARD, { delay: 78, settle: 900 });
 

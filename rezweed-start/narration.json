@@ -159,63 +159,71 @@
       "segments": [
         {
           "atSec": 0.8,
-          "text": "Rewards are already on for every shop. A dollar spent is a point."
+          "text": "Rewards are already on for every shop, and there are two numbers behind them."
         },
         {
-          "atSec": 6.5,
-          "text": "What a point is worth is yours. Set a rate and the till does the arithmetic for you."
+          "atSec": 7.0,
+          "text": "What a point is worth. Say ten cents."
         },
         {
-          "atSec": 14.5,
-          "text": "Ten cents a point here, so a hundred points is ten dollars off."
+          "atSec": 11.5,
+          "text": "The till works out what that actually costs you. Ten percent back, which is steep."
         },
         {
-          "atSec": 20.5,
-          "text": "Next, a till your staff can use without your login."
+          "atSec": 19.5,
+          "text": "So slow the earning down: one point for every five dollars."
         },
         {
           "atSec": 25.5,
-          "text": "A link they bookmark, and a PIN shown once. Lose it and you make a new one."
+          "text": "Two percent. That is a programme you can afford."
         },
         {
-          "atSec": 33.0,
+          "atSec": 30.5,
+          "text": "Next, a till your staff can use without your login."
+        },
+        {
+          "atSec": 36.0,
+          "text": "A link they bookmark and a PIN shown once. Lose it and you make a new one."
+        },
+        {
+          "atSec": 44.0,
           "text": "A customer at the counter: put in their number."
         },
         {
-          "atSec": 38.0,
+          "atSec": 49.5,
           "text": "Not a member? Sign them up right there. No app, no account."
         },
         {
-          "atSec": 44.5,
+          "atSec": 59.5,
           "text": "Turn the screen round and let them scan the card onto their phone."
         },
         {
-          "atSec": 53.5,
-          "text": "Type what they spent, and the points are on their card."
+          "atSec": 67.0,
+          "text": "Then type what they spent. Sixty dollars, twelve points."
         },
         {
-          "atSec": 63.5,
+          "atSec": 77.0,
           "text": "Next time in, their balance is waiting, and what it is worth here."
         },
         {
-          "atSec": 69.5,
+          "atSec": 83.5,
           "text": "When they claim a reward, use the points."
         },
         {
-          "atSec": 74.0,
+          "atSec": 87.5,
           "text": "It takes them off, so nothing gets claimed twice."
         },
         {
-          "atSec": 83.5,
+          "atSec": 96.0,
           "text": "And this is what the customer got."
         },
         {
-          "atSec": 87.0,
+          "atSec": 100.0,
           "text": "One tap, and a code to read out at the counter."
         },
         {
-          "atSec": 92.5,
-          "text": "Or straight into Apple or Google Wallet, so the card lives on their phone."
+          "atSec": 105.5,
+          "text": "Or straight into Apple or Google Wallet."
         }
       ]
     }

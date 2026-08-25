@@ -119,10 +119,17 @@ console.log(`seeded demo menu: ${seeded.ok ? "cleared" : "FAILED " + seeded.stat
 // 6b. the shop's declared point value. Not in moonwater-snapshot.json because
 //     the column (20260906_loyalty_point_value) postdates it, and null is the
 //     documented default — an unset rate is how most shops run.
+// Both halves of the programme: what a point is worth, and what it takes to earn
+// one. Null is the documented default for each — an unset rate is how most shops
+// run, and null earning means one point per dollar.
 const rate = await rest(`stores?id=eq.${MOONWATER}`, {
-  method: "PATCH", body: JSON.stringify({ loyalty_point_value_cents: null }),
+  method: "PATCH",
+  body: JSON.stringify({
+    loyalty_point_value_cents: null,
+    loyalty_points_per_dollar_x100: null,
+  }),
 });
-console.log(`point value reset to unset: ${rate.ok ? "yes" : "FAILED " + rate.status}`);
+console.log(`point value + earn rate reset to unset: ${rate.ok ? "yes" : "FAILED " + rate.status}`);
 
 // 7. Moonwater back to how it was found
 const snapPath = "rezweed-start/moonwater-snapshot.json";
