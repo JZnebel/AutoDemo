@@ -110,3 +110,10 @@ seed_pitch_stores.rb
 # Claude Code local state (but keep skills)
 .claude/*
 !.claude/skills/
+bpos-training/.local/
+bpos-training/config.local.json
+bpos-training/raw/
+bpos-training/audio/
+bpos-training/props/
+bpos-training/out/
+demo-render/public/training/

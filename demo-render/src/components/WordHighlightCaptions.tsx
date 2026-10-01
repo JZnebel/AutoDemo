@@ -164,7 +164,9 @@ export const WordHighlightCaptions: React.FC<{
   style?: CaptionStyle;
   leftOffset?: number;
   accentColor?: string;
-}> = ({ wordTimings, style: styleName = "pop", leftOffset = 0, accentColor = "rgba(34,197,94,1)" }) => {
+  /** Distance from the bottom of the positioned parent (default 60). */
+  bottom?: number;
+}> = ({ wordTimings, style: styleName = "pop", leftOffset = 0, accentColor = "rgba(34,197,94,1)", bottom = 60 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const currentMs = (frame / fps) * 1000;
@@ -204,7 +206,7 @@ export const WordHighlightCaptions: React.FC<{
         position: "absolute",
         left: leftOffset,
         right: 0,
-        bottom: 60,
+        bottom,
         display: "flex",
         justifyContent: "center",
         opacity: pageOpacity,

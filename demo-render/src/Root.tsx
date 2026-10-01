@@ -9,6 +9,7 @@ import { ProductShowcase } from "./components/scenes/ProductShowcase";
 import { FeatureHighlight } from "./components/scenes/FeatureHighlight";
 import { AnimatedBarChart } from "./components/scenes/AnimatedBarChart";
 import { StartClip, calculateStartClipMetadata } from "./StartClip";
+import { TrainingClip, calculateTrainingClipMetadata } from "./TrainingClip";
 import { TransitionCard } from "./components/TransitionCard";
 import { ChapterCard } from "./components/ChapterCard";
 import { CustomIntro } from "./components/CustomIntro";
@@ -60,6 +61,27 @@ export const RemotionRoot: React.FC = () => (
     {/* Main demo composition */}
     {/* rezweed.com/start owner walkthrough clips — 25fps to match the screencast
         source exactly, so no frames are resampled. */}
+    {/* BrotherPOS training clips (bpos-training/): recording, narration, and captions in
+        a strip below the picture. Sized from the recording (see TrainingClip). */}
+    <Composition
+      id="TrainingClip"
+      component={TrainingClip}
+      durationInFrames={600}
+      fps={25}
+      width={1600}
+      height={1020}
+      calculateMetadata={calculateTrainingClipMetadata}
+      defaultProps={{
+        videoSrc: "training/making-a-sale.en.mp4",
+        audioSrc: "training/making-a-sale.en.mp3",
+        wordTimings: [],
+        accentColor: "rgba(16,185,129,1)",
+        durationInFrames: 600,
+        width: 1600,
+        height: 900,
+      }}
+    />
+
     <Composition
       id="StartClip"
       component={StartClip}
