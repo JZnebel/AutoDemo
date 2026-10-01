@@ -214,8 +214,17 @@ export async function topmost(page, texts, tag, css = "button") {
       const x = Math.min(Math.max(r.left + r.width / 2, 1), innerWidth - 1);
       const y = Math.min(Math.max(r.top + r.height / 2, 1), innerHeight - 1);
       const at = document.elementFromPoint(x, y);
-      // Off screen counts as on top: reveal() will scroll it in before it's clicked.
-      return r.bottom < 0 || r.top > innerHeight || (at && (e === at || e.contains(at)));
+      // Off screen, or scrolled out of its own scrolling box, counts as on top: reveal()
+      // scrolls it in before it's clicked.
+      if (r.bottom < 0 || r.top > innerHeight) return true;
+      for (let p = e.parentElement; p; p = p.parentElement) {
+        if (p.scrollHeight > p.clientHeight + 4 && /(auto|scroll)/.test(getComputedStyle(p).overflowY)) {
+          const pr = p.getBoundingClientRect();
+          if (r.top < pr.top || r.bottom > pr.bottom) return true;
+          break;
+        }
+      }
+      return at && (e === at || e.contains(at));
     });
     const el = hits.pop();
     if (!el) return false;

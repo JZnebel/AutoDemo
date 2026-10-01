@@ -55,6 +55,10 @@ store = Store.create!(
     "enable_online_ordering" => false,
     "enable_age_verification" => false,
     "enable_customers" => true,
+    # Used by the time-clock and label clips; harmless for the rest.
+    "enable_time_tracking" => true,
+    "enable_label_printing" => true,
+    "enable_receipt_printing" => ENV["TRAINING_RECEIPT_PRINTING"] == "1",
   ),
 )
 # Store#after_create normally provisions; make sure the defaults (categories, weight

@@ -638,6 +638,248 @@
           "fr": "Quand vous avez terminé, cliquez sur Imprimer pour fermer la journée."
         }
       ]
+    },
+    {
+      "id": "setting-up-your-store",
+      "flow": "flows/setting-up-your-store.mjs",
+      "docs": "getting-started/setup-wizard",
+      "title": {
+        "en": "Setting up your store",
+        "fr": "Configurer votre magasin"
+      },
+      "lines": [
+        {
+          "id": "intro",
+          "en": "The first time you sign in to a new store, the setup wizard opens. It takes about five minutes, and you can change anything later.",
+          "fr": "La première fois que vous ouvrez une session dans un nouveau magasin, l'assistant de configuration s'ouvre. Il prend environ cinq minutes, et vous pourrez tout changer plus tard."
+        },
+        {
+          "id": "basics",
+          "en": "Check your store name, what you sell, and your time zone. If your store doesn't charge tax, leave the tax rate at zero. Then click Save and continue.",
+          "fr": "Vérifiez le nom du magasin, ce que vous vendez et votre fuseau horaire. Si votre magasin ne perçoit pas de taxes, laissez le taux à zéro. Cliquez ensuite sur Enregistrer et continuer."
+        },
+        {
+          "id": "hardware",
+          "en": "Pick what runs your register, and tick the devices you'll use. You can test them now, or later.",
+          "fr": "Choisissez l'appareil de votre caisse, et cochez les appareils que vous utiliserez. Vous pouvez les tester maintenant, ou plus tard."
+        },
+        {
+          "id": "registers",
+          "en": "Give each register a name, one for each cash drawer.",
+          "fr": "Donnez un nom à chaque caisse, une par tiroir-caisse."
+        },
+        {
+          "id": "features",
+          "en": "Turn on what you want, like loyalty points and staff time tracking.",
+          "fr": "Activez ce que vous voulez, comme les points de fidélité et le suivi du temps des employés."
+        },
+        {
+          "id": "payments",
+          "en": "Choose the payments you take at the counter.",
+          "fr": "Choisissez les paiements que vous acceptez au comptoir."
+        },
+        {
+          "id": "skip",
+          "en": "The next steps are optional. Skip anything you're not sure about.",
+          "fr": "Les étapes suivantes sont facultatives. Passez celles dont vous n'êtes pas sûr."
+        },
+        {
+          "id": "staff",
+          "en": "Add your staff: a name, email, role, and a four-digit PIN for the register.",
+          "fr": "Ajoutez votre personnel : un nom, un courriel, un rôle, et un NIP à quatre chiffres pour la caisse."
+        },
+        {
+          "id": "done",
+          "en": "Click Finish setup, and you're ready to sell.",
+          "fr": "Cliquez sur Terminer la configuration, et vous êtes prêt à vendre."
+        }
+      ]
+    },
+    {
+      "id": "importing-products",
+      "flow": "flows/importing-products.mjs",
+      "docs": "admin/products/csv-import",
+      "title": {
+        "en": "Importing products from a spreadsheet",
+        "fr": "Importer des produits d'un tableur"
+      },
+      "lines": [
+        {
+          "id": "open",
+          "en": "Have your products in a spreadsheet? Go to Products, open More Actions, and click Import from File.",
+          "fr": "Vos produits sont dans un tableur? Allez dans Produits, ouvrez Plus d'actions, et cliquez sur Importer d'un fichier."
+        },
+        {
+          "id": "template",
+          "en": "Start from a template, so your columns match. Each product needs at least a name and a price.",
+          "fr": "Partez d'un modèle, pour que vos colonnes correspondent. Chaque produit a besoin d'au moins un nom et un prix."
+        },
+        {
+          "id": "upload",
+          "en": "Choose your file. The preview shows what's new, what will be updated, and any rows with a problem.",
+          "fr": "Choisissez votre fichier. L'aperçu montre les nouveaux produits, ceux qui seront mis à jour, et les lignes qui ont un problème."
+        },
+        {
+          "id": "import",
+          "en": "Click Import Products. When it's done, they're ready to sell.",
+          "fr": "Cliquez sur Importer les produits. Une fois terminé, ils sont prêts à vendre."
+        }
+      ]
+    },
+    {
+      "id": "receipt-printer",
+      "flow": "flows/receipt-printer.mjs",
+      "docs": "pos/hardware/receipt-printing",
+      "title": {
+        "en": "Connecting a receipt printer",
+        "fr": "Brancher une imprimante de reçus"
+      },
+      "lines": [
+        {
+          "id": "bridge",
+          "en": "On a computer, the Printer Bridge connects the register to your receipt printer. Make sure it's running.",
+          "fr": "Sur un ordinateur, le Printer Bridge relie la caisse à votre imprimante de reçus. Assurez-vous qu'il fonctionne."
+        },
+        {
+          "id": "settings",
+          "en": "Tap Settings, at the top of the register.",
+          "fr": "Touchez Paramètres, en haut de la caisse."
+        },
+        {
+          "id": "enable",
+          "en": "Make sure Enable receipt printer is ticked, and tap Auto-Detect. The register finds the bridge on its own.",
+          "fr": "Vérifiez que Activer l'imprimante de reçus est coché, et touchez Détection automatique. La caisse trouve le bridge d'elle-même."
+        },
+        {
+          "id": "test",
+          "en": "Tap Test Print to check it works, then Save Settings.",
+          "fr": "Touchez Impression de test pour vérifier, puis Enregistrer les paramètres."
+        },
+        {
+          "id": "note",
+          "en": "Don't see these settings? An admin turns on receipt printing in Settings first.",
+          "fr": "Vous ne voyez pas ces paramètres? Un administrateur doit d'abord activer l'impression des reçus dans les Paramètres."
+        }
+      ]
+    },
+    {
+      "id": "barcode-scanner",
+      "flow": "flows/barcode-scanner.mjs",
+      "docs": "pos/hardware/barcode-scanner",
+      "title": {
+        "en": "Using a barcode scanner",
+        "fr": "Utiliser un lecteur de codes-barres"
+      },
+      "lines": [
+        {
+          "id": "plug",
+          "en": "A USB barcode scanner works as soon as it's plugged in. There's nothing to set up.",
+          "fr": "Un lecteur de codes-barres USB fonctionne dès qu'il est branché. Il n'y a rien à configurer."
+        },
+        {
+          "id": "scan",
+          "en": "Scan a product, and it goes straight into the cart. You don't need to tap the search box first.",
+          "fr": "Scannez un produit, et il va directement au panier. Pas besoin de toucher la case de recherche."
+        },
+        {
+          "id": "again",
+          "en": "Scan it again to add one more.",
+          "fr": "Scannez-le de nouveau pour en ajouter un."
+        },
+        {
+          "id": "unknown",
+          "en": "If a barcode isn't on any product yet, the register tells you. A manager can attach it to the right product.",
+          "fr": "Si un code-barres n'est associé à aucun produit, la caisse vous le dit. Un gérant peut l'associer au bon produit."
+        }
+      ]
+    },
+    {
+      "id": "pricing-tiers",
+      "flow": "flows/pricing-tiers.mjs",
+      "docs": "admin/cannabis/quality-tiers",
+      "title": {
+        "en": "Changing flower tier prices",
+        "fr": "Changer les prix par palier"
+      },
+      "lines": [
+        {
+          "id": "open",
+          "en": "Flower prices come from pricing templates, one for each quality tier. Go to Products, open More Actions, and click Tier Pricing.",
+          "fr": "Les prix du cannabis séché viennent des modèles de tarification, un par palier de qualité. Allez dans Produits, ouvrez Plus d'actions, et cliquez sur Tarification par paliers."
+        },
+        {
+          "id": "list",
+          "en": "Each template sets the price for every weight.",
+          "fr": "Chaque modèle fixe le prix de chaque poids."
+        },
+        {
+          "id": "edit",
+          "en": "To change a price, click Edit, and type the new price.",
+          "fr": "Pour changer un prix, cliquez sur Modifier, et tapez le nouveau prix."
+        },
+        {
+          "id": "save",
+          "en": "Click Save. Every product in that tier updates at once.",
+          "fr": "Cliquez sur Enregistrer. Tous les produits de ce palier sont mis à jour d'un coup."
+        }
+      ]
+    },
+    {
+      "id": "clocking-in",
+      "flow": "flows/clocking-in.mjs",
+      "docs": "pos/other/time-tracking",
+      "title": {
+        "en": "Clocking in and out",
+        "fr": "Pointer l'arrivée et le départ"
+      },
+      "lines": [
+        {
+          "id": "open",
+          "en": "To start your shift, tap the clock at the top of the register.",
+          "fr": "Pour commencer votre quart, touchez l'horloge en haut de la caisse."
+        },
+        {
+          "id": "pin",
+          "en": "Enter your PIN, and tap Clock In.",
+          "fr": "Entrez votre NIP, et touchez Pointer l'arrivée."
+        },
+        {
+          "id": "out",
+          "en": "At the end of your shift, do the same, and tap Clock Out.",
+          "fr": "À la fin de votre quart, faites la même chose, et touchez Pointer le départ."
+        },
+        {
+          "id": "hours",
+          "en": "Your hours go straight to your manager's timesheets.",
+          "fr": "Vos heures vont directement dans les feuilles de temps du gérant."
+        }
+      ]
+    },
+    {
+      "id": "printing-labels",
+      "flow": "flows/printing-labels.mjs",
+      "docs": "pos/hardware/label-printing",
+      "title": {
+        "en": "Printing product labels",
+        "fr": "Imprimer des étiquettes"
+      },
+      "lines": [
+        {
+          "id": "open",
+          "en": "To print a label, tap the i on the product.",
+          "fr": "Pour imprimer une étiquette, touchez le i sur le produit."
+        },
+        {
+          "id": "print",
+          "en": "Tap Print Label.",
+          "fr": "Touchez Imprimer l'étiquette."
+        },
+        {
+          "id": "qty",
+          "en": "Enter how many, and tap Print. The labels come out of this register's label printer.",
+          "fr": "Entrez la quantité, et touchez Imprimer. Les étiquettes sortent de l'imprimante d'étiquettes de cette caisse."
+        }
+      ]
     }
   ]
 }
