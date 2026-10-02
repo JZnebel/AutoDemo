@@ -15,6 +15,10 @@
 #   TRAINING_SUBDOMAIN (default "riverstone"), TRAINING_STORE_NAME
 #   TRAINING_OPEN_DRAWER=1 to leave Register 1's drawer open (for clips that start mid-shift)
 #   TRAINING_LOCALE (en/fr) for the back office's language
+#   TRAINING_GIFT_CARDS=1 / TRAINING_STORE_CREDIT=1 to switch on those payment types (the
+#   store-credit one also gives Dana Whitfield $25 of credit to spend)
+#   TRAINING_CLERK_NO_VOID=1 to take Void Sales away from cashiers, so a void asks for a
+#   manager's PIN (the manager-override clip)
 #   TRAINING_SECOND_STORE=1 to also build a second store Morgan owns, with a week of sales in
 #   both (for the owner-portal clips: comparing stores, moving stock between them)
 
@@ -86,6 +90,8 @@ store = Store.create!(
   slga_enabled: false,
   # Past the first-run setup wizard, unless a clip films the wizard itself.
   setup_wizard_completed_at: ENV["TRAINING_SETUP_WIZARD"] == "1" ? nil : Time.current,
+  payment_gift_card_enabled: ENV["TRAINING_GIFT_CARDS"] == "1",
+  payment_store_credit_enabled: ENV["TRAINING_STORE_CREDIT"] == "1",
   feature_flags: Store::INDUSTRY_DEFAULTS["cannabis"].merge(
     "enable_storefront" => false,
     "enable_online_ordering" => false,
@@ -100,6 +106,11 @@ store = Store.create!(
 # Store#after_create normally provisions; make sure the defaults (categories, weight
 # presets, Register 1, loyalty tiers) exist either way.
 StoreProvisioner.new(store).provision! unless ActsAsTenant.with_tenant(store) { Register.exists? }
+if ENV["TRAINING_CLERK_NO_VOID"] == "1"
+  perms = (store.role_permissions || {}).deep_dup
+  perms["clerk"] = (perms["clerk"] || {}).merge("void_sales" => false)
+  store.save_role_permissions!(perms)
+end
 
 ActsAsTenant.with_tenant(store) do
   staff = {
@@ -125,6 +136,11 @@ ActsAsTenant.with_tenant(store) do
   end
 
   seed_week_of_sales(users[:manager], busier: 1.4) if ENV["TRAINING_SECOND_STORE"] == "1"
+
+  if ENV["TRAINING_STORE_CREDIT"] == "1"
+    # The register spends Customer#store_credit_balance, which add_store_credit! keeps.
+    Customer.find_by!(name: "Dana Whitfield").add_store_credit!(amount: 25, reason: "Returned item", user: users[:manager])
+  end
 
   if ENV["TRAINING_OPEN_DRAWER"] == "1"
     CashDrawerSession.create!(

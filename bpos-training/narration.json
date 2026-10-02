@@ -993,6 +993,576 @@
      "fr": "Le stock quitte ce magasin et arrive dans l'autre, à son coût. Chaque transfert reste dans la liste."
     }
    ]
+  },
+  {
+   "id": "gift-cards",
+   "flow": "flows/gift-cards.mjs",
+   "docs": "pos/sales/gift-cards",
+   "title": {
+    "en": "Selling and taking gift cards",
+    "fr": "Vendre et accepter des cartes-cadeaux"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To sell a gift card, tap Gift Cards, under the cart.",
+     "fr": "Pour vendre une carte-cadeau, touchez Cartes-cadeaux, sous le panier."
+    },
+    {
+     "id": "amount",
+     "en": "Pick an amount. Here, fifty dollars. You can add the customer's name too.",
+     "fr": "Choisissez un montant. Ici, cinquante dollars. Vous pouvez aussi ajouter le nom du client."
+    },
+    {
+     "id": "pay",
+     "en": "Pick how they're paying for it, and tap Activate Gift Card.",
+     "fr": "Choisissez comment il la paie, et touchez Activer la carte-cadeau."
+    },
+    {
+     "id": "number",
+     "en": "Give the customer this card number. It's what they pay with.",
+     "fr": "Donnez ce numéro de carte au client. C'est avec lui qu'il paie."
+    },
+    {
+     "id": "use",
+     "en": "When they come back to spend it, ring up the items, and tap Gift Card.",
+     "fr": "Quand il revient la dépenser, ajoutez les articles, et touchez Carte-cadeau."
+    },
+    {
+     "id": "lookup",
+     "en": "Scan or type the card number, and tap Look Up. The balance shows.",
+     "fr": "Scannez ou tapez le numéro de carte, et touchez Rechercher. Le solde s'affiche."
+    },
+    {
+     "id": "complete",
+     "en": "If it covers the total, tap Complete Sale. If not, cancel, and use Split Payment.",
+     "fr": "S'il couvre le total, touchez Compléter la vente. Sinon, annulez, et utilisez le paiement partagé."
+    }
+   ]
+  },
+  {
+   "id": "store-credit",
+   "flow": "flows/store-credit.mjs",
+   "docs": "pos/customers/store-credits",
+   "title": {
+    "en": "Paying with store credit",
+    "fr": "Payer avec un crédit en magasin"
+   },
+   "lines": [
+    {
+     "id": "customer",
+     "en": "Store credit belongs to a customer, so put them on the sale first. Search their name, and pick them.",
+     "fr": "Le crédit en magasin appartient à un client, alors ajoutez-le d'abord à la vente. Cherchez son nom, et choisissez-le."
+    },
+    {
+     "id": "items",
+     "en": "Ring up their items, and tap Store Credit.",
+     "fr": "Ajoutez ses articles, et touchez Crédit en magasin."
+    },
+    {
+     "id": "balance",
+     "en": "The window shows how much credit they have.",
+     "fr": "La fenêtre montre combien de crédit il lui reste."
+    },
+    {
+     "id": "complete",
+     "en": "If it covers the whole sale, tap Complete Sale. If it doesn't, tap Apply, and take the rest another way, like cash.",
+     "fr": "S'il couvre toute la vente, touchez Compléter la vente. Sinon, touchez Appliquer, et prenez le reste autrement, comme en argent comptant."
+    }
+   ]
+  },
+  {
+   "id": "sales-history",
+   "flow": "flows/sales-history.mjs",
+   "docs": "pos/orders/sales-history",
+   "title": {
+    "en": "Looking up today's sales",
+    "fr": "Retrouver les ventes du jour"
+   },
+   "lines": [
+    {
+     "id": "where",
+     "en": "With the cart empty, today's sales on this register show on the right, newest first.",
+     "fr": "Quand le panier est vide, les ventes du jour de cette caisse s'affichent à droite, les plus récentes en haut."
+    },
+    {
+     "id": "open",
+     "en": "Tap one to see what was sold, any discounts, the tax, and how they paid.",
+     "fr": "Touchez-en une pour voir ce qui a été vendu, les rabais, les taxes, et le mode de paiement."
+    },
+    {
+     "id": "receipt",
+     "en": "Tap View receipt to see their receipt again.",
+     "fr": "Touchez Voir le reçu pour revoir son reçu."
+    },
+    {
+     "id": "orders",
+     "en": "If your store takes phone or online orders, the ones waiting to be paid are under an Orders tab, beside Recent Sales.",
+     "fr": "Si votre magasin prend des commandes par téléphone ou en ligne, celles qui attendent d'être payées sont sous un onglet Commandes, à côté de Ventes récentes."
+    }
+   ]
+  },
+  {
+   "id": "manager-override",
+   "flow": "flows/manager-override.mjs",
+   "docs": "pos/other/manager-override",
+   "title": {
+    "en": "When the register asks for a manager",
+    "fr": "Quand la caisse demande un gérant"
+   },
+   "lines": [
+    {
+     "id": "try",
+     "en": "Some things need a manager's okay, like voiding a sale. Here, a cashier tries to void one.",
+     "fr": "Certaines choses demandent l'accord d'un gérant, comme annuler une vente. Ici, un caissier essaie d'en annuler une."
+    },
+    {
+     "id": "prompt",
+     "en": "Instead of saying no, the register asks for a manager's PIN.",
+     "fr": "Au lieu de refuser, la caisse demande le NIP d'un gérant."
+    },
+    {
+     "id": "pin",
+     "en": "The manager types their PIN, and taps Authorize.",
+     "fr": "Le gérant tape son NIP, et touche Autoriser."
+    },
+    {
+     "id": "done",
+     "en": "The void goes through, with the manager's name saved on it. Next time, it asks again.",
+     "fr": "L'annulation passe, avec le nom du gérant enregistré. La prochaine fois, elle redemande."
+    }
+   ]
+  },
+  {
+   "id": "categories-and-brands",
+   "flow": "flows/categories-and-brands.mjs",
+   "docs": "admin/products/categories-and-brands",
+   "title": {
+    "en": "Categories and brands",
+    "fr": "Catégories et marques"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Categories are the buttons cashiers tap to narrow the register. To add one, go to Products, and click Categories.",
+     "fr": "Les catégories sont les boutons que les caissiers touchent pour filtrer la caisse. Pour en ajouter une, allez dans Produits, et cliquez sur Catégories."
+    },
+    {
+     "id": "new",
+     "en": "Click New Category, and type its name.",
+     "fr": "Cliquez sur Nouvelle catégorie, et tapez son nom."
+    },
+    {
+     "id": "parent",
+     "en": "To make it a subcategory, pick a parent. Otherwise, leave it as a main category.",
+     "fr": "Pour en faire une sous-catégorie, choisissez une catégorie parente. Sinon, laissez-la comme catégorie principale."
+    },
+    {
+     "id": "create",
+     "en": "Click Create Category.",
+     "fr": "Cliquez sur Créer la catégorie."
+    },
+    {
+     "id": "brands",
+     "en": "Brands work the same way. From Products, open More Actions, and click Manage Brands.",
+     "fr": "Les marques fonctionnent de la même façon. Dans Produits, ouvrez Plus d'actions, et cliquez sur Gérer les marques."
+    },
+    {
+     "id": "brand",
+     "en": "Click Add New Brand, type the name, and click Create Brand.",
+     "fr": "Cliquez sur Ajouter une nouvelle marque, tapez le nom, et cliquez sur Créer la marque."
+    },
+    {
+     "id": "assign",
+     "en": "Then, on each product's Details tab, tick its category, and pick its brand.",
+     "fr": "Ensuite, dans l'onglet Détails de chaque produit, cochez sa catégorie, et choisissez sa marque."
+    }
+   ]
+  },
+  {
+   "id": "bulk-price-change",
+   "flow": "flows/bulk-price-change.mjs",
+   "docs": "admin/products/bulk-operations",
+   "title": {
+    "en": "Changing many prices at once",
+    "fr": "Changer plusieurs prix à la fois"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To change a lot of products at once, go to Products, open More Actions, and click Bulk Operations.",
+     "fr": "Pour changer beaucoup de produits à la fois, allez dans Produits, ouvrez Plus d'actions, et cliquez sur Opérations en lot."
+    },
+    {
+     "id": "pick",
+     "en": "Search for the products, and click Select all shown. Here, every pre-roll.",
+     "fr": "Cherchez les produits, et cliquez sur Tout sélectionner. Ici, tous les pré-roulés."
+    },
+    {
+     "id": "price",
+     "en": "Open Retail prices. Pick Add amount, and type how much. Here, one dollar.",
+     "fr": "Ouvrez Prix de détail. Choisissez Ajouter un montant, et tapez combien. Ici, un dollar."
+    },
+    {
+     "id": "update",
+     "en": "Click Update retail prices. It tells you how many products will change. Click Confirm.",
+     "fr": "Cliquez sur Mettre à jour les prix de détail. Il vous dit combien de produits vont changer. Cliquez sur Confirmer."
+    },
+    {
+     "id": "done",
+     "en": "Done. You can also give many products a category, or adjust their stock, the same way.",
+     "fr": "C'est fait. Vous pouvez aussi donner une catégorie à plusieurs produits, ou ajuster leur stock, de la même façon."
+    }
+   ]
+  },
+  {
+   "id": "variations",
+   "flow": "flows/variations.mjs",
+   "docs": "admin/products/variations",
+   "title": {
+    "en": "Sizes and options (variations)",
+    "fr": "Formats et options (variantes)"
+   },
+   "lines": [
+    {
+     "id": "intro",
+     "en": "When one product comes in a few sizes, give it variations. Open the product first.",
+     "fr": "Quand un produit existe en plusieurs formats, donnez-lui des variantes. Ouvrez d'abord le produit."
+    },
+    {
+     "id": "type",
+     "en": "On the Details tab, change the Product Type to Variable Product.",
+     "fr": "Dans l'onglet Détails, changez le type de produit pour Produit variable."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Product, and open the product again.",
+     "fr": "Cliquez sur Mettre à jour le produit, et rouvrez le produit."
+    },
+    {
+     "id": "tab",
+     "en": "Open the Variations tab, and click Add the first variation.",
+     "fr": "Ouvrez l'onglet Variantes, et cliquez sur Ajouter la première variante."
+    },
+    {
+     "id": "rows",
+     "en": "Type a name and a price for each size. Add Another Variation gives you another row.",
+     "fr": "Tapez un nom et un prix pour chaque format. Ajouter une autre variante vous donne une autre ligne."
+    },
+    {
+     "id": "create",
+     "en": "Click Create Variations. At the register, tapping the product now asks which size.",
+     "fr": "Cliquez sur Créer les variantes. À la caisse, toucher le produit demande maintenant quel format."
+    }
+   ]
+  },
+  {
+   "id": "purchase-orders",
+   "flow": "flows/purchase-orders.mjs",
+   "docs": "admin/inventory/purchase-orders",
+   "title": {
+    "en": "Ordering and receiving stock",
+    "fr": "Commander et recevoir du stock"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To order stock from a supplier, go to Products, open More Actions, and click Purchase Orders.",
+     "fr": "Pour commander du stock à un fournisseur, allez dans Produits, ouvrez Plus d'actions, et cliquez sur Bons de commande."
+    },
+    {
+     "id": "new",
+     "en": "Click New Purchase Order. Picking the supplier is optional.",
+     "fr": "Cliquez sur Nouveau bon de commande. Choisir le fournisseur est facultatif."
+    },
+    {
+     "id": "item",
+     "en": "Add an item, and search for the product.",
+     "fr": "Ajoutez un article, et cherchez le produit."
+    },
+    {
+     "id": "qty",
+     "en": "Type how many you're ordering, and what each one costs.",
+     "fr": "Tapez combien vous en commandez, et ce que chacun coûte."
+    },
+    {
+     "id": "create",
+     "en": "Click Create Purchase Order. Then send it to your supplier yourself.",
+     "fr": "Cliquez sur Créer le bon de commande. Envoyez-le ensuite vous-même à votre fournisseur."
+    },
+    {
+     "id": "receive",
+     "en": "When the delivery comes, open the order, and click Receive Order. Type how many actually arrived.",
+     "fr": "Quand la livraison arrive, ouvrez la commande, et cliquez sur Recevoir la commande. Tapez combien sont vraiment arrivés."
+    },
+    {
+     "id": "complete",
+     "en": "Click Complete Receiving, and confirm. The stock goes up right away.",
+     "fr": "Cliquez sur Terminer la réception, et confirmez. Le stock monte tout de suite."
+    }
+   ]
+  },
+  {
+   "id": "low-stock-alerts",
+   "flow": "flows/low-stock-alerts.mjs",
+   "docs": "admin/inventory/low-stock-alerts",
+   "title": {
+    "en": "Low stock alerts",
+    "fr": "Alertes de stock bas"
+   },
+   "lines": [
+    {
+     "id": "intro",
+     "en": "To know when something's running low, open the product, and go to the Inventory tab.",
+     "fr": "Pour savoir quand un produit s'épuise, ouvrez-le, et allez dans l'onglet Stock."
+    },
+    {
+     "id": "level",
+     "en": "Under Low Stock Alert, type the level that counts as low.",
+     "fr": "Sous Alerte de stock faible, tapez le niveau qui compte comme bas."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Product.",
+     "fr": "Cliquez sur Mettre à jour le produit."
+    },
+    {
+     "id": "report",
+     "en": "To see everything that's low, open Reports, then Inventory. The Low Stock Warning card counts them.",
+     "fr": "Pour voir tout ce qui est bas, ouvrez Rapports, puis Inventaire. La carte Alerte stock bas les compte."
+    },
+    {
+     "id": "list",
+     "en": "Further down, the list shows each one, so you know what to reorder.",
+     "fr": "Plus bas, la liste les montre un par un, pour savoir quoi recommander."
+    }
+   ]
+  },
+  {
+   "id": "inventory-report",
+   "flow": "flows/inventory-report.mjs",
+   "docs": "admin/reports/inventory-report",
+   "title": {
+    "en": "The inventory report",
+    "fr": "Le rapport d'inventaire"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To see what your stock is worth, open Reports, and click Inventory.",
+     "fr": "Pour voir ce que vaut votre stock, ouvrez Rapports, et cliquez sur Inventaire."
+    },
+    {
+     "id": "value",
+     "en": "The Stock tab shows its value at your selling prices, and at cost.",
+     "fr": "L'onglet Stock montre sa valeur à vos prix de vente, et au coût."
+    },
+    {
+     "id": "low",
+     "en": "Below, anything running low is listed.",
+     "fr": "Plus bas, tout ce qui s'épuise est listé."
+    },
+    {
+     "id": "movement",
+     "en": "The Movement tab lists every change to your stock: sales, deliveries, write-offs and counts, and who made them.",
+     "fr": "L'onglet Mouvements liste chaque changement de stock : ventes, livraisons, pertes et comptes, et qui les a faits."
+    },
+    {
+     "id": "turnover",
+     "en": "And Turnover shows what's selling fast, and what's sitting on the shelf.",
+     "fr": "Et Rotation montre ce qui se vend vite, et ce qui dort sur les tablettes."
+    }
+   ]
+  },
+  {
+   "id": "customer-management",
+   "flow": "flows/customer-management.mjs",
+   "docs": "admin/customers/customer-management",
+   "title": {
+    "en": "Looking up and editing customers",
+    "fr": "Trouver et modifier un client"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Your customers are under Customers, in the top menu.",
+     "fr": "Vos clients sont sous Clients, dans le menu du haut."
+    },
+    {
+     "id": "search",
+     "en": "Search by name, email, phone number, or customer code.",
+     "fr": "Cherchez par nom, courriel, numéro de téléphone, ou code client."
+    },
+    {
+     "id": "profile",
+     "en": "Click their name to see their profile: what they've bought, and their loyalty points.",
+     "fr": "Cliquez sur son nom pour voir son profil : ses achats, et ses points de fidélité."
+    },
+    {
+     "id": "edit",
+     "en": "To change their details, click Edit. Here, we add an email address.",
+     "fr": "Pour changer ses coordonnées, cliquez sur Modifier. Ici, on ajoute une adresse courriel."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Customer. Your registers see the change too.",
+     "fr": "Cliquez sur Mettre à jour le client. Vos caisses voient aussi le changement."
+    }
+   ]
+  },
+  {
+   "id": "loyalty-setup",
+   "flow": "flows/loyalty-setup.mjs",
+   "docs": "admin/customers/loyalty-setup",
+   "title": {
+    "en": "Setting up loyalty points",
+    "fr": "Configurer les points de fidélité"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To set up loyalty points, open Settings, and click Edit Settings.",
+     "fr": "Pour configurer les points de fidélité, ouvrez Paramètres, et cliquez sur Modifier les paramètres."
+    },
+    {
+     "id": "enable",
+     "en": "On the General tab, under Loyalty Program Settings, tick Enable Loyalty Program.",
+     "fr": "Dans l'onglet Général, sous les paramètres du programme de fidélité, cochez Activer le programme de fidélité."
+    },
+    {
+     "id": "points",
+     "en": "Set how many points customers earn for each dollar they spend. One is a good start.",
+     "fr": "Choisissez combien de points les clients gagnent par dollar dépensé. Un, c'est un bon début."
+    },
+    {
+     "id": "value",
+     "en": "Then what each point is worth. One cent here means a hundred points are worth a dollar.",
+     "fr": "Puis ce que vaut chaque point. Un cent ici veut dire que cent points valent un dollar."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Settings. Customers now earn points on every sale they're on.",
+     "fr": "Cliquez sur Mettre à jour les paramètres. Les clients gagnent maintenant des points à chaque vente où ils sont inscrits."
+    },
+    {
+     "id": "next",
+     "en": "Next, add rewards, so they have something to spend their points on.",
+     "fr": "Ensuite, ajoutez des récompenses, pour qu'ils aient de quoi dépenser leurs points."
+    }
+   ]
+  },
+  {
+   "id": "tax-configuration",
+   "flow": "flows/tax-configuration.mjs",
+   "docs": "admin/settings/tax-configuration",
+   "title": {
+    "en": "Setting your sales tax",
+    "fr": "Configurer la taxe de vente"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To set your sales tax, open Settings, click Edit Settings, and open the Tax and Compliance tab.",
+     "fr": "Pour configurer votre taxe de vente, ouvrez Paramètres, cliquez sur Modifier les paramètres, et ouvrez l'onglet Taxes et conformité."
+    },
+    {
+     "id": "province",
+     "en": "First, check your province is right.",
+     "fr": "D'abord, vérifiez que votre province est la bonne."
+    },
+    {
+     "id": "mode",
+     "en": "For one combined tax, like H S T, pick Single Tax.",
+     "fr": "Pour une seule taxe combinée, comme la TVH, choisissez Taxe unique."
+    },
+    {
+     "id": "rate",
+     "en": "Type the rate, and the name printed on receipts.",
+     "fr": "Tapez le taux, et le nom imprimé sur les reçus."
+    },
+    {
+     "id": "split",
+     "en": "In provinces with G S T and P S T, pick Split Tax instead, and fill in both.",
+     "fr": "Dans les provinces avec TPS et TVP, choisissez plutôt Taxes séparées, et remplissez les deux."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Settings. Prices stay as you entered them, and tax is added at the register.",
+     "fr": "Cliquez sur Mettre à jour les paramètres. Les prix restent tels quels, et la taxe est ajoutée à la caisse."
+    }
+   ]
+  },
+  {
+   "id": "roles-and-permissions",
+   "flow": "flows/roles-and-permissions.mjs",
+   "docs": "admin/users/roles-and-permissions",
+   "title": {
+    "en": "Choosing what each role can do",
+    "fr": "Choisir ce que chaque rôle peut faire"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To choose what your staff can do, open Settings, click Manage Users, then Role Permissions.",
+     "fr": "Pour choisir ce que votre personnel peut faire, ouvrez Paramètres, cliquez sur Gérer les utilisateurs, puis Permissions des rôles."
+    },
+    {
+     "id": "grid",
+     "en": "Each row is something staff can do. Each column is a role. Admins can always do everything.",
+     "fr": "Chaque ligne est une action. Chaque colonne est un rôle. Les administrateurs peuvent toujours tout faire."
+    },
+    {
+     "id": "tick",
+     "en": "Tick or untick a box. Here, we let cashiers sell gift cards.",
+     "fr": "Cochez ou décochez une case. Ici, on permet aux caissiers de vendre des cartes-cadeaux."
+    },
+    {
+     "id": "save",
+     "en": "Click Save Permissions. Registers pick it up within a few minutes.",
+     "fr": "Cliquez sur Enregistrer les permissions. Les caisses l'appliquent en quelques minutes."
+    },
+    {
+     "id": "custom",
+     "en": "Need a role in between, like a shift lead? Add your own up here, based on a cashier or a manager.",
+     "fr": "Besoin d'un rôle entre les deux, comme un chef d'équipe? Ajoutez le vôtre ici, à partir d'un caissier ou d'un gérant."
+    }
+   ]
+  },
+  {
+   "id": "registers",
+   "flow": "flows/registers.mjs",
+   "docs": "admin/settings/registers",
+   "title": {
+    "en": "Adding a register",
+    "fr": "Ajouter une caisse"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Got a second till? Open Cash Drawers, and click Manage Registers.",
+     "fr": "Vous avez une deuxième caisse? Ouvrez Tiroirs-caisses, et cliquez sur Gérer les caisses."
+    },
+    {
+     "id": "add",
+     "en": "Click Add Register. Give it a name, and a short identifier.",
+     "fr": "Cliquez sur Ajouter une caisse. Donnez-lui un nom, et un court identifiant."
+    },
+    {
+     "id": "float",
+     "en": "You can set the float it usually opens with, and how it usually closes.",
+     "fr": "Vous pouvez choisir le fonds de caisse habituel à l'ouverture, et comment elle ferme d'habitude."
+    },
+    {
+     "id": "create",
+     "en": "Click Create Register.",
+     "fr": "Cliquez sur Créer la caisse."
+    },
+    {
+     "id": "pick",
+     "en": "At the till, staff pick this register after they sign in. Each one keeps its own cash drawer.",
+     "fr": "À la caisse, le personnel choisit cette caisse après s'être connecté. Chacune garde son propre tiroir-caisse."
+    }
+   ]
   }
  ]
 }

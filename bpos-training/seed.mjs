@@ -48,6 +48,9 @@ const env = {
   TRAINING_RECEIPT_PRINTING: process.argv.includes("--receipt-printing") ? "1" : "0",
   TRAINING_SETUP_WIZARD: process.argv.includes("--setup-wizard") ? "1" : "0",
   TRAINING_SECOND_STORE: process.argv.includes("--second-store") ? "1" : "0",
+  TRAINING_GIFT_CARDS: process.argv.includes("--gift-cards") ? "1" : "0",
+  TRAINING_CLERK_NO_VOID: process.argv.includes("--clerk-no-void") ? "1" : "0",
+  TRAINING_STORE_CREDIT: process.argv.includes("--store-credit") ? "1" : "0",
   TRAINING_LOCALE: (process.argv.find((a) => a.startsWith("--lang=")) || "--lang=en").slice(7),
 };
 const out = execFileSync("docker", [
