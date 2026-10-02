@@ -2005,6 +2005,397 @@
      "fr": "Cliquez sur Compléter le retour, et confirmez. Le stock revient, et le remboursement est enregistré. Les remboursements par carte se font sur le terminal."
     }
    ]
+  },
+  {
+   "id": "pos-variations",
+   "flow": "flows/pos-variations.mjs",
+   "docs": "pos/sales/modifiers-and-variations",
+   "title": {
+    "en": "Selling sizes and flavours",
+    "fr": "Vendre des formats et des saveurs"
+   },
+   "lines": [
+    {
+     "id": "tap",
+     "en": "Some products come in flavours or sizes. Tap the product, and the choices open.",
+     "fr": "Certains produits existent en saveurs ou en formats. Touchez le produit, et les choix s'ouvrent."
+    },
+    {
+     "id": "pick",
+     "en": "Tap the one the customer wants. Plus adds another of the same.",
+     "fr": "Touchez celui que le client veut. Plus en ajoute un autre du même."
+    },
+    {
+     "id": "more",
+     "en": "You can pick several at once.",
+     "fr": "Vous pouvez en choisir plusieurs à la fois."
+    },
+    {
+     "id": "add",
+     "en": "Tap Add to Cart at the bottom. Each one gets its own line.",
+     "fr": "Touchez Ajouter au panier, en bas. Chacun a sa propre ligne."
+    }
+   ]
+  },
+  {
+   "id": "register-deals",
+   "flow": "flows/register-deals.mjs",
+   "docs": "pos/sales/sale-campaigns-and-freebies",
+   "title": {
+    "en": "Sales and free items at the register",
+    "fr": "Soldes et articles gratuits à la caisse"
+   },
+   "lines": [
+    {
+     "id": "auto",
+     "en": "When the store runs a sale, the register applies it by itself. You don't need to do anything.",
+     "fr": "Quand le magasin fait un solde, la caisse l'applique d'elle-même. Vous n'avez rien à faire."
+    },
+    {
+     "id": "sale",
+     "en": "Items on sale show the sale price, with the regular price crossed out.",
+     "fr": "Les articles en solde affichent le prix réduit, avec le prix régulier barré."
+    },
+    {
+     "id": "progress",
+     "en": "When there's a free item for spending a certain amount, the cart shows how much more the customer needs. Tell them!",
+     "fr": "Quand un article est offert à partir d'un certain montant, le panier montre combien il manque au client. Dites-le-lui!"
+    },
+    {
+     "id": "free",
+     "en": "Once they reach it, the free item is added on its own line, marked free.",
+     "fr": "Dès qu'il l'atteint, l'article gratuit s'ajoute sur sa propre ligne, marqué gratuit."
+    }
+   ]
+  },
+  {
+   "id": "freebie-campaigns",
+   "flow": "flows/freebie-campaigns.mjs",
+   "docs": "admin/pricing/freebie-campaigns",
+   "title": {
+    "en": "Free item with a purchase",
+    "fr": "Article gratuit à l'achat"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To give something free when customers spend enough, open Sales Campaigns, click Create Campaign, and pick Freebie Threshold.",
+     "fr": "Pour offrir quelque chose quand les clients dépensent assez, ouvrez Campagnes de vente, cliquez sur Créer une campagne, et choisissez Seuil de gratuité."
+    },
+    {
+     "id": "name",
+     "en": "Give it a name, and the amount they need to spend.",
+     "fr": "Donnez-lui un nom, et le montant à dépenser."
+    },
+    {
+     "id": "product",
+     "en": "Pick the free product, and how many they get.",
+     "fr": "Choisissez le produit gratuit, et combien ils en reçoivent."
+    },
+    {
+     "id": "auto",
+     "en": "It starts right away, unless you set dates, and the register adds it by itself.",
+     "fr": "Elle commence tout de suite, sauf si vous fixez des dates, et la caisse l'ajoute d'elle-même."
+    },
+    {
+     "id": "create",
+     "en": "Click Create. Once a cart reaches the amount, the free item shows up on its own line.",
+     "fr": "Cliquez sur Créer. Dès qu'un panier atteint le montant, l'article gratuit apparaît sur sa propre ligne."
+    }
+   ]
+  },
+  {
+   "id": "gift-cards-admin",
+   "flow": "flows/gift-cards-admin.mjs",
+   "docs": "admin/other/gift-cards",
+   "title": {
+    "en": "Managing gift cards",
+    "fr": "Gérer les cartes-cadeaux"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "You can also issue gift cards from the back office. Click Gift Cards, then New Gift Card.",
+     "fr": "Vous pouvez aussi émettre des cartes-cadeaux depuis le bureau. Cliquez sur Cartes-cadeaux, puis Nouvelle carte-cadeau."
+    },
+    {
+     "id": "amount",
+     "en": "Type the amount. You can link it to a customer, too.",
+     "fr": "Tapez le montant. Vous pouvez aussi la lier à un client."
+    },
+    {
+     "id": "paid",
+     "en": "Pick how they paid. For a free promo card, leave it on None.",
+     "fr": "Choisissez comment il a payé. Pour une carte promotionnelle gratuite, laissez Aucun."
+    },
+    {
+     "id": "create",
+     "en": "Click Create Gift Card. The card number starts with G C.",
+     "fr": "Cliquez sur Créer la carte-cadeau. Le numéro de carte commence par GC."
+    },
+    {
+     "id": "check",
+     "en": "To check a card, search the list by card number or customer, and click View for its balance and history.",
+     "fr": "Pour vérifier une carte, cherchez dans la liste par numéro ou par client, et cliquez sur Voir pour son solde et son historique."
+    },
+    {
+     "id": "void",
+     "en": "A lost or stolen card can be voided from its page.",
+     "fr": "Une carte perdue ou volée peut être annulée depuis sa page."
+    }
+   ]
+  },
+  {
+   "id": "pin-setup",
+   "flow": "flows/pin-setup.mjs",
+   "docs": "admin/users/pin-setup",
+   "title": {
+    "en": "Setting a staff PIN",
+    "fr": "Choisir le NIP d'un employé"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Everyone signs in to the register with a four-digit PIN. To set or reset one, open Settings, and click Manage Users.",
+     "fr": "Tout le monde se connecte à la caisse avec un NIP à quatre chiffres. Pour en choisir ou en changer un, ouvrez Paramètres, et cliquez sur Gérer les utilisateurs."
+    },
+    {
+     "id": "edit",
+     "en": "Click Edit beside the person.",
+     "fr": "Cliquez sur Modifier à côté de la personne."
+    },
+    {
+     "id": "pin",
+     "en": "Type four digits in the PIN box. No one else at your store can have the same one.",
+     "fr": "Tapez quatre chiffres dans la case NIP. Personne d'autre dans votre magasin ne peut avoir le même."
+    },
+    {
+     "id": "save",
+     "en": "Click Save changes. The new PIN works right away. Tell them privately.",
+     "fr": "Cliquez sur Enregistrer les modifications. Le nouveau NIP fonctionne tout de suite. Dites-le-lui en privé."
+    },
+    {
+     "id": "approve",
+     "en": "Managers need a PIN too: it's how they approve voids and discounts at the register.",
+     "fr": "Les gérants ont aussi besoin d'un NIP : c'est avec lui qu'ils approuvent les annulations et les rabais à la caisse."
+    }
+   ]
+  },
+  {
+   "id": "category-performance",
+   "flow": "flows/category-performance.mjs",
+   "docs": "admin/reports/category-performance",
+   "title": {
+    "en": "Sales by category",
+    "fr": "Ventes par catégorie"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To see which categories sell best, open Reports, then Sales Report, and pick your dates.",
+     "fr": "Pour voir quelles catégories se vendent le mieux, ouvrez Rapports, puis Rapport des ventes, et choisissez vos dates."
+    },
+    {
+     "id": "scroll",
+     "en": "Scroll down to Category Performance. The chart shows each category's share of your sales.",
+     "fr": "Descendez jusqu'à Performance par catégorie. Le graphique montre la part de chaque catégorie dans vos ventes."
+    },
+    {
+     "id": "table",
+     "en": "The table gives the sales before tax, the items sold, and each category's percentage.",
+     "fr": "Le tableau donne les ventes avant taxes, les articles vendus, et le pourcentage de chaque catégorie."
+    },
+    {
+     "id": "sort",
+     "en": "Click a column heading to sort by it.",
+     "fr": "Cliquez sur l'en-tête d'une colonne pour trier."
+    }
+   ]
+  },
+  {
+   "id": "offline-mode",
+   "flow": "flows/offline-mode.mjs",
+   "docs": "pos/other/offline-mode",
+   "title": {
+    "en": "When the internet goes down",
+    "fr": "Quand Internet tombe"
+   },
+   "lines": [
+    {
+     "id": "offline",
+     "en": "If the internet drops, the top bar says Offline. Keep selling: you don't need to change anything.",
+     "fr": "Si Internet tombe, la barre du haut indique Hors ligne. Continuez à vendre : vous n'avez rien à changer."
+    },
+    {
+     "id": "sell",
+     "en": "Ring up sales as usual, and take cash.",
+     "fr": "Faites les ventes comme d'habitude, et prenez l'argent comptant."
+    },
+    {
+     "id": "count",
+     "en": "Each sale waits on the register. The number up here is how many are waiting to be sent.",
+     "fr": "Chaque vente attend sur la caisse. Le nombre en haut indique combien attendent d'être envoyées."
+    },
+    {
+     "id": "back",
+     "en": "When the internet's back, they're sent by themselves. To hurry it up, tap here, and tap Sync Now.",
+     "fr": "Quand Internet revient, elles partent d'elles-mêmes. Pour accélérer, touchez ici, puis Synchroniser."
+    },
+    {
+     "id": "check",
+     "en": "Before you close the drawer, check that no sale here still says Queued. And never clear the browser's data on a register.",
+     "fr": "Avant de fermer le tiroir, vérifiez qu'aucune vente ici n'indique encore En file. Et ne videz jamais les données du navigateur d'une caisse."
+    }
+   ]
+  },
+  {
+   "id": "time-tracking-admin",
+   "flow": "flows/time-tracking-admin.mjs",
+   "docs": "admin/other/time-tracking-admin",
+   "title": {
+    "en": "Checking and fixing timesheets",
+    "fr": "Vérifier et corriger les feuilles de temps"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Staff clock in and out at the register. To see every shift, click Time Tracking.",
+     "fr": "Le personnel pointe à la caisse. Pour voir chaque quart, cliquez sur Suivi du temps."
+    },
+    {
+     "id": "forgot",
+     "en": "Someone forgot to clock out? Find the entry, and click View, then Edit.",
+     "fr": "Quelqu'un a oublié de pointer à la sortie? Trouvez l'entrée, et cliquez sur Voir, puis Modifier."
+    },
+    {
+     "id": "fix",
+     "en": "Set the time they actually left.",
+     "fr": "Indiquez l'heure à laquelle la personne est vraiment partie."
+    },
+    {
+     "id": "save",
+     "en": "Click Save changes. The hours are worked out again.",
+     "fr": "Cliquez sur Enregistrer les modifications. Les heures sont recalculées."
+    },
+    {
+     "id": "payroll",
+     "en": "For pay, click Payroll: hours per person, ready for your payroll.",
+     "fr": "Pour la paie, cliquez sur Paie : les heures par personne, prêtes pour votre paie."
+    }
+   ]
+  },
+  {
+   "id": "customer-display",
+   "flow": "flows/customer-display.mjs",
+   "docs": "admin/other/customer-display",
+   "title": {
+    "en": "A screen for your customers",
+    "fr": "Un écran pour vos clients"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "A second screen can show customers what they're buying. Open Settings, click Edit Settings, and open Sales and Integrations.",
+     "fr": "Un deuxième écran peut montrer aux clients ce qu'ils achètent. Ouvrez Paramètres, cliquez sur Modifier les paramètres, et ouvrez Ventes et intégrations."
+    },
+    {
+     "id": "enable",
+     "en": "Under Customer-Facing Display, tick Enable Customer Display, and click Update Settings.",
+     "fr": "Sous Affichage client, cochez Activer l'affichage client, et cliquez sur Mettre à jour les paramètres."
+    },
+    {
+     "id": "link",
+     "en": "Each register gets its own link. Copy the one for the till the screen sits beside.",
+     "fr": "Chaque caisse a son propre lien. Copiez celui de la caisse à côté de l'écran."
+    },
+    {
+     "id": "screen",
+     "en": "Open it in a browser on the second screen. No sign-in needed.",
+     "fr": "Ouvrez-le dans un navigateur sur le deuxième écran. Pas besoin de se connecter."
+    },
+    {
+     "id": "sale",
+     "en": "Now, as the cashier rings up items, they show up here straight away.",
+     "fr": "Maintenant, dès que le caissier ajoute des articles, ils apparaissent ici."
+    },
+    {
+     "id": "idle",
+     "en": "Between sales, it can show your deals, featured products, or your own pictures.",
+     "fr": "Entre les ventes, il peut montrer vos promotions, des produits vedettes, ou vos propres images."
+    }
+   ]
+  },
+  {
+   "id": "product-images",
+   "flow": "flows/product-images.mjs",
+   "docs": "admin/products/images",
+   "title": {
+    "en": "Adding product photos",
+    "fr": "Ajouter des photos de produits"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To add a photo, open the product. On the Details tab, open Product Images.",
+     "fr": "Pour ajouter une photo, ouvrez le produit. Dans l'onglet Détails, ouvrez Images du produit."
+    },
+    {
+     "id": "upload",
+     "en": "Under Upload Image File, choose a photo from your computer.",
+     "fr": "Sous Téléverser un fichier image, choisissez une photo sur votre ordinateur."
+    },
+    {
+     "id": "phone",
+     "en": "Or scan the QR code, and take the picture with your phone.",
+     "fr": "Ou scannez le code QR, et prenez la photo avec votre téléphone."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Product. The photo shows on the register, and on your online menu.",
+     "fr": "Cliquez sur Mettre à jour le produit. La photo s'affiche sur la caisse, et sur votre menu en ligne."
+    }
+   ]
+  },
+  {
+   "id": "bundles",
+   "flow": "flows/bundles.mjs",
+   "docs": "admin/products/bundles-and-combos",
+   "title": {
+    "en": "Bundles and combos",
+    "fr": "Ensembles et combos"
+   },
+   "lines": [
+    {
+     "id": "start",
+     "en": "A bundle sells several products together for one price. Click Add New Product, and pick its category.",
+     "fr": "Un ensemble vend plusieurs produits pour un seul prix. Cliquez sur Ajouter un nouveau produit, et choisissez sa catégorie."
+    },
+    {
+     "id": "bundle",
+     "en": "Click Next, and choose Bundle.",
+     "fr": "Cliquez sur Suivant, et choisissez Ensemble."
+    },
+    {
+     "id": "price",
+     "en": "Give it a name, and the price for the whole bundle.",
+     "fr": "Donnez-lui un nom, et le prix de l'ensemble complet."
+    },
+    {
+     "id": "items",
+     "en": "Add the products inside it, and how many of each go into one bundle.",
+     "fr": "Ajoutez les produits qu'il contient, et combien de chacun dans un ensemble."
+    },
+    {
+     "id": "create",
+     "en": "Click Create Product. It's on the register right away.",
+     "fr": "Cliquez sur Créer le produit. Il est tout de suite sur la caisse."
+    },
+    {
+     "id": "stock",
+     "en": "A bundle has no stock of its own: selling one takes its parts off the shelf.",
+     "fr": "Un ensemble n'a pas de stock à lui : en vendre un retire ses produits des tablettes."
+    }
+   ]
   }
  ]
 }

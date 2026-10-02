@@ -86,3 +86,17 @@ export async function labelFor(page, texts, tag) {
   if (!ok) throw new Error(`no label starting ${JSON.stringify(texts)}`);
   return `[data-rec="${tag}"]`;
 }
+
+/** Click a top-menu link, on camera. When the menu doesn't fit (French labels are longer)
+ *  it collapses behind the ☰ button, so open that first and use its copy of the link. */
+export async function navClick(ctx, href) {
+  const { page } = ctx;
+  const desktop = `nav a[href="${href}"]`;
+  const shown = await page.$$eval(desktop, (els) => els.some((e) => e.getBoundingClientRect().width > 0));
+  if (shown) {
+    await ctx.click(desktop, { settle: 500 });
+  } else {
+    await ctx.click('button.mobile-menu-btn[aria-controls="mobile-menu"]', { settle: 700 });
+    await ctx.click(`#mobile-menu a[href="${href}"]`, { settle: 500 });
+  }
+}

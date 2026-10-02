@@ -17,6 +17,10 @@
 #   TRAINING_LOCALE (en/fr) for the back office's language
 #   TRAINING_GIFT_CARDS=1 / TRAINING_STORE_CREDIT=1 to switch on those payment types (the
 #   store-credit one also gives Dana Whitfield $25 of credit to spend)
+#   TRAINING_BUNDLES=1 to switch on product bundles (the bundles clip)
+#   TRAINING_PRODUCT_IMAGES=1 to switch on product photos (the product images clip)
+#   TRAINING_TIMESHEETS=1 for a few days of clock-ins, one left open (time tracking admin clip)
+#   TRAINING_DEALS=1 for a 20%-off Edibles sale and a free pre-roll over $50 (register deals clip)
 #   TRAINING_SECOND_REGISTER=1 to add Register 2 (the drawer-takeover clip)
 #   TRAINING_EMAIL_RECEIPTS=1 to let the register email receipts (the receipts clip)
 #   TRAINING_CLERK_NO_VOID=1 to take Void Sales away from cashiers, so a void asks for a
@@ -103,6 +107,8 @@ store = Store.create!(
     "enable_time_tracking" => true,
     "enable_label_printing" => true,
     "enable_email_receipts" => ENV["TRAINING_EMAIL_RECEIPTS"] == "1",
+    "enable_product_images" => ENV["TRAINING_PRODUCT_IMAGES"] == "1",
+    "enable_bundles" => ENV["TRAINING_BUNDLES"] == "1",
     "enable_receipt_printing" => ENV["TRAINING_RECEIPT_PRINTING"] == "1",
   ),
 )
@@ -139,6 +145,30 @@ ActsAsTenant.with_tenant(store) do
   end
 
   seed_week_of_sales(users[:manager], busier: 1.4) if ENV["TRAINING_SECOND_STORE"] == "1"
+
+  if ENV["TRAINING_TIMESHEETS"] == "1"
+    # Three days of 9-to-5 for Riley and Sam, and Riley's clock-in from yesterday left open
+    # (forgot to clock out) for the clip to fix.
+    Time.use_zone(store.timezone.presence || "America/Toronto") do
+      (2..4).each do |ago|
+        day = Time.zone.today - ago
+        [users[:clerk], users[:manager]].each do |u|
+          TimeEntry.create!(user: u, clock_in_at: day.in_time_zone.change(hour: 9), clock_out_at: day.in_time_zone.change(hour: 17), status: "completed")
+        end
+      end
+      TimeEntry.create!(user: users[:manager], clock_in_at: (Time.zone.today - 1).in_time_zone.change(hour: 9), clock_out_at: (Time.zone.today - 1).in_time_zone.change(hour: 17), status: "completed")
+      TimeEntry.create!(user: users[:clerk], clock_in_at: (Time.zone.today - 1).in_time_zone.change(hour: 9), status: "active")
+    end
+  end
+
+  if ENV["TRAINING_DEALS"] == "1"
+    SaleCampaign.create!(name: "Edibles Weekend", campaign_type: "discount", discount_type: "percentage",
+                         discount_value: 20, apply_to: "categories", category_ids: [Category.find_by!(name: "Edibles").id],
+                         application_type: "automatic", active: true, starts_at: 1.hour.ago, ends_at: 7.days.from_now)
+    SaleCampaign.create!(name: "Free Pre-Roll over $50", campaign_type: "freebie_threshold", min_spend_threshold: 50,
+                         freebie_product_id: Product.find_by!(name: "House Pre-Roll 1g").id, freebie_quantity: 1,
+                         application_type: "automatic", active: true, starts_at: 1.hour.ago, ends_at: 7.days.from_now)
+  end
 
   if ENV["TRAINING_STORE_CREDIT"] == "1"
     # The register spends Customer#store_credit_balance, which add_store_credit! keeps.

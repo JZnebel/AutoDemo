@@ -41,7 +41,8 @@ try {
   await flow.setup(ctx, { lang });
   log(`=== ${clipId} [${lang}] : ${dry ? "run (dry)" : "record"} ===`);
   // Watch the register's sync badge. "Offline" on camera would teach the wrong thing, so a
-  // take where it shows is thrown away rather than published.
+  // take where it shows is thrown away rather than published -- unless the clip is about
+  // going offline (meta.offlineOnPurpose).
   let offlineAt = null;
   const watch = setInterval(async () => {
     const txt = await page.evaluate(() => document.querySelector('[data-tour="sync-status"]')?.innerText?.trim() || "").catch(() => "");
@@ -55,7 +56,7 @@ try {
   else wall = await record(page, raw, () => flow.run(ctx), ctx);
 
   clearInterval(watch);
-  if (offlineAt !== null) throw new Error(`the register showed Offline at ${offlineAt.toFixed(1)}s — take discarded, re-run it`);
+  if (offlineAt !== null && !flow.meta.offlineOnPurpose) throw new Error(`the register showed Offline at ${offlineAt.toFixed(1)}s — take discarded, re-run it`);
   const missing = clip.lines.map((l) => l.id).filter((id) => !(id in ctx.marks));
   if (missing.length) throw new Error(`flow never reached line(s): ${missing.join(", ")}`);
   if (!dry) {
