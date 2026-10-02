@@ -2396,6 +2396,47 @@
      "fr": "Un ensemble n'a pas de stock à lui : en vendre un retire ses produits des tablettes."
     }
    ]
+  },
+  {
+   "id": "voids-discounts-report",
+   "flow": "flows/voids-discounts-report.mjs",
+   "docs": "admin/reports/voids-and-discounts",
+   "title": {
+    "en": "Checking voids and discounts",
+    "fr": "Vérifier les annulations et les rabais"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Cashiers can void sales and give discounts without calling you over. Here's how to keep an eye on it.",
+     "fr": "Les caissiers peuvent annuler des ventes et donner des rabais sans vous appeler. Voici comment garder un œil là-dessus."
+    },
+    {
+     "id": "open",
+     "en": "Open Reports, and click Voids and Discounts. The top shows how many there were, and what they added up to.",
+     "fr": "Ouvrez Rapports, et cliquez sur Annulations et rabais. Le haut montre combien il y en a eu, et ce qu'ils représentent."
+    },
+    {
+     "id": "staff",
+     "en": "By staff member gives each person's totals. On own permission counts the ones nobody else approved.",
+     "fr": "Par employé donne les totaux de chaque personne. Sans approbation compte ceux que personne d'autre n'a approuvés."
+    },
+    {
+     "id": "list",
+     "en": "Below, every void and every discount: when, the receipt, the amount, who did it, and why.",
+     "fr": "Plus bas, chaque annulation et chaque rabais : quand, le reçu, le montant, qui l'a fait, et pourquoi."
+    },
+    {
+     "id": "approved",
+     "en": "When a manager approved one with their PIN, their name shows here.",
+     "fr": "Quand un gérant en a approuvé un avec son NIP, son nom s'affiche ici."
+    },
+    {
+     "id": "owner",
+     "en": "Own more than one store? The same report is a tab in the owner portal, across all your stores.",
+     "fr": "Vous avez plusieurs magasins? Le même rapport est un onglet du portail propriétaire, pour tous vos magasins."
+    }
+   ]
   }
  ]
 }

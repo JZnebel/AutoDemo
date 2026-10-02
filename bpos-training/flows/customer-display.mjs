@@ -69,4 +69,5 @@ export async function run(ctx) {
   await ctx.line("idle");
   await ctx.pause(2000);
   await ctx.finishSpeaking();
+  await till.close().catch(() => {});
 }

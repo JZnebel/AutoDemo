@@ -25,6 +25,11 @@ const durations = JSON.parse(readFileSync(join(here, "audio", clipId, lang, "dur
 const flow = await import(join(here, clip.flow));
 
 const { browser, page } = await connect(flow.meta.viewport ?? {});
+// Close any tab a previous take left open (customer-display opens an unfilmed till) and put
+// the filmed tab in front: Chrome sends no screencast frames for a background tab, and the
+// recording waited for them forever.
+for (const p of await browser.pages()) if (p !== page) await p.close().catch(() => {});
+await page.bringToFront();
 const ctx = makeCtx(page, { durations });
 page.on("pageerror", (e) => log("PAGE EXC: " + String(e).slice(0, 160)));
 // A failed request is how the register decides it's offline, which then shows on camera.
