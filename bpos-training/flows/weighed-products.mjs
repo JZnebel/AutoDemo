@@ -38,7 +38,9 @@ export async function run(ctx) {
   await ctx.line("tiers");
   await ctx.pause(2500);
   await ctx.click((await productCard(page, "Pink Kush (AAAA+)")).sel, { settle: 1500 });
-  await ctx.click(await byText(page, ["7g (Quarter) 7g $60.00", "7g (Quarter) 7g 60,00 $"], "button.weight-preset-btn", "w7"), { settle: 1200 });
+  // By weight, not label text: the price on the button is formatted per language.
+  await page.waitForSelector('[data-tour="weight-preset"][data-weight="7"]', { timeout: 8000 });
+  await ctx.click('[data-tour="weight-preset"][data-weight="7"]', { settle: 1200 });
 
   await ctx.line("custom");
   await ctx.pause(300);

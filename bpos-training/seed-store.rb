@@ -15,6 +15,8 @@
 #   TRAINING_SUBDOMAIN (default "riverstone"), TRAINING_STORE_NAME
 #   TRAINING_OPEN_DRAWER=1 to leave Register 1's drawer open (for clips that start mid-shift)
 #   TRAINING_LOCALE (en/fr) for the back office's language
+#   TRAINING_SECOND_STORE=1 to also build a second store Morgan owns, with a week of sales in
+#   both (for the owner-portal clips: comparing stores, moving stock between them)
 
 subdomain  = ENV.fetch("TRAINING_SUBDOMAIN", "riverstone")
 store_name = ENV.fetch("TRAINING_STORE_NAME", "Riverstone Cannabis")
@@ -25,10 +27,44 @@ pins       = {
   clerk:   ENV.fetch("TRAINING_CLERK_PIN"),
 }
 
-if (old = Store.find_by(subdomain: subdomain))
+second_subdomain = "#{subdomain}-west"
+[subdomain, second_subdomain].each do |sub|
+  next unless (old = Store.find_by(subdomain: sub))
   old.update_columns(active: false)
   StorePurger.new(old).purge!
-  puts "removed the old #{subdomain}"
+  puts "removed the old #{sub}"
+end
+
+# A week of everyday sales, so the owner dashboard has something to compare. Plain unit
+# items only, a few a day, more on the weekend; `busier` scales one store up.
+def seed_week_of_sales(user, busier: 1.0)
+  products = Product.where(deleted_at: nil, unit_type: "unit", is_bundle: [false, nil], product_type: %w[simple variation])
+                    .where("price > 0").to_a
+  return if products.empty?
+  # The starter catalog is small: lend each item stock for the week's sales, then put the
+  # count back so the other clips show the usual numbers.
+  original = products.to_h { |p| [p.id, p.current_stock] }
+  products.each { |p| p.update_columns(current_stock: p.current_stock.to_f + 500) }
+  session = CashDrawerSession.create!(register: Register.first, opened_by_id: user.id, opened_at: 8.days.ago,
+                                      opening_float: 200, expected_opening_float: 200, status: "closed",
+                                      closed_at: 1.day.ago, closed_by_id: user.id)
+  rng = Random.new(42)
+  (1..7).each do |days_ago|
+    day = days_ago.days.ago.beginning_of_day + 11.hours
+    count = ((day.saturday? || day.sunday? ? 9 : 6) * busier).round
+    count.times do |i|
+      picks = products.sample(1 + rng.rand(3), random: rng)
+      cash = rng.rand < 0.6
+      owed = picks.sum { |p| p.price.to_f }
+      sale = Sale.create!(payment_method: cash ? "cash" : "debit", status: "completed", source: "pos",
+                          user: user, cash_drawer_session: session,
+                          amount_tendered: cash ? (owed / 20.0).ceil * 20 : owed,
+                          sale_line_items_attributes: picks.map { |p| { product: p, quantity: 1, unit_price: p.price, line_total: p.price } })
+      at = day + (i * 47).minutes
+      sale.update_columns(created_at: at, completed_at: at, updated_at: at)
+    end
+  end
+  products.each { |p| p.reload.update_columns(current_stock: original[p.id]) }
 end
 
 store = Store.create!(
@@ -88,6 +124,8 @@ ActsAsTenant.with_tenant(store) do
     Customer.create!(name: name, phone: phone, loyalty_points: [120, 45, 300, 0, 80][i])
   end
 
+  seed_week_of_sales(users[:manager], busier: 1.4) if ENV["TRAINING_SECOND_STORE"] == "1"
+
   if ENV["TRAINING_OPEN_DRAWER"] == "1"
     CashDrawerSession.create!(
       register: Register.find_by!(identifier: "REG-001"),
@@ -102,4 +140,24 @@ ActsAsTenant.with_tenant(store) do
   puts "#{store_name} (#{subdomain}, store #{store.id}): " \
        "#{Product.where(deleted_at: nil).count} products, #{Customer.count} customers, " \
        "#{User.count} staff, tax #{store.tax_rate}%, drawer #{CashDrawerSession.where(status: 'open').exists? ? 'open' : 'closed'}"
+end
+
+if ENV["TRAINING_SECOND_STORE"] == "1"
+  owner = ActsAsTenant.with_tenant(store) { User.find_by!(email: "owner@#{subdomain}.training") }
+  west = Store.create!(
+    store.attributes.slice("store_type", "tax_rate", "tax_name", "currency_symbol", "timezone", "locale", "province",
+                           "is_retailer", "is_distributor", "active", "enable_age_verification", "enforce_purchase_limit",
+                           "slga_enabled", "setup_wizard_completed_at", "feature_flags", "pos_plan")
+      .merge("store_name" => "#{store_name} Westside", "subdomain" => second_subdomain),
+  )
+  StoreProvisioner.new(west).provision! unless ActsAsTenant.with_tenant(west) { Register.exists? }
+  ActsAsTenant.with_tenant(west) do
+    load Rails.root.join("db/demo_starter_seed.rb")
+    clerk = User.create!(first_name: "Jordan", last_name: "Quill", role: "manager", email: "manager@#{second_subdomain}.training",
+                         store: west, password: password, password_confirmation: password, pin: (pins[:manager].to_i + 1111).to_s[-4..])
+    seed_week_of_sales(clerk)
+  end
+  # Morgan owns both, which is what opens the owner portal.
+  [store, west].each { |st| StoreOwnership.find_or_create_by!(user: owner, store: st) { |o| o.role = "owner" } }
+  puts "#{west.store_name} (#{second_subdomain}, store #{west.id}); #{owner.email} owns both"
 end

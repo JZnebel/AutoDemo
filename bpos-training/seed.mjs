@@ -47,6 +47,7 @@ const env = {
   TRAINING_OPEN_DRAWER: process.argv.includes("--open-drawer") ? "1" : "0",
   TRAINING_RECEIPT_PRINTING: process.argv.includes("--receipt-printing") ? "1" : "0",
   TRAINING_SETUP_WIZARD: process.argv.includes("--setup-wizard") ? "1" : "0",
+  TRAINING_SECOND_STORE: process.argv.includes("--second-store") ? "1" : "0",
   TRAINING_LOCALE: (process.argv.find((a) => a.startsWith("--lang=")) || "--lang=en").slice(7),
 };
 const out = execFileSync("docker", [
