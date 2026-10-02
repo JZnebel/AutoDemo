@@ -17,6 +17,8 @@
 #   TRAINING_LOCALE (en/fr) for the back office's language
 #   TRAINING_GIFT_CARDS=1 / TRAINING_STORE_CREDIT=1 to switch on those payment types (the
 #   store-credit one also gives Dana Whitfield $25 of credit to spend)
+#   TRAINING_SECOND_REGISTER=1 to add Register 2 (the drawer-takeover clip)
+#   TRAINING_EMAIL_RECEIPTS=1 to let the register email receipts (the receipts clip)
 #   TRAINING_CLERK_NO_VOID=1 to take Void Sales away from cashiers, so a void asks for a
 #   manager's PIN (the manager-override clip)
 #   TRAINING_SECOND_STORE=1 to also build a second store Morgan owns, with a week of sales in
@@ -100,6 +102,7 @@ store = Store.create!(
     # Used by the time-clock and label clips; harmless for the rest.
     "enable_time_tracking" => true,
     "enable_label_printing" => true,
+    "enable_email_receipts" => ENV["TRAINING_EMAIL_RECEIPTS"] == "1",
     "enable_receipt_printing" => ENV["TRAINING_RECEIPT_PRINTING"] == "1",
   ),
 )
@@ -141,6 +144,9 @@ ActsAsTenant.with_tenant(store) do
     # The register spends Customer#store_credit_balance, which add_store_credit! keeps.
     Customer.find_by!(name: "Dana Whitfield").add_store_credit!(amount: 25, reason: "Returned item", user: users[:manager])
   end
+
+  # A second till, so the register asks which one to use (the takeover clip films that screen).
+  Register.create!(name: "Register 2", identifier: "REG-002") if ENV["TRAINING_SECOND_REGISTER"] == "1"
 
   if ENV["TRAINING_OPEN_DRAWER"] == "1"
     CashDrawerSession.create!(

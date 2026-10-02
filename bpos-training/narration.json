@@ -1563,6 +1563,448 @@
      "fr": "À la caisse, le personnel choisit cette caisse après s'être connecté. Chacune garde son propre tiroir-caisse."
     }
    ]
+  },
+  {
+   "id": "cart-management",
+   "flow": "flows/cart-management.mjs",
+   "docs": "pos/sales/cart-management",
+   "title": {
+    "en": "Changing what's in the cart",
+    "fr": "Modifier le panier"
+   },
+   "lines": [
+    {
+     "id": "add",
+     "en": "Tap a product to add it. Tap it again for another one.",
+     "fr": "Touchez un produit pour l'ajouter. Touchez-le encore pour en ajouter un autre."
+    },
+    {
+     "id": "plus",
+     "en": "Plus and minus change the amount. Minus stops at one.",
+     "fr": "Plus et moins changent la quantité. Moins s'arrête à un."
+    },
+    {
+     "id": "type",
+     "en": "For a bigger number, tap the amount, and type it.",
+     "fr": "Pour un plus grand nombre, touchez la quantité, et tapez-la."
+    },
+    {
+     "id": "remove",
+     "en": "To take an item out, tap the X on its line.",
+     "fr": "Pour retirer un article, touchez le X sur sa ligne."
+    },
+    {
+     "id": "manual",
+     "en": "Something not in your catalogue? Tap Manual Item, type a name and a price, and tap Add to Cart.",
+     "fr": "Un article qui n'est pas dans votre catalogue? Touchez Article manuel, tapez un nom et un prix, et touchez Ajouter au panier."
+    },
+    {
+     "id": "clear",
+     "en": "Careful: the trash can up here empties the whole cart at once.",
+     "fr": "Attention : la poubelle, en haut, vide tout le panier d'un coup."
+    }
+   ]
+  },
+  {
+   "id": "product-search",
+   "flow": "flows/product-search.mjs",
+   "docs": "pos/sales/product-search-and-scanning",
+   "title": {
+    "en": "Finding products",
+    "fr": "Trouver des produits"
+   },
+   "lines": [
+    {
+     "id": "scan",
+     "en": "The quickest way is to scan the barcode. You don't need to tap anywhere first.",
+     "fr": "Le plus rapide, c'est de scanner le code-barres. Pas besoin de toucher l'écran avant."
+    },
+    {
+     "id": "search",
+     "en": "Or type part of the name in the search bar. The list narrows as you type.",
+     "fr": "Ou tapez une partie du nom dans la barre de recherche. La liste se réduit pendant que vous tapez."
+    },
+    {
+     "id": "pick",
+     "en": "Tap the product. If it comes in weights or sizes, pick one.",
+     "fr": "Touchez le produit. S'il existe en poids ou en formats, choisissez-en un."
+    },
+    {
+     "id": "category",
+     "en": "You can also browse by category. Tap one to see only those products.",
+     "fr": "Vous pouvez aussi parcourir par catégorie. Touchez-en une pour ne voir que ces produits."
+    },
+    {
+     "id": "clear",
+     "en": "Tap Clear to go back to everything.",
+     "fr": "Touchez Effacer pour revenir à tout."
+    }
+   ]
+  },
+  {
+   "id": "receipts",
+   "flow": "flows/receipts.mjs",
+   "docs": "pos/sales/receipts",
+   "title": {
+    "en": "Showing and emailing receipts",
+    "fr": "Afficher et envoyer les reçus"
+   },
+   "lines": [
+    {
+     "id": "sale",
+     "en": "When a sale is done, the register asks what's next.",
+     "fr": "Une fois la vente terminée, la caisse vous demande la suite."
+    },
+    {
+     "id": "view",
+     "en": "Tap View receipt to see it on screen.",
+     "fr": "Touchez Voir le reçu pour l'afficher à l'écran."
+    },
+    {
+     "id": "email",
+     "en": "To email it, tap Email. Type their address, and tap Send. A customer on the sale with an email gets it straight away.",
+     "fr": "Pour l'envoyer par courriel, touchez Courriel. Tapez l'adresse, et touchez Envoyer. Un client inscrit avec un courriel le reçoit tout de suite."
+    },
+    {
+     "id": "print",
+     "en": "Print uses this device's own print window. Stores with a receipt printer get it printed by itself.",
+     "fr": "Imprimer utilise la fenêtre d'impression de l'appareil. Avec une imprimante à reçus, il s'imprime tout seul."
+    },
+    {
+     "id": "later",
+     "en": "Need it again later? Today's sales are on the right, whenever the cart is empty.",
+     "fr": "Besoin de le revoir plus tard? Les ventes du jour sont à droite, quand le panier est vide."
+    }
+   ]
+  },
+  {
+   "id": "pos-quick-add",
+   "flow": "flows/pos-quick-add.mjs",
+   "docs": "pos/other/quick-add",
+   "title": {
+    "en": "Adding a product from the register",
+    "fr": "Ajouter un produit depuis la caisse"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "A new product just came in? Managers can add it right at the register. Tap Settings, then Quick Add Product.",
+     "fr": "Un nouveau produit vient d'arriver? Les gérants peuvent l'ajouter directement à la caisse. Touchez Paramètres, puis Ajout rapide de produit."
+    },
+    {
+     "id": "type",
+     "en": "Pick the kind of product. Flower sold by weight is Weight.",
+     "fr": "Choisissez le type de produit. Le cannabis vendu au poids, c'est Poids."
+    },
+    {
+     "id": "name",
+     "en": "Type the name.",
+     "fr": "Tapez le nom."
+    },
+    {
+     "id": "tier",
+     "en": "Pick its quality tier, which sets the price for every weight. Add the stock you have, and tick its category.",
+     "fr": "Choisissez son niveau de qualité, qui fixe le prix pour chaque poids. Ajoutez le stock que vous avez, et cochez sa catégorie."
+    },
+    {
+     "id": "create",
+     "en": "Tap Create Product. It's on the register, ready to sell.",
+     "fr": "Touchez Créer le produit. Il est sur la caisse, prêt à vendre."
+    }
+   ]
+  },
+  {
+   "id": "drawer-takeover",
+   "flow": "flows/drawer-takeover.mjs",
+   "docs": "pos/cash-drawer/takeover",
+   "title": {
+    "en": "Taking over a drawer",
+    "fr": "Prendre la relève d'un tiroir"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Starting your shift on a till someone else opened? Sign in with your PIN.",
+     "fr": "Vous commencez votre quart sur une caisse ouverte par quelqu'un d'autre? Connectez-vous avec votre NIP."
+    },
+    {
+     "id": "find",
+     "en": "Find the register with the open drawer. It shows who opened it. Tap Close and open mine.",
+     "fr": "Trouvez la caisse dont le tiroir est ouvert. Elle montre qui l'a ouvert. Touchez Clôturer et ouvrir la mienne."
+    },
+    {
+     "id": "count",
+     "en": "Count all the cash in the till, and type what's actually there.",
+     "fr": "Comptez tout l'argent dans la caisse, et tapez ce qu'il y a vraiment."
+    },
+    {
+     "id": "short",
+     "en": "It shows right away if their shift is over or short.",
+     "fr": "Elle montre tout de suite si leur quart est en surplus ou en manque."
+    },
+    {
+     "id": "float",
+     "en": "Then type the float you're starting with. Anything above it goes to the safe.",
+     "fr": "Puis tapez le fonds de caisse avec lequel vous commencez. Le surplus va au coffre."
+    },
+    {
+     "id": "confirm",
+     "en": "Tap Close and open mine. Their shift closes with your count, and your drawer opens.",
+     "fr": "Touchez Clôturer et ouvrir la mienne. Leur quart se ferme avec votre compte, et votre tiroir s'ouvre."
+    }
+   ]
+  },
+  {
+   "id": "weight-presets",
+   "flow": "flows/weight-presets.mjs",
+   "docs": "admin/cannabis/weight-presets",
+   "title": {
+    "en": "Weight presets",
+    "fr": "Préréglages de poids"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Weight presets are the weight buttons cashiers tap when they sell flower. Go to Products, open More Actions, and click Weight Presets.",
+     "fr": "Les préréglages de poids sont les boutons de poids que les caissiers touchent pour vendre du cannabis. Allez dans Produits, ouvrez Plus d'actions, et cliquez sur Préréglages de poids."
+    },
+    {
+     "id": "list",
+     "en": "A new store already has the usual weights, from half a gram to an ounce.",
+     "fr": "Un nouveau magasin a déjà les poids habituels, d'un demi-gramme à une once."
+    },
+    {
+     "id": "new",
+     "en": "To add one, click New Weight Preset. Type its name, and its weight in grams.",
+     "fr": "Pour en ajouter un, cliquez sur Nouveau préréglage. Tapez son nom, et son poids en grammes."
+    },
+    {
+     "id": "save",
+     "en": "Save it.",
+     "fr": "Enregistrez-le."
+    },
+    {
+     "id": "price",
+     "en": "Then give the new weight a price in each pricing template, under Tier Pricing. Until then, it has no price anywhere.",
+     "fr": "Ensuite, donnez un prix au nouveau poids dans chaque modèle de prix, sous Tarification par paliers. D'ici là, il n'a de prix nulle part."
+    }
+   ]
+  },
+  {
+   "id": "loyalty-tiers",
+   "flow": "flows/loyalty-tiers.mjs",
+   "docs": "admin/customers/loyalty-tiers",
+   "title": {
+    "en": "Loyalty tiers",
+    "fr": "Niveaux de fidélité"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Loyalty tiers reward your best customers. Go to Customers, and click Loyalty.",
+     "fr": "Les niveaux de fidélité récompensent vos meilleurs clients. Allez dans Clients, et cliquez sur Fidélité."
+    },
+    {
+     "id": "tiers",
+     "en": "Your store starts with Bronze, Silver, Gold and Platinum.",
+     "fr": "Votre magasin commence avec Bronze, Silver, Gold et Platinum."
+    },
+    {
+     "id": "edit",
+     "en": "To change one, click its Edit button. Here, Gold.",
+     "fr": "Pour en changer un, cliquez sur son bouton Modifier. Ici, Gold."
+    },
+    {
+     "id": "qualify",
+     "en": "Customers move up when they reach either the lifetime spend, or the number of visits.",
+     "fr": "Les clients montent de niveau quand ils atteignent soit les dépenses totales, soit le nombre de visites."
+    },
+    {
+     "id": "perks",
+     "en": "Set the tier's discount, and how fast it earns points. One and a half means fifty percent more points.",
+     "fr": "Choisissez le rabais du niveau, et la vitesse à laquelle il gagne des points. Un et demi veut dire cinquante pour cent de points en plus."
+    },
+    {
+     "id": "save",
+     "en": "Click Update. Customers move up on their next sale, and the register applies the discount by itself.",
+     "fr": "Cliquez sur Mettre à jour. Les clients montent à leur prochaine vente, et la caisse applique le rabais d'elle-même."
+    }
+   ]
+  },
+  {
+   "id": "loyalty-rewards",
+   "flow": "flows/loyalty-rewards.mjs",
+   "docs": "admin/customers/rewards",
+   "title": {
+    "en": "Loyalty rewards",
+    "fr": "Récompenses de fidélité"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Rewards are what customers spend their points on. On the Loyalty page, under Loyalty Rewards, click Add Reward.",
+     "fr": "Les récompenses, c'est ce que les clients achètent avec leurs points. Sur la page Fidélité, sous Récompenses de fidélité, cliquez sur Ajouter une récompense."
+    },
+    {
+     "id": "name",
+     "en": "Give it a name, and how many points it costs.",
+     "fr": "Donnez-lui un nom, et le nombre de points qu'elle coûte."
+    },
+    {
+     "id": "type",
+     "en": "Pick what it gives: a discount, a free product, or store credit. Here, twenty dollars off.",
+     "fr": "Choisissez ce qu'elle donne : un rabais, un produit gratuit, ou du crédit en magasin. Ici, vingt dollars de rabais."
+    },
+    {
+     "id": "create",
+     "en": "Click Create. Cashiers can now redeem it for any customer with enough points.",
+     "fr": "Cliquez sur Créer. Les caissiers peuvent maintenant l'échanger pour tout client qui a assez de points."
+    }
+   ]
+  },
+  {
+   "id": "store-credits-admin",
+   "flow": "flows/store-credits-admin.mjs",
+   "docs": "admin/customers/store-credits-admin",
+   "title": {
+    "en": "Giving a customer store credit",
+    "fr": "Donner du crédit en magasin à un client"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To give a customer store credit, open their profile under Customers.",
+     "fr": "Pour donner du crédit en magasin à un client, ouvrez son profil sous Clients."
+    },
+    {
+     "id": "card",
+     "en": "In the Store Credit card, click Adjust Balance.",
+     "fr": "Dans la carte Crédit en magasin, cliquez sur Ajuster le solde."
+    },
+    {
+     "id": "amount",
+     "en": "Type the amount to add, and why. A minus sign takes credit off instead.",
+     "fr": "Tapez le montant à ajouter, et la raison. Un signe moins retire du crédit à la place."
+    },
+    {
+     "id": "paid",
+     "en": "If they're paying you for the credit, pick how they paid.",
+     "fr": "S'il vous paie pour ce crédit, choisissez comment il a payé."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Customer. The new balance and the change show on their profile, and they can spend it at the register.",
+     "fr": "Cliquez sur Mettre à jour le client. Le nouveau solde et le changement s'affichent sur son profil, et il peut le dépenser à la caisse."
+    }
+   ]
+  },
+  {
+   "id": "cash-sessions",
+   "flow": "flows/cash-sessions.mjs",
+   "docs": "admin/cash/sessions",
+   "title": {
+    "en": "Checking cash drawers",
+    "fr": "Vérifier les tiroirs-caisses"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To check your tills from the back office, click Cash Drawers.",
+     "fr": "Pour vérifier vos caisses depuis le bureau, cliquez sur Tiroirs-caisses."
+    },
+    {
+     "id": "list",
+     "en": "Every shift is listed here, open or closed.",
+     "fr": "Chaque quart est listé ici, ouvert ou fermé."
+    },
+    {
+     "id": "view",
+     "en": "Click View on one to see its sales, how customers paid, and the cash that should be in the drawer.",
+     "fr": "Cliquez sur Voir pour en voir les ventes, les modes de paiement, et l'argent qui devrait être dans le tiroir."
+    },
+    {
+     "id": "left-open",
+     "en": "Someone forgot to close a drawer? Click Close this drawer.",
+     "fr": "Quelqu'un a oublié de fermer un tiroir? Cliquez sur Fermer ce tiroir."
+    },
+    {
+     "id": "count",
+     "en": "Count the cash that's in it, type the total, and say why it's being closed here.",
+     "fr": "Comptez l'argent qu'il contient, tapez le total, et expliquez pourquoi il est fermé ici."
+    },
+    {
+     "id": "close",
+     "en": "Click Close drawer. The Z report is made, just as at the register, and shows if it was over or short.",
+     "fr": "Cliquez sur Fermer le tiroir. Le rapport Z est créé, comme à la caisse, et montre s'il y avait un surplus ou un manque."
+    }
+   ]
+  },
+  {
+   "id": "order-management",
+   "flow": "flows/order-management.mjs",
+   "docs": "admin/orders/order-management",
+   "title": {
+    "en": "Finding past sales",
+    "fr": "Retrouver les ventes passées"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Every sale, from every register, is under Orders. The newest are first.",
+     "fr": "Chaque vente, de chaque caisse, est sous Commandes. Les plus récentes en premier."
+    },
+    {
+     "id": "find",
+     "en": "To find one, search by receipt number, or the customer's name, phone or email. You can also filter by date and status.",
+     "fr": "Pour en trouver une, cherchez par numéro de reçu, ou par nom, téléphone ou courriel du client. Vous pouvez aussi filtrer par date et par statut."
+    },
+    {
+     "id": "view",
+     "en": "Click View to see what was sold, the discounts, the tax, and how they paid.",
+     "fr": "Cliquez sur Voir pour voir ce qui a été vendu, les rabais, les taxes, et le mode de paiement."
+    },
+    {
+     "id": "actions",
+     "en": "From here you can print the receipt, or process a return. Voiding the sale is under More Actions.",
+     "fr": "D'ici, vous pouvez imprimer le reçu, ou traiter un retour. L'annulation de la vente est sous Plus d'actions."
+    }
+   ]
+  },
+  {
+   "id": "returns-admin",
+   "flow": "flows/returns-admin.mjs",
+   "docs": "admin/orders/returns-admin",
+   "title": {
+    "en": "Returns from the back office",
+    "fr": "Retours depuis le bureau"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To take a return from the back office, open the sale under Orders, and click Process Return.",
+     "fr": "Pour faire un retour depuis le bureau, ouvrez la vente sous Commandes, et cliquez sur Traiter le retour."
+    },
+    {
+     "id": "items",
+     "en": "Set how many of each item are coming back. Remove any that aren't.",
+     "fr": "Indiquez combien de chaque article reviennent. Retirez ceux qui ne reviennent pas."
+    },
+    {
+     "id": "refund",
+     "en": "Pick how you're refunding them. Leave Restock ticked if the items can be sold again.",
+     "fr": "Choisissez comment vous les remboursez. Laissez Remettre en stock coché si les articles peuvent être revendus."
+    },
+    {
+     "id": "process",
+     "en": "Click Process Return. It's saved as pending.",
+     "fr": "Cliquez sur Traiter le retour. Il est enregistré en attente."
+    },
+    {
+     "id": "complete",
+     "en": "Click Complete Return, and confirm. The stock goes back, and the refund is recorded. Card refunds are done on the card terminal.",
+     "fr": "Cliquez sur Compléter le retour, et confirmez. Le stock revient, et le remboursement est enregistré. Les remboursements par carte se font sur le terminal."
+    }
+   ]
   }
  ]
 }

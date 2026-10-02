@@ -25,3 +25,17 @@ export async function productEditPath(page, name) {
   if (!id) throw new Error(`no product "${name}"`);
   return `/products/${id}/edit`;
 }
+
+/** The newest order paid with `pay` ("cash" or "card"), as an /orders/:id path. Reads the
+ *  Orders list, so it needs the back office signed in. */
+export async function newestOrderPath(page, pay = "cash") {
+  const path = await page.evaluate(async (p) => {
+    const html = await (await fetch("/orders", { headers: { Accept: "text/html" } })).text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const want = p === "card" ? /\b(Card|Carte|Debit|Débit)\b/i : /\b(Cash|Comptant|Espèces)\b/i;
+    const row = [...doc.querySelectorAll('[data-tour="orders-table"] tr')].find((r) => want.test(r.textContent) && r.querySelector('a[href^="/orders/"]'));
+    return row?.querySelector('a[href^="/orders/"]')?.getAttribute("href") || null;
+  }, pay);
+  if (!path) throw new Error(`no ${pay} order in the list`);
+  return path;
+}

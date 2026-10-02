@@ -235,3 +235,21 @@ export async function topmost(page, texts, tag, css = "button") {
   if (!ok) throw new Error(`no topmost ${css} ${JSON.stringify(texts)}`);
   return `[data-rec="${tag}"]`;
 }
+
+/** A control on one cart line: the line is the smallest box in the cart that holds both
+ *  the product's name and a Remove button. */
+export async function cartLineControl(page, name, css, tag) {
+  const ok = await page.evaluate((n, c, t) => {
+    const cart = document.querySelector('[data-tour="cart-pane"]') || document.body;
+    const lines = [...cart.querySelectorAll("div")].filter((d) =>
+      d.querySelector('[data-tour="remove-item"]') && d.innerText.split("\n").some((l) => l.trim() === n));
+    const line = lines.sort((a, b) => a.querySelectorAll("*").length - b.querySelectorAll("*").length)[0];
+    const el = line && [...line.querySelectorAll(c)].find((e) => e.getBoundingClientRect().width > 0);
+    if (!el) return false;
+    document.querySelectorAll(`[data-rec="${t}"]`).forEach((x) => x.removeAttribute("data-rec"));
+    el.setAttribute("data-rec", t);
+    return true;
+  }, name, css, tag);
+  if (!ok) throw new Error(`no ${css} on the cart line "${name}"`);
+  return `[data-rec="${tag}"]`;
+}
