@@ -30,8 +30,12 @@ export async function openRegister(ctx, { lang = "en", who = "clerk", signIn = t
     await sleep(1500);
     return;
   }
-  if (await page.$('[aria-live="polite"][aria-atomic="true"], [aria-label$="digits entered"]') ||
-      await page.evaluate(() => /PIN|NIP/.test(document.body.innerText) && !document.querySelector("[data-product-id]"))) {
+  // Wait for whichever comes first, the PIN pad or the product grid; checking once after a
+  // fixed pause missed a slow-loading PIN pad and then waited for products that never came.
+  await page.waitForFunction(() => document.querySelector("[data-product-id]") ||
+    [...document.querySelectorAll("button")].some((b) => b.textContent.trim() === "5"), { timeout: 90000 }).catch(() => {});
+  if (!(await page.$("[data-product-id]")) && (await page.$('[aria-live="polite"][aria-atomic="true"], [aria-label$="digits entered"]') ||
+      await page.evaluate(() => /PIN|NIP/.test(document.body.innerText)))) {
     const pin = creds()[`${who}Pin`];
     for (const d of pin) {
       await page.evaluate((digit) => {
@@ -41,7 +45,10 @@ export async function openRegister(ctx, { lang = "en", who = "clerk", signIn = t
     }
     log(`signed in as ${who}`);
   }
-  await page.waitForSelector("[data-product-id]", { timeout: 30000 });
+  await page.waitForSelector("[data-product-id]", { timeout: 90000 });
+  // The first catalogue sync redraws the product grid when it lands; a tap before then can
+  // hit a card that's about to be replaced. Wait for the sync badge to stop saying so.
+  await page.waitForFunction(() => !/Syncing|Synchronisation|Sincroniz/i.test(document.querySelector('[data-tour="sync-status"]')?.innerText || ""), { timeout: 90000 }).catch(() => {});
   // Clear anything a previous take left in the cart.
   await page.evaluate(() => {
     const clear = [...document.querySelectorAll("button")].find((b) => /^(Clear|Effacer)$/.test(b.innerText.trim()) && b.closest("aside, [class*=cart]"));
@@ -132,6 +139,9 @@ export async function addToCart(page, names) {
       return false;
     });
     if (picked) await sleep(800);
+    // On a busy server the cart can take a few seconds to show the item.
+    await page.waitForFunction((n) => (document.querySelector('[data-tour="cart-pane"]')?.innerText || "").includes(n),
+      { timeout: 15000 }, name).catch(() => {});
   }
   await sleep(600);
 }
@@ -160,7 +170,9 @@ export async function quickSale(ctx, names, { pay = "cash" } = {}) {
     await tap(L("Exact"));
   }
   await tap(L("Complete Sale"));
-  await sleep(1500);
+  // Wait for the sale to save rather than a fixed pause: on a busy server it can take a while.
+  await page.waitForFunction((w) => [...document.querySelectorAll("button")].some((b) => w.includes(b.innerText.replace(/\s+/g, " ").trim())),
+    { timeout: 15000 }, L("Start New Sale")).catch(() => {});
   await tap(L("Start New Sale"));
   await sleep(1200);
 }

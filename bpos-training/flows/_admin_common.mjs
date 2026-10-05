@@ -1,5 +1,8 @@
 /** Shared by the back-office flows. */
 import { openRegister, quickSale } from "../register.mjs";
+import { openAdmin } from "../admin.mjs";
+import { BASE, creds } from "../config.mjs";
+import { sleep } from "../recorder.mjs";
 
 /** A morning's trade, rung through the register off camera, so reports have something in
  *  them. Mixed items, cash and card. */
@@ -38,4 +41,24 @@ export async function newestOrderPath(page, pay = "cash") {
   }, pay);
   if (!path) throw new Error(`no ${pay} order in the list`);
   return path;
+}
+
+/** Sign in to the back office off camera, then open the register in the same tab without
+ *  wiping the browser (openRegister would sign the back office out), signed in with a PIN.
+ *  A clip can then cut from the till to the back office with no sign-in on screen. */
+export async function adminThenRegister(ctx, { lang = "en", who = "clerk" } = {}) {
+  const { page } = ctx;
+  await openAdmin(ctx, { path: "/products" });
+  await page.goto(`${BASE}/pos/`, { waitUntil: "domcontentloaded" });
+  await page.evaluate((l) => { localStorage.clear(); localStorage.setItem("pos-locale", l); }, lang);
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() => [...document.querySelectorAll("button")].some((b) => b.textContent.trim() === "5"), { timeout: 30000 });
+  for (const d of creds()[`${who}Pin`]) {
+    await page.evaluate((digit) => [...document.querySelectorAll("button")].find((b) => b.textContent.trim() === digit)?.click(), d);
+    await sleep(180);
+  }
+  await page.waitForSelector("[data-product-id]", { timeout: 30000 });
+  await ctx.ensureCursor();
+  await ctx.settle();
+  await sleep(2000);
 }

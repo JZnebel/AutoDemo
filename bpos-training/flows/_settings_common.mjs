@@ -6,7 +6,8 @@ export async function openEditSettings(ctx) {
   await ctx.click('nav a[href="/store_settings"]', { settle: 500 });
   await afterNav(ctx, { selector: 'main a[href="/store_settings/edit"]' });
   await ctx.click('main a[href="/store_settings/edit"]', { settle: 500 });
-  await afterNav(ctx, { selector: ".settings-tab" });
+  // The overview page has the same tabs; wait for the edit form itself.
+  await afterNav(ctx, { selector: 'form[action="/store_settings"] .settings-tab' });
 }
 
 /** The big form's own Update Settings button, and wait for the save. */

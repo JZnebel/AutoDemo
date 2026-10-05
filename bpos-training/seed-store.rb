@@ -17,6 +17,10 @@
 #   TRAINING_LOCALE (en/fr) for the back office's language
 #   TRAINING_GIFT_CARDS=1 / TRAINING_STORE_CREDIT=1 to switch on those payment types (the
 #   store-credit one also gives Dana Whitfield $25 of credit to spend)
+#   TRAINING_SCALE=1 to switch on the scale features (the give-away report clip)
+#   TRAINING_LOSS_PREVENTION=1 to switch on the Loss Prevention review queue (that clip)
+#   TRAINING_SCAN_TO_RECEIVE=1 to switch on Scan to Receive (that clip)
+#   TRAINING_MENU_BOARD=1 to switch on digital menu boards (the menu board clip)
 #   TRAINING_BUNDLES=1 to switch on product bundles (the bundles clip)
 #   TRAINING_PRODUCT_IMAGES=1 to switch on product photos (the product images clip)
 #   TRAINING_TIMESHEETS=1 for a few days of clock-ins, one left open (time tracking admin clip)
@@ -109,6 +113,10 @@ store = Store.create!(
     "enable_email_receipts" => ENV["TRAINING_EMAIL_RECEIPTS"] == "1",
     "enable_product_images" => ENV["TRAINING_PRODUCT_IMAGES"] == "1",
     "enable_bundles" => ENV["TRAINING_BUNDLES"] == "1",
+    "enable_menu_board" => ENV["TRAINING_MENU_BOARD"] == "1",
+    "enable_scan_to_receive" => ENV["TRAINING_SCAN_TO_RECEIVE"] == "1",
+    "enable_loss_prevention" => ENV["TRAINING_LOSS_PREVENTION"] == "1",
+    "enable_scale" => ENV["TRAINING_SCALE"] == "1",
     "enable_receipt_printing" => ENV["TRAINING_RECEIPT_PRINTING"] == "1",
   ),
 )

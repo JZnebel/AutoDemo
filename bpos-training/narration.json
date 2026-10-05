@@ -2437,6 +2437,524 @@
      "fr": "Vous avez plusieurs magasins? Le même rapport est un onglet du portail propriétaire, pour tous vos magasins."
     }
    ]
+  },
+  {
+   "id": "language-and-theme",
+   "flow": "flows/language-and-theme.mjs",
+   "docs": "getting-started/language-and-theme",
+   "title": {
+    "en": "Language and dark mode",
+    "fr": "Langue et mode sombre"
+   },
+   "lines": [
+    {
+     "id": "register",
+     "en": "To change the language on the register, tap Settings, at the top.",
+     "fr": "Pour changer la langue de la caisse, touchez Paramètres, en haut."
+    },
+    {
+     "id": "pick",
+     "en": "Pick the language from the list. The screen changes right away, on this register only.",
+     "fr": "Choisissez la langue dans la liste. L'écran change tout de suite, sur cette caisse seulement."
+    },
+    {
+     "id": "dark",
+     "en": "Here, you can also switch to dark mode, which is easier on the eyes in a dim store.",
+     "fr": "Ici, vous pouvez aussi passer en mode sombre, plus reposant dans un magasin peu éclairé."
+    },
+    {
+     "id": "admin",
+     "en": "In the back office, click the language button at the top, and pick a language. This one changes the back office for everyone at your store.",
+     "fr": "Au bureau, cliquez sur le bouton de langue, en haut, et choisissez une langue. Celui-ci change le bureau pour tout le monde dans votre magasin."
+    },
+    {
+     "id": "moon",
+     "en": "And the moon button beside it switches dark mode on and off.",
+     "fr": "Et le bouton lune, juste à côté, active ou désactive le mode sombre."
+    }
+   ]
+  },
+  {
+   "id": "in-app-training",
+   "flow": "flows/in-app-training.mjs",
+   "docs": "getting-started/in-app-training",
+   "title": {
+    "en": "Starting the training courses",
+    "fr": "Lancer les formations"
+   },
+   "lines": [
+    {
+     "id": "intro",
+     "en": "Brother POS has practice courses built in. Nothing is saved, charged or printed while one runs.",
+     "fr": "Brother POS a des formations intégrées. Rien n'est enregistré, facturé ni imprimé pendant une formation."
+    },
+    {
+     "id": "turnon",
+     "en": "For cashiers, turn on the Training button first: tap Settings, tick Show training button, and save.",
+     "fr": "Pour les caissiers, activez d'abord le bouton Formation : touchez Paramètres, cochez Afficher le bouton de formation, et enregistrez."
+    },
+    {
+     "id": "start",
+     "en": "Tap Training at the top, then Start training.",
+     "fr": "Touchez Formation en haut, puis Commencer la formation."
+    },
+    {
+     "id": "practice",
+     "en": "A card gives one job at a time. Show me points at the button to press.",
+     "fr": "Une carte donne une tâche à la fois. Montre-moi indique le bouton à toucher."
+    },
+    {
+     "id": "manager",
+     "en": "For managers, open your account menu in the back office, and click Manager training.",
+     "fr": "Pour les gérants, ouvrez le menu de votre compte au bureau, et cliquez sur Formation gérant."
+    },
+    {
+     "id": "lessons",
+     "en": "It lists the lessons for your role. Click Start training.",
+     "fr": "Elle liste les leçons selon votre rôle. Cliquez sur Commencer la formation."
+    },
+    {
+     "id": "done",
+     "en": "When someone finishes a course, it shows on the staff page, so you know who's trained.",
+     "fr": "Quand quelqu'un termine une formation, ça s'affiche sur la page du personnel, pour savoir qui est formé."
+    }
+   ]
+  },
+  {
+   "id": "strain-library",
+   "flow": "flows/strain-library.mjs",
+   "docs": "admin/cannabis/strain-library",
+   "title": {
+    "en": "The strain library",
+    "fr": "La bibliothèque de variétés"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "The strain library has thousands of strains, with their effects, terpenes and pictures. Go to Products, open More Actions, and click Strain Library.",
+     "fr": "La bibliothèque de variétés contient des milliers de variétés, avec leurs effets, terpènes et images. Allez dans Produits, ouvrez Plus d'actions, et cliquez sur Bibliothèque de variétés."
+    },
+    {
+     "id": "browse",
+     "en": "You can browse, or filter by type and T H C.",
+     "fr": "Vous pouvez parcourir, ou filtrer par type et par THC."
+    },
+    {
+     "id": "search",
+     "en": "Search for the strain you just got in, and click it.",
+     "fr": "Cherchez la variété que vous venez de recevoir, et cliquez dessus."
+    },
+    {
+     "id": "kind",
+     "en": "Pick the kind of product. For flower, choose its quality tier, and the stock you have.",
+     "fr": "Choisissez le type de produit. Pour du cannabis séché, choisissez son niveau de qualité, et le stock que vous avez."
+    },
+    {
+     "id": "create",
+     "en": "Click Create product. It comes with the strain's description, effects and terpene already filled in.",
+     "fr": "Cliquez sur Créer le produit. Il arrive avec la description, les effets et le terpène de la variété déjà remplis."
+    },
+    {
+     "id": "existing",
+     "en": "Already have the product? Open it, and on the Cannabis tab, click Fill from the strain library.",
+     "fr": "Vous avez déjà le produit? Ouvrez-le, et dans l'onglet Cannabis, cliquez sur Remplir à partir de la bibliothèque de variétés."
+    }
+   ]
+  },
+  {
+   "id": "menu-board",
+   "flow": "flows/menu-board.mjs",
+   "docs": "admin/other/menu-board",
+   "title": {
+    "en": "Your menu on a TV",
+    "fr": "Votre menu sur un téléviseur"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To put your menu on a TV, go to Products, open More Actions, and click Menu Boards.",
+     "fr": "Pour afficher votre menu sur un téléviseur, allez dans Produits, ouvrez Plus d'actions, et cliquez sur Tableaux de menu."
+    },
+    {
+     "id": "new",
+     "en": "Click New Template, and give it a name, like the screen it's for.",
+     "fr": "Cliquez sur Nouveau modèle, et donnez-lui un nom, comme l'écran auquel il est destiné."
+    },
+    {
+     "id": "categories",
+     "en": "Tick the categories this screen should show.",
+     "fr": "Cochez les catégories que cet écran doit afficher."
+    },
+    {
+     "id": "create",
+     "en": "Click Create Template.",
+     "fr": "Cliquez sur Créer le modèle."
+    },
+    {
+     "id": "preview",
+     "en": "Preview shows the board. Prices and stock update by themselves, so sold-out items drop off.",
+     "fr": "L'aperçu montre le tableau. Les prix et le stock se mettent à jour d'eux-mêmes, et les articles épuisés disparaissent."
+    },
+    {
+     "id": "tv",
+     "en": "Open the same address on the TV's browser, and press F eleven for full screen. The Edit button in the corner changes the colours and fonts.",
+     "fr": "Ouvrez la même adresse dans le navigateur du téléviseur, et appuyez sur F onze pour le plein écran. Le bouton Modifier, dans le coin, change les couleurs et les polices."
+    }
+   ]
+  },
+  {
+   "id": "scan-to-receive",
+   "flow": "flows/scan-to-receive.mjs",
+   "docs": "admin/inventory/scan-to-receive",
+   "title": {
+    "en": "Receiving a delivery by scanning",
+    "fr": "Recevoir une livraison en scannant"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "The fastest way to check in a delivery is to scan it. Go to Products, open More Actions, and click Scan to Receive.",
+     "fr": "La façon la plus rapide d'enregistrer une livraison, c'est de la scanner. Allez dans Produits, ouvrez Plus d'actions, et cliquez sur Scanner pour réceptionner."
+    },
+    {
+     "id": "po",
+     "en": "If the delivery has a purchase order, you can link it at the top. Otherwise, just start scanning.",
+     "fr": "Si la livraison a un bon de commande, vous pouvez le lier en haut. Sinon, commencez simplement à scanner."
+    },
+    {
+     "id": "scan",
+     "en": "Now scan each item. Scanning the same product again adds one more.",
+     "fr": "Scannez maintenant chaque article. Scanner le même produit encore en ajoute un de plus."
+    },
+    {
+     "id": "check",
+     "en": "Check the list. Fix any quantity, and type what each one cost if you know it.",
+     "fr": "Vérifiez la liste. Corrigez une quantité au besoin, et tapez le coût de chacun si vous le connaissez."
+    },
+    {
+     "id": "receive",
+     "en": "Click Receive All. The stock goes up right away.",
+     "fr": "Cliquez sur Tout recevoir. Le stock monte tout de suite."
+    }
+   ]
+  },
+  {
+   "id": "barcode-labels",
+   "flow": "flows/barcode-labels.mjs",
+   "docs": "admin/products/barcode-labels",
+   "title": {
+    "en": "Printing barcode label sheets",
+    "fr": "Imprimer des feuilles d'étiquettes"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "No label printer? Print barcode labels on regular sticker sheets. Go to Products, open More Actions, and click Print Barcode Labels.",
+     "fr": "Pas d'imprimante d'étiquettes? Imprimez vos codes-barres sur des feuilles d'autocollants ordinaires. Allez dans Produits, ouvrez Plus d'actions, et cliquez sur Imprimer les étiquettes code-barres."
+    },
+    {
+     "id": "sheet",
+     "en": "Pick the label sheet you bought, like Avery fifty-one sixty.",
+     "fr": "Choisissez la feuille d'étiquettes que vous avez achetée, comme Avery cinq mille cent soixante."
+    },
+    {
+     "id": "add",
+     "en": "Search for each product, and click Add.",
+     "fr": "Cherchez chaque produit, et cliquez sur Ajouter."
+    },
+    {
+     "id": "copies",
+     "en": "Set how many copies of each label you want.",
+     "fr": "Indiquez combien de copies de chaque étiquette vous voulez."
+    },
+    {
+     "id": "preview",
+     "en": "The preview below shows the sheet exactly as it will print.",
+     "fr": "L'aperçu, plus bas, montre la feuille exactement comme elle sera imprimée."
+    },
+    {
+     "id": "print",
+     "en": "Click Print or Save as PDF, and set the margins to none in the print window.",
+     "fr": "Cliquez sur Imprimer ou enregistrer en PDF, et réglez les marges à aucune dans la fenêtre d'impression."
+    }
+   ]
+  },
+  {
+   "id": "age-verification",
+   "flow": "flows/age-verification.mjs",
+   "docs": "admin/settings/age-verification",
+   "title": {
+    "en": "Checking ID at the register",
+    "fr": "Vérifier l'âge à la caisse"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To have the register remind cashiers to check I D, open Settings, click Edit Settings, and open Tax and Compliance.",
+     "fr": "Pour que la caisse rappelle aux caissiers de vérifier l'âge, ouvrez Paramètres, cliquez sur Modifier les paramètres, et ouvrez Taxes et conformité."
+    },
+    {
+     "id": "enable",
+     "en": "Tick Enable Age Verification, and set the minimum age for your province.",
+     "fr": "Cochez Activer la vérification de l'âge, et indiquez l'âge minimum de votre province."
+    },
+    {
+     "id": "mode",
+     "en": "Choose when it asks: when an item is added, or at checkout. Then Update Settings.",
+     "fr": "Choisissez quand elle le demande : à l'ajout d'un article, ou au paiement. Puis Mettre à jour les paramètres."
+    },
+    {
+     "id": "category",
+     "en": "Then mark which categories need it. Edit the category, and tick Age Restricted.",
+     "fr": "Indiquez ensuite quelles catégories l'exigent. Modifiez la catégorie, et cochez Restreint selon l'âge."
+    },
+    {
+     "id": "register",
+     "en": "Now, when a cashier rings up one of those items, the register asks them to check I D. Here, a cashier adds an eighth of flower.",
+     "fr": "Maintenant, quand un caissier ajoute un de ces articles, la caisse lui demande de vérifier l'âge. Ici, un caissier ajoute un huitième de cannabis."
+    },
+    {
+     "id": "check",
+     "en": "They check the customer's I D, and tap Age Verified.",
+     "fr": "Il vérifie la pièce d'identité du client, et touche Âge vérifié."
+    },
+    {
+     "id": "done",
+     "en": "If the customer is too young, they tap Cancel instead.",
+     "fr": "Si le client est trop jeune, il touche plutôt Annuler."
+    }
+   ]
+  },
+  {
+   "id": "cash-drops-deposits",
+   "flow": "flows/cash-drops-deposits.mjs",
+   "docs": "admin/cash/cash-drops-payouts-admin",
+   "title": {
+    "en": "Cash drops, payouts and deposits",
+    "fr": "Retraits, décaissements et dépôts"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To see the cash that came out of a till, open Cash Drawers, and click View on the shift.",
+     "fr": "Pour voir l'argent sorti d'une caisse, ouvrez Tiroirs-caisses, et cliquez sur Voir sur le quart."
+    },
+    {
+     "id": "drops",
+     "en": "Cash Drops lists each drop: when, who, why, and how much.",
+     "fr": "Retraits de caisse liste chaque retrait : quand, qui, pourquoi, et combien."
+    },
+    {
+     "id": "payouts",
+     "en": "Payouts shows cash paid out of the till, like supplies.",
+     "fr": "Les décaissements montrent l'argent payé à même la caisse, comme des fournitures."
+    },
+    {
+     "id": "summary",
+     "en": "For each person's drops and payouts, click Shift summary by employee.",
+     "fr": "Pour les retraits et décaissements de chaque personne, cliquez sur Sommaire du quart par employé."
+    },
+    {
+     "id": "deposit",
+     "en": "Took some of the float to the bank after the shift closed? Type the amount under Deposits After Close.",
+     "fr": "Vous avez porté une partie du fonds à la banque après la fermeture? Tapez le montant sous Dépôts après la fermeture."
+    },
+    {
+     "id": "record",
+     "en": "Click Record deposit. The next shift's opening count expects that much less, and the shift's over or short doesn't change.",
+     "fr": "Cliquez sur Enregistrer le dépôt. Le compte d'ouverture du prochain quart attend ce montant en moins, et le surplus ou le manque du quart ne change pas."
+    }
+   ]
+  },
+  {
+   "id": "loss-prevention",
+   "flow": "flows/loss-prevention.mjs",
+   "docs": "admin/other/loss-prevention",
+   "title": {
+    "en": "The loss prevention queue",
+    "fr": "La file de prévention des pertes"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Loss Prevention flags the sales worth a second look: big discounts, voids nobody approved, cash refunds, short drawers. Click Loss Prevention.",
+     "fr": "La prévention des pertes signale les ventes qui méritent un deuxième regard : gros rabais, annulations non approuvées, remboursements en argent, tiroirs en manque. Cliquez sur Prévention des pertes."
+    },
+    {
+     "id": "queue",
+     "en": "The most serious flags are at the top.",
+     "fr": "Les signalements les plus sérieux sont en haut."
+    },
+    {
+     "id": "view",
+     "en": "Click View to see the sale, the cashier, the customer, and the numbers behind it.",
+     "fr": "Cliquez sur Voir pour voir la vente, le caissier, le client, et les chiffres derrière."
+    },
+    {
+     "id": "note",
+     "en": "Type a short note about what happened.",
+     "fr": "Tapez une courte note sur ce qui s'est passé."
+    },
+    {
+     "id": "decide",
+     "en": "Then Mark reviewed if it's fine, Escalate if it needs a closer look, or dismiss it.",
+     "fr": "Puis Marquer comme examiné si c'est correct, Transmettre si ça mérite un examen plus poussé, ou rejetez-le."
+    },
+    {
+     "id": "innocent",
+     "en": "A flag is a question, not an accusation. The queue just makes sure someone looked.",
+     "fr": "Un signalement est une question, pas une accusation. La file s'assure simplement que quelqu'un a regardé."
+    }
+   ]
+  },
+  {
+   "id": "owner-reports",
+   "flow": "flows/owner-reports.mjs",
+   "docs": "admin/multi-store/owner-reports",
+   "title": {
+    "en": "Reports across your stores",
+    "fr": "Rapports pour tous vos magasins"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Own more than one store? In the owner portal, click Reports to see them all together.",
+     "fr": "Vous avez plusieurs magasins? Dans le portail propriétaire, cliquez sur Rapports pour les voir ensemble."
+    },
+    {
+     "id": "tabs",
+     "en": "Pick a report with these buttons: sales, margins, inventory, customers, staff, and more.",
+     "fr": "Choisissez un rapport avec ces boutons : ventes, marges, inventaire, clients, personnel, et plus."
+    },
+    {
+     "id": "period",
+     "en": "Pick the period. Here, the last seven days.",
+     "fr": "Choisissez la période. Ici, les sept derniers jours."
+    },
+    {
+     "id": "stores",
+     "en": "Under Stores, untick any store you want to leave out.",
+     "fr": "Sous Magasins, décochez les magasins à exclure."
+    },
+    {
+     "id": "switch",
+     "en": "Your dates and stores stay picked when you switch reports.",
+     "fr": "Vos dates et magasins restent choisis quand vous changez de rapport."
+    },
+    {
+     "id": "export",
+     "en": "Export CSV downloads what's on screen.",
+     "fr": "Exporter en CSV télécharge ce qui est à l'écran."
+    }
+   ]
+  },
+  {
+   "id": "owner-staff",
+   "flow": "flows/owner-staff.mjs",
+   "docs": "admin/multi-store/owner-staff-and-access",
+   "title": {
+    "en": "Staff across your stores",
+    "fr": "Le personnel de tous vos magasins"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To add someone who works at more than one of your stores, open People in the owner portal, and click Add person.",
+     "fr": "Pour ajouter quelqu'un qui travaille dans plusieurs de vos magasins, ouvrez Personnes dans le portail propriétaire, et cliquez sur Ajouter une personne."
+    },
+    {
+     "id": "who",
+     "en": "Fill in their name, email and a password. Add a four-digit PIN if they'll use the register.",
+     "fr": "Remplissez son nom, son courriel et un mot de passe. Ajoutez un NIP à quatre chiffres s'il utilisera la caisse."
+    },
+    {
+     "id": "where",
+     "en": "Under Where they work, pick their role at each store. They can be a cashier at one, and a manager at another.",
+     "fr": "Sous Où il travaille, choisissez son rôle dans chaque magasin. Il peut être caissier dans l'un, et gérant dans l'autre."
+    },
+    {
+     "id": "home",
+     "en": "Pick their home store, where they work most.",
+     "fr": "Choisissez son magasin principal, là où il travaille le plus."
+    },
+    {
+     "id": "add",
+     "en": "Click Add person. They sign in at any of their stores with the same email and password.",
+     "fr": "Cliquez sur Ajouter une personne. Il se connecte à n'importe lequel de ses magasins avec le même courriel et mot de passe."
+    },
+    {
+     "id": "leave",
+     "en": "When someone leaves, open them here, and click Deactivate. Their sales history is kept.",
+     "fr": "Quand quelqu'un part, ouvrez sa fiche ici, et cliquez sur Désactiver. Son historique de ventes est conservé."
+    }
+   ]
+  },
+  {
+   "id": "customer-analytics",
+   "flow": "flows/customer-analytics.mjs",
+   "docs": "admin/reports/customer-analytics",
+   "title": {
+    "en": "Getting to know your customers",
+    "fr": "Mieux connaître vos clients"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To see who your regulars are, open Reports, and click Customer Analytics.",
+     "fr": "Pour voir qui sont vos habitués, ouvrez Rapports, et cliquez sur Analyse de la clientèle."
+    },
+    {
+     "id": "cards",
+     "en": "The top shows how many customers you have, how many are new or coming back, and who you might be losing.",
+     "fr": "Le haut montre combien de clients vous avez, combien sont nouveaux ou reviennent, et qui vous êtes peut-être en train de perdre."
+    },
+    {
+     "id": "top",
+     "en": "Top customers lists who spends the most.",
+     "fr": "Meilleurs clients liste ceux qui dépensent le plus."
+    },
+    {
+     "id": "lists",
+     "en": "Further down: your most loyal customers, the ones who haven't been back in a while, and the new ones.",
+     "fr": "Plus bas : vos clients les plus fidèles, ceux qui ne sont pas revenus depuis un moment, et les nouveaux."
+    },
+    {
+     "id": "tip",
+     "en": "Only sales with a customer on them count, so ask cashiers to add the customer to every sale.",
+     "fr": "Seules les ventes avec un client comptent, alors demandez aux caissiers d'ajouter le client à chaque vente."
+    }
+   ]
+  },
+  {
+   "id": "weigh-heavy-giveaway",
+   "flow": "flows/weigh-heavy-giveaway.mjs",
+   "docs": "admin/reports/weigh-heavy-giveaway",
+   "title": {
+    "en": "Grams given away on the scale",
+    "fr": "Grammes donnés sur la balance"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "When budtenders pour a little over, those grams are free. To see how much goes out, open Reports, then Give-Away.",
+     "fr": "Quand les budtenders versent un peu plus, ces grammes sont gratuits. Pour voir combien il en sort, ouvrez Rapports, puis Dons (pesée généreuse)."
+    },
+    {
+     "id": "total",
+     "en": "The top shows the total grams given away, and how many pours were heavy.",
+     "fr": "Le haut montre le total des grammes donnés, et combien de pesées étaient généreuses."
+    },
+    {
+     "id": "scale",
+     "en": "Scale usage shows who weighs on the scale. A low scale percentage means someone's tapping presets instead of weighing.",
+     "fr": "L'utilisation de la balance montre qui pèse sur la balance. Un faible pourcentage veut dire que quelqu'un touche des poids prédéfinis au lieu de peser."
+    },
+    {
+     "id": "pours",
+     "en": "Below, every heavy pour: who, what, what was charged, and what actually went out. Click a receipt to open the sale.",
+     "fr": "Plus bas, chaque pesée généreuse : qui, quoi, ce qui a été facturé, et ce qui est vraiment sorti. Cliquez sur un reçu pour ouvrir la vente."
+    }
+   ]
   }
  ]
 }
