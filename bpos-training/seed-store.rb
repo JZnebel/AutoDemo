@@ -17,6 +17,11 @@
 #   TRAINING_LOCALE (en/fr) for the back office's language
 #   TRAINING_GIFT_CARDS=1 / TRAINING_STORE_CREDIT=1 to switch on those payment types (the
 #   store-credit one also gives Dana Whitfield $25 of credit to spend)
+#   TRAINING_WEEK_OF_SALES=1 a week of sales in this store (without the second store)
+#   TRAINING_SHIFTS=1 shift scheduling on, with this week's shifts for Riley and Sam
+#   TRAINING_HOUSE_ACCOUNT=1 house accounts on; Pat Lee has a tab with two charges and a payment
+#   TRAINING_ONLINE_ORDERS=1 storefront + online ordering on (the register's online-order alerts)
+#   TRAINING_SMART_RECEIVING=1 / TRAINING_CASH_FLOW=1 switch on Supplier Invoices / Financials
 #   TRAINING_SCALE=1 to switch on the scale features (the give-away report clip)
 #   TRAINING_LOSS_PREVENTION=1 to switch on the Loss Prevention review queue (that clip)
 #   TRAINING_SCAN_TO_RECEIVE=1 to switch on Scan to Receive (that clip)
@@ -42,6 +47,10 @@ pins       = {
 }
 
 second_subdomain = "#{subdomain}-west"
+# Logins are unique per store, so every worker's copy (riverstone2, ...) uses the same
+# addresses as riverstone: the signed-in email shows in the admin header, and a worker
+# number there would be on camera.
+mail = subdomain.sub(/\d+\z/, "")
 [subdomain, second_subdomain].each do |sub|
   next unless (old = Store.find_by(subdomain: sub))
   old.update_columns(active: false)
@@ -97,14 +106,21 @@ store = Store.create!(
   active: true,
   enable_age_verification: false,
   enforce_purchase_limit: false,
+  payment_house_account_enabled: ENV["TRAINING_HOUSE_ACCOUNT"] == "1",
+  # What a real store fills in on the General tab (the settings clips show it).
+  store_phone: "705-555-0100",
+  store_address: "12 Riverside Rd, Wasauksing ON",
+  store_email: "hello@riverstone.example",
+  business_hours: (0..6).to_h { |d| [d.to_s, { "open" => d.zero? ? "11:00" : "10:00", "close" => d.zero? ? "18:00" : "21:00", "closed" => false }] },
   slga_enabled: false,
   # Past the first-run setup wizard, unless a clip films the wizard itself.
   setup_wizard_completed_at: ENV["TRAINING_SETUP_WIZARD"] == "1" ? nil : Time.current,
   payment_gift_card_enabled: ENV["TRAINING_GIFT_CARDS"] == "1",
   payment_store_credit_enabled: ENV["TRAINING_STORE_CREDIT"] == "1",
   feature_flags: Store::INDUSTRY_DEFAULTS["cannabis"].merge(
-    "enable_storefront" => false,
-    "enable_online_ordering" => false,
+    "enable_storefront" => ENV["TRAINING_ONLINE_ORDERS"] == "1",
+    "enable_online_ordering" => ENV["TRAINING_ONLINE_ORDERS"] == "1",
+    "enable_shift_scheduling" => ENV["TRAINING_SHIFTS"] == "1",
     "enable_age_verification" => false,
     "enable_customers" => true,
     # Used by the time-clock and label clips; harmless for the rest.
@@ -118,6 +134,8 @@ store = Store.create!(
     "enable_loss_prevention" => ENV["TRAINING_LOSS_PREVENTION"] == "1",
     "enable_scale" => ENV["TRAINING_SCALE"] == "1",
     "enable_receipt_printing" => ENV["TRAINING_RECEIPT_PRINTING"] == "1",
+    "enable_smart_receiving" => ENV["TRAINING_SMART_RECEIVING"] == "1",
+    "enable_cash_flow_report" => ENV["TRAINING_CASH_FLOW"] == "1",
   ),
 )
 # Store#after_create normally provisions; make sure the defaults (categories, weight
@@ -131,9 +149,9 @@ end
 
 ActsAsTenant.with_tenant(store) do
   staff = {
-    owner:   { first_name: "Morgan", last_name: "Hill",  role: "admin",   email: "owner@#{subdomain}.training" },
-    manager: { first_name: "Sam",    last_name: "Brant", role: "manager", email: "manager@#{subdomain}.training" },
-    clerk:   { first_name: "Riley",  last_name: "Cole",  role: "clerk",   email: "clerk@#{subdomain}.training" },
+    owner:   { first_name: "Morgan", last_name: "Hill",  role: "admin",   email: "owner@#{mail}.training" },
+    manager: { first_name: "Sam",    last_name: "Brant", role: "manager", email: "manager@#{mail}.training" },
+    clerk:   { first_name: "Riley",  last_name: "Cole",  role: "clerk",   email: "clerk@#{mail}.training" },
   }
   users = staff.to_h do |key, attrs|
     [key, User.create!(attrs.merge(store: store, password: password, password_confirmation: password, pin: pins[key]))]
@@ -152,7 +170,22 @@ ActsAsTenant.with_tenant(store) do
     Customer.create!(name: name, phone: phone, loyalty_points: [120, 45, 300, 0, 80][i])
   end
 
-  seed_week_of_sales(users[:manager], busier: 1.4) if ENV["TRAINING_SECOND_STORE"] == "1"
+  seed_week_of_sales(users[:manager], busier: 1.4) if ENV["TRAINING_SECOND_STORE"] == "1" || ENV["TRAINING_WEEK_OF_SALES"] == "1"
+
+  if ENV["TRAINING_SHIFTS"] == "1"
+    wk = Date.current.beginning_of_week
+    (0..4).each { |d| Shift.create!(user: users[:clerk], date: wk + d, start_time: "09:00", end_time: "17:00", shift_role: d.zero? ? "opener" : "general") }
+    (1..4).each { |d| Shift.create!(user: users[:manager], date: wk + d, start_time: "12:00", end_time: "20:00", shift_role: "closer") }
+  end
+
+  if ENV["TRAINING_HOUSE_ACCOUNT"] == "1"
+    pat = Customer.find_by!(name: "Pat Lee")
+    pat.update!(has_house_account: true, house_account_limit: 300)
+    pat.charge_house_account!(amount: 45, user: users[:clerk], notes: "R-1001")
+    pat.charge_house_account!(amount: 30, user: users[:clerk], notes: "R-1002")
+    paid_note = { "fr" => "Virement", "es" => "Transferencia" }.fetch(ENV.fetch("TRAINING_LOCALE", "en"), "E-transfer")
+    pat.pay_house_account!(amount: 25, user: users[:manager], payment_method: "etransfer", notes: paid_note)
+  end
 
   if ENV["TRAINING_TIMESHEETS"] == "1"
     # Three days of 9-to-5 for Riley and Sam, and Riley's clock-in from yesterday left open
@@ -203,7 +236,7 @@ ActsAsTenant.with_tenant(store) do
 end
 
 if ENV["TRAINING_SECOND_STORE"] == "1"
-  owner = ActsAsTenant.with_tenant(store) { User.find_by!(email: "owner@#{subdomain}.training") }
+  owner = ActsAsTenant.with_tenant(store) { User.find_by!(email: "owner@#{mail}.training") }
   west = Store.create!(
     store.attributes.slice("store_type", "tax_rate", "tax_name", "currency_symbol", "timezone", "locale", "province",
                            "is_retailer", "is_distributor", "active", "enable_age_verification", "enforce_purchase_limit",
@@ -213,7 +246,7 @@ if ENV["TRAINING_SECOND_STORE"] == "1"
   StoreProvisioner.new(west).provision! unless ActsAsTenant.with_tenant(west) { Register.exists? }
   ActsAsTenant.with_tenant(west) do
     load Rails.root.join("db/demo_starter_seed.rb")
-    clerk = User.create!(first_name: "Jordan", last_name: "Quill", role: "manager", email: "manager@#{second_subdomain}.training",
+    clerk = User.create!(first_name: "Jordan", last_name: "Quill", role: "manager", email: "manager@#{mail}-west.training",
                          store: west, password: password, password_confirmation: password, pin: (pins[:manager].to_i + 1111).to_s[-4..])
     seed_week_of_sales(clerk)
   end

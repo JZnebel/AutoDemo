@@ -2955,6 +2955,791 @@
      "fr": "Plus bas, chaque pesée généreuse : qui, quoi, ce qui a été facturé, et ce qui est vraiment sorti. Cliquez sur un reçu pour ouvrir la vente."
     }
    ]
+  },
+  {
+   "id": "terpenes-effects",
+   "flow": "flows/terpenes-effects.mjs",
+   "docs": "admin/cannabis/terpenes-effects-flavors",
+   "title": {
+    "en": "Terpenes, effects and flavours",
+    "fr": "Terpènes, effets et saveurs"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Terpenes, effects and flavours help your staff describe a product beyond its strain name.",
+     "fr": "Les terpènes, les effets et les saveurs aident votre équipe à décrire un produit au-delà du nom de la variété."
+    },
+    {
+     "id": "open",
+     "en": "Open the product, and go to the Cannabis tab.",
+     "fr": "Ouvrez le produit, et allez dans l'onglet Cannabis."
+    },
+    {
+     "id": "tick",
+     "en": "Under Cannabis Profile, tick the terpenes and effects that fit, then click Update Product.",
+     "fr": "Sous Profil cannabique, cochez les terpènes et les effets qui conviennent, puis cliquez sur Mettre à jour le produit."
+    },
+    {
+     "id": "lists",
+     "en": "To see the lists themselves, search for Terpenes at the top of the page.",
+     "fr": "Pour voir les listes elles-mêmes, cherchez Terpènes en haut de la page."
+    },
+    {
+     "id": "shared",
+     "en": "These lists are shared by every store, so check an entry isn't already there before you add one.",
+     "fr": "Ces listes sont partagées par tous les magasins, alors vérifiez qu'une entrée n'existe pas déjà avant d'en ajouter une."
+    }
+   ]
+  },
+  {
+   "id": "product-options",
+   "flow": "flows/product-options.mjs",
+   "docs": "admin/products/product-options",
+   "title": {
+    "en": "One product, several flavours",
+    "fr": "Un produit, plusieurs saveurs"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "When one product comes in several flavours, each with its own barcode, keep it as one product with one stock count.",
+     "fr": "Quand un produit existe en plusieurs saveurs, chacune avec son code-barres, gardez-le comme un seul produit avec un seul stock."
+    },
+    {
+     "id": "open",
+     "en": "Open the product, and on the Details tab open Product Codes.",
+     "fr": "Ouvrez le produit, et dans l'onglet Détails, ouvrez Codes du produit."
+    },
+    {
+     "id": "label",
+     "en": "Type what the options are called, like Flavour.",
+     "fr": "Tapez comment s'appellent les options, par exemple Saveur."
+    },
+    {
+     "id": "add",
+     "en": "Click Add option for each one, type its name, and scan its barcode.",
+     "fr": "Cliquez sur Ajouter une option pour chacune, tapez son nom, et numérisez son code-barres."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Product. Every option rings up this product and shares its stock.",
+     "fr": "Cliquez sur Mettre à jour le produit. Chaque option passe ce produit à la caisse et partage son stock."
+    },
+    {
+     "id": "unknown",
+     "en": "If a cashier scans a barcode the register doesn't know, a manager can attach it to the right product on the spot.",
+     "fr": "Si un caissier numérise un code-barres inconnu, un gérant peut l'associer au bon produit sur-le-champ."
+    }
+   ]
+  },
+  {
+   "id": "csv-export",
+   "flow": "flows/csv-export.mjs",
+   "docs": "admin/products/csv-export",
+   "title": {
+    "en": "Downloading your product list",
+    "fr": "Télécharger votre liste de produits"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "You can download your whole product list as a spreadsheet.",
+     "fr": "Vous pouvez télécharger toute votre liste de produits sous forme de tableur."
+    },
+    {
+     "id": "filters",
+     "en": "Clear any search or filters first. A filtered list only exports what's shown.",
+     "fr": "Effacez d'abord toute recherche ou tout filtre. Une liste filtrée n'exporte que ce qui est affiché."
+    },
+    {
+     "id": "menu",
+     "en": "On Products, click More Actions, and under Export, choose Product Catalog.",
+     "fr": "Dans Produits, cliquez sur Plus d'actions, et sous Exportation, choisissez Catalogue de produits."
+    },
+    {
+     "id": "open",
+     "en": "The file downloads right away. Open it in Excel or Google Sheets.",
+     "fr": "Le fichier se télécharge tout de suite. Ouvrez-le dans Excel ou Google Sheets."
+    },
+    {
+     "id": "import",
+     "en": "To change prices in bulk, edit the file and bring it back in with CSV Import.",
+     "fr": "Pour changer des prix en lot, modifiez le fichier et réimportez-le avec l'importation CSV."
+    }
+   ]
+  },
+  {
+   "id": "label-templates",
+   "flow": "flows/label-templates.mjs",
+   "docs": "admin/other/label-templates",
+   "title": {
+    "en": "Designing a label",
+    "fr": "Concevoir une étiquette"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Label templates decide what your label printer prints, and where.",
+     "fr": "Les modèles d'étiquettes déterminent ce que votre imprimante d'étiquettes imprime, et où."
+    },
+    {
+     "id": "open",
+     "en": "On Products, open More Actions, click Label Templates, then New Template.",
+     "fr": "Dans Produits, ouvrez Plus d'actions, cliquez sur Modèles d'étiquettes, puis Nouveau modèle."
+    },
+    {
+     "id": "size",
+     "en": "Name it, and pick your label size, or type the width and height.",
+     "fr": "Donnez-lui un nom, et choisissez la taille de vos étiquettes, ou tapez la largeur et la hauteur."
+    },
+    {
+     "id": "details",
+     "en": "It starts with the name and the price. Click Add for a barcode, and set where it sits.",
+     "fr": "Il commence avec le nom et le prix. Cliquez sur Ajouter pour un code-barres, et placez-le."
+    },
+    {
+     "id": "save",
+     "en": "Click Save. Test Print checks it on your printer.",
+     "fr": "Cliquez sur Enregistrer. Le test d'impression le vérifie sur votre imprimante."
+    },
+    {
+     "id": "default",
+     "en": "Click Set as default, so the register uses it.",
+     "fr": "Cliquez sur Définir par défaut, pour que la caisse l'utilise."
+    }
+   ]
+  },
+  {
+   "id": "product-issues",
+   "flow": "flows/product-issues.mjs",
+   "docs": "admin/other/product-issues",
+   "title": {
+    "en": "Following up on product issues",
+    "fr": "Suivre les problèmes de produits"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "When a product turns out moldy, damaged or expired, cashiers report it at the register.",
+     "fr": "Quand un produit est moisi, endommagé ou périmé, les caissiers le signalent à la caisse."
+    },
+    {
+     "id": "open",
+     "en": "To follow up, click Reports, then Product Issues.",
+     "fr": "Pour faire le suivi, cliquez sur Rapports, puis Problèmes de produits."
+    },
+    {
+     "id": "boxes",
+     "en": "The top shows how many there are, how many are still open, and how much was refunded.",
+     "fr": "Le haut montre combien il y en a, combien sont encore ouverts, et combien a été remboursé."
+    },
+    {
+     "id": "view",
+     "en": "Click View for the details, add your notes, and save them.",
+     "fr": "Cliquez sur Voir pour les détails, ajoutez vos notes, et enregistrez-les."
+    },
+    {
+     "id": "resolve",
+     "en": "When it's dealt with, click Mark as Resolved.",
+     "fr": "Quand c'est réglé, cliquez sur Marquer comme résolu."
+    }
+   ]
+  },
+  {
+   "id": "smart-receiving",
+   "flow": "flows/smart-receiving.mjs",
+   "docs": "admin/inventory/smart-receiving",
+   "title": {
+    "en": "Reading supplier invoices",
+    "fr": "Lire les factures fournisseurs"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Smart Receiving reads a supplier's invoice for you, so you don't type it in.",
+     "fr": "La réception intelligente lit la facture du fournisseur pour vous, pour ne pas avoir à la taper."
+    },
+    {
+     "id": "open",
+     "en": "On Products, open More Actions and click Supplier Invoices.",
+     "fr": "Dans Produits, ouvrez Plus d'actions et cliquez sur Factures fournisseurs."
+    },
+    {
+     "id": "upload",
+     "en": "Click Upload Document, choose the file or a phone photo, pick the supplier, and click Upload and read.",
+     "fr": "Cliquez sur Téléverser un document, choisissez le fichier ou une photo, le fournisseur, et cliquez sur Téléverser et lire."
+    },
+    {
+     "id": "review",
+     "en": "Open the invoice and check its lines against the paper. Lines marked Needs choosing get matched when you receive.",
+     "fr": "Ouvrez la facture et vérifiez ses lignes avec le papier. Les lignes À choisir sont associées à la réception."
+    },
+    {
+     "id": "apply",
+     "en": "Pick the purchase order, and click Apply document.",
+     "fr": "Choisissez le bon de commande, et cliquez sur Appliquer le document."
+    },
+    {
+     "id": "stock",
+     "en": "This records what you were charged. Stock goes up when you count the delivery in.",
+     "fr": "Cela enregistre ce qui vous a été facturé. Le stock augmente quand vous comptez la livraison."
+    }
+   ]
+  },
+  {
+   "id": "receiving-variance",
+   "flow": "flows/receiving-variance.mjs",
+   "docs": "admin/reports/receiving-variance",
+   "title": {
+    "en": "Ordered, billed, arrived",
+    "fr": "Commandé, facturé, reçu"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Receiving Variance puts what you ordered, what you were billed, and what arrived side by side.",
+     "fr": "Les écarts de réception mettent côte à côte ce que vous avez commandé, ce qui a été facturé, et ce qui est arrivé."
+    },
+    {
+     "id": "open",
+     "en": "Click Reports, then Receiving Variance.",
+     "fr": "Cliquez sur Rapports, puis Écarts de réception."
+    },
+    {
+     "id": "boxes",
+     "en": "The top counts short and over shipments, items you never ordered, and the money at stake.",
+     "fr": "Le haut compte les livraisons incomplètes ou en trop, les articles jamais commandés, et l'argent en jeu."
+    },
+    {
+     "id": "rows",
+     "en": "Each row shows what was ordered, invoiced and received for a product.",
+     "fr": "Chaque ligne montre ce qui a été commandé, facturé et reçu pour un produit."
+    },
+    {
+     "id": "export",
+     "en": "Click Export CSV to send the list to your supplier or bookkeeper.",
+     "fr": "Cliquez sur Exporter en CSV pour envoyer la liste à votre fournisseur ou à votre comptable."
+    }
+   ]
+  },
+  {
+   "id": "financials",
+   "flow": "flows/financials.mjs",
+   "docs": "admin/reports/cash-flow-report",
+   "title": {
+    "en": "Profit and loss, and cash flow",
+    "fr": "Profits et pertes, et flux de trésorerie"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Financials shows whether your store made money, and where the cash went.",
+     "fr": "Finances montre si votre magasin a fait de l'argent, et où est passé l'argent."
+    },
+    {
+     "id": "open",
+     "en": "Click Reports, then Financials. It opens on Profit and Loss for the year so far.",
+     "fr": "Cliquez sur Rapports, puis Finances. Ça s'ouvre sur les profits et pertes de l'année."
+    },
+    {
+     "id": "totals",
+     "en": "The top shows net sales, gross profit, and what's left once your expenses are paid.",
+     "fr": "Le haut montre les ventes nettes, la marge brute, et ce qui reste une fois vos dépenses payées."
+    },
+    {
+     "id": "dates",
+     "en": "Use the buttons along the top to change the period.",
+     "fr": "Utilisez les boutons du haut pour changer la période."
+    },
+    {
+     "id": "cash",
+     "en": "The Cash Flow tab shows cash in and out, including stock you paid for.",
+     "fr": "L'onglet Flux de trésorerie montre l'argent qui entre et qui sort, y compris le stock payé."
+    },
+    {
+     "id": "expenses",
+     "en": "Add rent, payroll and other costs under Expenses, so they show up here.",
+     "fr": "Ajoutez le loyer, la paie et vos autres coûts dans Dépenses, pour qu'ils apparaissent ici."
+    }
+   ]
+  },
+  {
+   "id": "payroll-summary",
+   "flow": "flows/payroll-summary.mjs",
+   "docs": "admin/reports/payroll-summary",
+   "title": {
+    "en": "Payroll summary",
+    "fr": "Sommaire de la paie"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "The payroll summary adds up each person's hours and pay for a pay period.",
+     "fr": "Le sommaire de la paie additionne les heures et la paie de chaque personne pour une période."
+    },
+    {
+     "id": "open",
+     "en": "Click Time Tracking, then Payroll.",
+     "fr": "Cliquez sur Suivi du temps, puis Paie."
+    },
+    {
+     "id": "period",
+     "en": "Pick a period, like the last two weeks, or set your own dates.",
+     "fr": "Choisissez une période, comme les deux dernières semaines, ou vos propres dates."
+    },
+    {
+     "id": "check",
+     "en": "Check each person's hours and gross pay. Anyone still clocked in shows once they clock out.",
+     "fr": "Vérifiez les heures et la paie brute de chacun. Une personne encore pointée apparaît une fois sortie."
+    },
+    {
+     "id": "headsup",
+     "en": "A note like this means someone has no hourly rate yet. Set it on their staff profile.",
+     "fr": "Une note comme celle-ci veut dire que quelqu'un n'a pas encore de taux horaire. Réglez-le dans sa fiche."
+    },
+    {
+     "id": "export",
+     "en": "Click Export CSV to hand it to your bookkeeper.",
+     "fr": "Cliquez sur Exporter en CSV pour le remettre à votre comptable."
+    }
+   ]
+  },
+  {
+   "id": "report-digest",
+   "flow": "flows/report-digest.mjs",
+   "docs": "admin/reports/report-digest",
+   "title": {
+    "en": "Sales summary by email",
+    "fr": "Résumé des ventes par courriel"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "The report digest emails you a sales summary every day, or once a week.",
+     "fr": "Le résumé de rapports vous envoie par courriel un sommaire des ventes chaque jour, ou chaque semaine."
+    },
+    {
+     "id": "open",
+     "en": "Go to Settings, click Edit Settings, and open the Notifications tab.",
+     "fr": "Allez dans Paramètres, cliquez sur Modifier les paramètres, et ouvrez l'onglet Notifications."
+    },
+    {
+     "id": "on",
+     "en": "Tick Enable Report Digest, and pick daily or weekly.",
+     "fr": "Cochez Activer le résumé de rapports, et choisissez quotidien ou hebdomadaire."
+    },
+    {
+     "id": "who",
+     "en": "Type who gets it, separated by commas, and the time to send it.",
+     "fr": "Tapez à qui l'envoyer, séparés par des virgules, et l'heure d'envoi."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Settings. The email has your net sales, payment methods and top products.",
+     "fr": "Cliquez sur Mettre à jour les paramètres. Le courriel montre vos ventes nettes, vos modes de paiement et vos meilleurs produits."
+    }
+   ]
+  },
+  {
+   "id": "exporting-reports",
+   "flow": "flows/exporting-reports.mjs",
+   "docs": "admin/reports/exporting-reports",
+   "title": {
+    "en": "Saving reports as files",
+    "fr": "Enregistrer les rapports en fichiers"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Your sales report can be saved as a file. Open Reports, then Sales Report.",
+     "fr": "Votre rapport des ventes peut être enregistré en fichier. Ouvrez Rapports, puis Rapport des ventes."
+    },
+    {
+     "id": "dates",
+     "en": "Pick the dates first, with a quick button like Last Week, or your own dates.",
+     "fr": "Choisissez d'abord les dates, avec un bouton rapide comme Semaine dernière, ou vos propres dates."
+    },
+    {
+     "id": "pdf",
+     "en": "Export PDF gives a report you can print or save.",
+     "fr": "Exporter PDF donne un rapport à imprimer ou à enregistrer."
+    },
+    {
+     "id": "csv",
+     "en": "Export CSV gives one row per sale. Line Items gives one row per item sold.",
+     "fr": "Exporter en CSV donne une ligne par vente. Articles donne une ligne par article vendu."
+    },
+    {
+     "id": "excel",
+     "en": "Excel builds a tidy workbook with a summary, your sales, and every item. It's the one for your accountant.",
+     "fr": "Excel crée un classeur avec un sommaire, vos ventes et chaque article. C'est celui pour votre comptable."
+    },
+    {
+     "id": "voided",
+     "en": "Want voided sales in the file too? Set Status to All before you export.",
+     "fr": "Vous voulez les ventes annulées aussi? Mettez le statut à Tous avant d'exporter."
+    }
+   ]
+  },
+  {
+   "id": "shift-scheduling",
+   "flow": "flows/shift-scheduling.mjs",
+   "docs": "admin/other/shift-scheduling",
+   "title": {
+    "en": "Scheduling shifts",
+    "fr": "Planifier les quarts"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Plan your team's week from Time Tracking. Open More Actions and choose Shift Schedule.",
+     "fr": "Planifiez la semaine de votre équipe depuis Suivi du temps. Ouvrez Plus d'actions et choisissez Horaire des quarts."
+    },
+    {
+     "id": "grid",
+     "en": "Each row is a staff member, and each column a day.",
+     "fr": "Chaque ligne est un membre du personnel, et chaque colonne un jour."
+    },
+    {
+     "id": "add",
+     "en": "Click Add on a day, set the start and end time and the role, and click Add Shift.",
+     "fr": "Cliquez sur Ajouter dans un jour, réglez le début, la fin et le rôle, et cliquez sur Ajouter un quart."
+    },
+    {
+     "id": "totals",
+     "en": "Hours add up for each person, with totals for the week underneath.",
+     "fr": "Les heures s'additionnent pour chacun, avec les totaux de la semaine en dessous."
+    },
+    {
+     "id": "copy",
+     "en": "Copy to Next Week starts next week from this one, so you only change what's different.",
+     "fr": "Copier vers la semaine prochaine part de cette semaine, pour ne changer que ce qui diffère."
+    },
+    {
+     "id": "share",
+     "en": "Print PDF makes a copy for the back room. Email Schedules sends each person their own week.",
+     "fr": "Imprimer en PDF fait une copie pour l'arrière-boutique. Envoyer les horaires envoie à chacun sa semaine."
+    }
+   ]
+  },
+  {
+   "id": "time-off-requests",
+   "flow": "flows/time-off-requests.mjs",
+   "docs": "admin/other/time-off-requests",
+   "title": {
+    "en": "Asking for time off",
+    "fr": "Demander un congé"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Need a day off? At the register, tap Time Clock and enter your PIN.",
+     "fr": "Besoin d'un congé? À la caisse, touchez Horodateur et entrez votre NIP."
+    },
+    {
+     "id": "form",
+     "en": "Tap Request Time Off, pick the first and last day, and add a reason if you like.",
+     "fr": "Touchez Demander un congé, choisissez le premier et le dernier jour, et ajoutez une raison si vous voulez."
+    },
+    {
+     "id": "send",
+     "en": "Tap Send Request. It shows as waiting until your manager answers.",
+     "fr": "Touchez Envoyer la demande. Elle reste en attente jusqu'à la réponse de votre gérant."
+    },
+    {
+     "id": "manager",
+     "en": "Managers open Time Off from the shift schedule. The number shows how many are waiting.",
+     "fr": "Les gérants ouvrent Congés depuis l'horaire des quarts. Le nombre indique combien attendent."
+    },
+    {
+     "id": "approve",
+     "en": "If the person is already scheduled, leave the box ticked to take those shifts off, and click Approve.",
+     "fr": "Si la personne est déjà à l'horaire, laissez la case cochée pour retirer ces quarts, et cliquez sur Approuver."
+    },
+    {
+     "id": "after",
+     "en": "The employee sees it's approved at the time clock, and the days show as time off on the schedule.",
+     "fr": "L'employé voit que c'est approuvé à l'horodateur, et les jours apparaissent en congé à l'horaire."
+    }
+   ]
+  },
+  {
+   "id": "activity-audit",
+   "flow": "flows/activity-audit.mjs",
+   "docs": "admin/other/audit-trail",
+   "title": {
+    "en": "Who changed what",
+    "fr": "Qui a changé quoi"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To see who changed what, open Reports and click Audit Trail.",
+     "fr": "Pour voir qui a changé quoi, ouvrez Rapports et cliquez sur Piste d'audit."
+    },
+    {
+     "id": "rows",
+     "en": "Each row shows what changed, who changed it, and when. Pick Product to see only product changes.",
+     "fr": "Chaque ligne montre ce qui a changé, qui l'a changé, et quand. Choisissez Produit pour ne voir que les produits."
+    },
+    {
+     "id": "view",
+     "en": "Click View to see the old value next to the new one.",
+     "fr": "Cliquez sur Voir pour avoir l'ancienne valeur à côté de la nouvelle."
+    },
+    {
+     "id": "undo",
+     "en": "Made a mistake? Undo puts it back, and the undo is recorded too.",
+     "fr": "Une erreur? Annuler la défait, et l'annulation est enregistrée aussi."
+    },
+    {
+     "id": "logs",
+     "en": "For sign-ins, sales and voids, search for Activity Logs.",
+     "fr": "Pour les connexions, les ventes et les annulations, cherchez Journaux d'activité."
+    },
+    {
+     "id": "critical",
+     "en": "Critical events, like a voided sale, are flagged. Filter on them to check each one.",
+     "fr": "Les événements critiques, comme une vente annulée, sont signalés. Filtrez-les pour vérifier chacun."
+    }
+   ]
+  },
+  {
+   "id": "house-accounts",
+   "flow": "flows/house-accounts.mjs",
+   "docs": "admin/other/house-accounts",
+   "title": {
+    "en": "House accounts",
+    "fr": "Comptes clients"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "House accounts let trusted customers buy now and pay later.",
+     "fr": "Les comptes clients permettent à des clients de confiance d'acheter maintenant et de payer plus tard."
+    },
+    {
+     "id": "turn-on",
+     "en": "Turn it on for a customer by editing them and ticking the house account box, with a credit limit.",
+     "fr": "Activez-le pour un client en le modifiant et en cochant la case du compte, avec une limite de crédit."
+    },
+    {
+     "id": "panel",
+     "en": "The customer's page shows what they owe, their limit, and the credit they have left.",
+     "fr": "La fiche du client montre ce qu'il doit, sa limite, et le crédit qu'il lui reste."
+    },
+    {
+     "id": "register",
+     "en": "At the register, add the customer to the sale and tap House Account to put it on their tab.",
+     "fr": "À la caisse, ajoutez le client à la vente et touchez Compte client pour le mettre sur son compte."
+    },
+    {
+     "id": "payment",
+     "en": "When they pay, click Record Payment, enter the amount and how they paid, and save.",
+     "fr": "Quand il paie, cliquez sur Enregistrer un paiement, entrez le montant et le mode de paiement, et enregistrez."
+    },
+    {
+     "id": "history",
+     "en": "Every charge and payment is listed in the account's history.",
+     "fr": "Chaque achat et chaque paiement figurent dans l'historique du compte."
+    }
+   ]
+  },
+  {
+   "id": "discount-rounding",
+   "flow": "flows/discount-rounding.mjs",
+   "docs": "admin/settings/discount-rounding",
+   "title": {
+    "en": "Cash and discount rounding",
+    "fr": "Arrondi du comptant et des rabais"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Rounding is under Settings, Edit Settings, on the Products and Inventory tab.",
+     "fr": "L'arrondi se trouve dans Paramètres, Modifier les paramètres, onglet Produits et inventaire."
+    },
+    {
+     "id": "cash",
+     "en": "If you take cash, tick Canadian Cash Rounding. Cash totals round to the nearest five cents.",
+     "fr": "Si vous acceptez le comptant, cochez l'arrondi canadien. Les totaux en espèces s'arrondissent au cinq cents près."
+    },
+    {
+     "id": "card",
+     "en": "Card payments are never rounded, and your drawer count still balances.",
+     "fr": "Les paiements par carte ne sont jamais arrondis, et votre caisse balance toujours."
+    },
+    {
+     "id": "discounts",
+     "en": "To keep discounts in whole dollars, tick the kinds you want rounded, like manual discounts.",
+     "fr": "Pour garder les rabais en dollars ronds, cochez ceux à arrondir, comme les rabais manuels."
+    },
+    {
+     "id": "campaign",
+     "en": "Round Campaign Discounts adds a box to each sale campaign, so you choose which ones.",
+     "fr": "Arrondir les rabais de campagne ajoute une case à chaque campagne, pour choisir lesquelles."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Settings, and new sales use the new rounding.",
+     "fr": "Cliquez sur Mettre à jour les paramètres, et les nouvelles ventes utilisent le nouvel arrondi."
+    }
+   ]
+  },
+  {
+   "id": "product-display",
+   "flow": "flows/product-display.mjs",
+   "docs": "admin/settings/product-display",
+   "title": {
+    "en": "Choosing which details you track",
+    "fr": "Choisir les détails suivis"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Choose which cannabis details your store tracks under Settings, Edit Settings, Products and Inventory.",
+     "fr": "Choisissez les détails cannabis que votre magasin suit dans Paramètres, Modifier les paramètres, Produits et inventaire."
+    },
+    {
+     "id": "untick",
+     "en": "Under Cannabis Detail Fields, untick anything you don't use.",
+     "fr": "Sous Champs de détails cannabis, décochez ce que vous n'utilisez pas."
+    },
+    {
+     "id": "kept",
+     "en": "Turning a field off doesn't delete anything. It comes back if you turn it on again.",
+     "fr": "Désactiver un champ n'efface rien. Il revient si vous le réactivez."
+    },
+    {
+     "id": "threshold",
+     "en": "To hide exact counts when you have lots of stock, enter a number here. 200 shows as 200 plus.",
+     "fr": "Pour cacher le nombre exact quand vous avez beaucoup de stock, entrez un nombre ici. 200 s'affiche 200 et plus."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Settings to save.",
+     "fr": "Cliquez sur Mettre à jour les paramètres pour enregistrer."
+    }
+   ]
+  },
+  {
+   "id": "general-settings",
+   "flow": "flows/general-settings.mjs",
+   "docs": "admin/settings/general",
+   "title": {
+    "en": "Your store's basic settings",
+    "fr": "Les paramètres de base du magasin"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Your store's basics are under Settings, Edit Settings. The General tab opens first.",
+     "fr": "Les réglages de base sont dans Paramètres, Modifier les paramètres. L'onglet Général s'ouvre en premier."
+    },
+    {
+     "id": "details",
+     "en": "Check your store name, phone and address. They print on your receipts.",
+     "fr": "Vérifiez le nom, le téléphone et l'adresse du magasin. Ils s'impriment sur vos reçus."
+    },
+    {
+     "id": "hours",
+     "en": "Pick your time zone, and set your opening hours. Tick Closed on days you don't open.",
+     "fr": "Choisissez votre fuseau horaire, et vos heures d'ouverture. Cochez Fermé les jours où vous n'ouvrez pas."
+    },
+    {
+     "id": "float",
+     "en": "On the Operations tab, set the opening float your drawers start the day with.",
+     "fr": "Dans l'onglet Opérations, réglez le fonds d'ouverture de vos tiroirs-caisses."
+    },
+    {
+     "id": "payments",
+     "en": "Under Payment Types, tick the ways customers can pay at the register.",
+     "fr": "Sous Types de paiement, cochez les façons dont les clients peuvent payer à la caisse."
+    },
+    {
+     "id": "save",
+     "en": "Every tab is one form. Click Update Settings before you leave.",
+     "fr": "Tous les onglets forment un seul formulaire. Cliquez sur Mettre à jour les paramètres avant de partir."
+    }
+   ]
+  },
+  {
+   "id": "online-order-tickets",
+   "flow": "flows/online-order-tickets.mjs",
+   "docs": "pos/orders/online-order-tickets",
+   "title": {
+    "en": "Online orders at the register",
+    "fr": "Commandes en ligne à la caisse"
+   },
+   "lines": [
+    {
+     "id": "alert",
+     "en": "When a customer orders online, the register chimes, and can print a ticket too.",
+     "fr": "Quand un client commande en ligne, la caisse sonne, et peut aussi imprimer un billet."
+    },
+    {
+     "id": "tab",
+     "en": "With the cart empty, tap Orders. The number shows how many are waiting.",
+     "fr": "Avec le panier vide, touchez Commandes. Le nombre indique combien attendent."
+    },
+    {
+     "id": "order",
+     "en": "Tap the order to see what they bought, and how they're getting it.",
+     "fr": "Touchez la commande pour voir ce qu'ils ont acheté, et comment ils la récupèrent."
+    },
+    {
+     "id": "ready",
+     "en": "For a pickup, get it ready, and tap Mark Ready to let the customer know.",
+     "fr": "Pour un ramassage, préparez-la, et touchez Marquer prête pour aviser le client."
+    },
+    {
+     "id": "load",
+     "en": "When they arrive, tap Load into Register, and take payment as usual.",
+     "fr": "À leur arrivée, touchez Charger dans la caisse, et encaissez comme d'habitude."
+    }
+   ]
+  },
+  {
+   "id": "keyboard-shortcuts",
+   "flow": "flows/keyboard-shortcuts.mjs",
+   "docs": "pos/other/keyboard-shortcuts",
+   "title": {
+    "en": "Keyboard shortcuts",
+    "fr": "Raccourcis clavier"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "The register is made for touch, but a few keys help.",
+     "fr": "La caisse est faite pour le tactile, mais quelques touches aident."
+    },
+    {
+     "id": "scan",
+     "en": "Scan a barcode any time. There's no need to click the search box first.",
+     "fr": "Numérisez un code-barres à tout moment. Pas besoin de cliquer sur la recherche d'abord."
+    },
+    {
+     "id": "search",
+     "en": "To type a product name, click the search box first.",
+     "fr": "Pour taper le nom d'un produit, cliquez d'abord sur la recherche."
+    },
+    {
+     "id": "qty",
+     "en": "Tap a quantity, type the new number, and press Enter. Escape cancels.",
+     "fr": "Touchez une quantité, tapez le nouveau nombre, et appuyez sur Entrée. Échap annule."
+    },
+    {
+     "id": "picker",
+     "en": "In a picker, the arrow keys move and Enter chooses. Escape closes it.",
+     "fr": "Dans un choix, les flèches déplacent et Entrée choisit. Échap le ferme."
+    },
+    {
+     "id": "pin",
+     "en": "Signing in and the time clock use the on-screen keypad.",
+     "fr": "La connexion et l'horodateur utilisent le clavier à l'écran."
+    }
+   ]
   }
  ]
 }

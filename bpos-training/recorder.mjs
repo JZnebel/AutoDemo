@@ -136,7 +136,8 @@ const SCREEN_JS = () => {
     const t = norm(el.innerText);
     if (t && t.length < 80 && shown(el)) texts.add(t);
   }
-  for (const el of document.querySelectorAll("input:not([type=hidden]):not([type=password]), textarea")) {
+  // Radio and checkbox values are codes ("simple", "variation"), never shown to anyone.
+  for (const el of document.querySelectorAll("input:not([type=hidden]):not([type=password]):not([type=radio]):not([type=checkbox]), textarea")) {
     if (!shown(el)) continue;
     for (const t of [norm(el.value), norm(el.placeholder)]) if (t && /\p{L}/u.test(t)) texts.add(t);
   }

@@ -66,6 +66,12 @@ export function seedEnv(flags, subdomain = CONFIG.subdomain) {
     TRAINING_EMAIL_RECEIPTS: on("--email-receipts"),
     TRAINING_CLERK_NO_VOID: on("--clerk-no-void"),
     TRAINING_STORE_CREDIT: on("--store-credit"),
+    TRAINING_SMART_RECEIVING: on("--smart-receiving"),
+    TRAINING_CASH_FLOW: on("--cash-flow"),
+    TRAINING_WEEK_OF_SALES: on("--week-of-sales"),
+    TRAINING_SHIFTS: on("--shifts"),
+    TRAINING_HOUSE_ACCOUNT: on("--house-account"),
+    TRAINING_ONLINE_ORDERS: on("--online-orders"),
     TRAINING_LOCALE: (flags.find((a) => a.startsWith("--lang=")) || "--lang=en").slice(7),
   };
 }

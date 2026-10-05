@@ -23,7 +23,8 @@ export async function openAdmin(ctx, { who = "owner", path = "/products" } = {})
   await page.goto(`${BASE}/users/sign_in`, { waitUntil: "domcontentloaded" });
   const c = creds();
   await page.waitForSelector('input[type="password"]', { timeout: 20000 });
-  const email = `${who}@${CONFIG.subdomain}.training`;
+  // Every worker store uses riverstone's addresses (see seed-store.rb).
+  const email = `${who}@${CONFIG.subdomain.replace(/\d+$/, "")}.training`;
   // On a slow server the page's scripts can connect after the fields are filled and clear
   // the email (the remembered-email restore), so the form posts without it: fill, let the
   // page settle, check, and only then submit.
