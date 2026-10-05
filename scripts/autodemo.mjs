@@ -20,6 +20,7 @@
  *   --skip-tts              Skip TTS generation (use existing audio)
  *   --skip-render           Skip Remotion render (just build video)
  *   --no-remotion           Output raw video without Remotion polish
+ *   --skip-checks           Don't stop on quality-check errors (still reported)
  */
 
 import puppeteer from "puppeteer-core";
@@ -27,6 +28,10 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, copyFileSync } from
 import { resolve, join, dirname, basename } from "path";
 import { execSync, spawnSync } from "child_process";
 import { fileURLToPath } from "url";
+import {
+  validateNarration, checkSegmentSpeeds, checkTranscript,
+  masterLoudness, reviewRender, printCheck,
+} from "../lib/quality-checks.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -50,6 +55,7 @@ const skipRecord = args.includes("--skip-record");
 const skipTts = args.includes("--skip-tts");
 const skipRender = args.includes("--skip-render");
 const noRemotion = args.includes("--no-remotion");
+const skipChecks = args.includes("--skip-checks");
 
 if (!narrationPath) {
   console.error("Usage: node scripts/autodemo.mjs --narration <narration.json> [--script <replay.json>] [flags]");
@@ -80,6 +86,29 @@ console.log(`  Script:    ${scriptPath || "(auto from narration)"} (${script.seg
 console.log(`  Narration: ${narrationPath} (${narration.segments?.length} segments)`);
 console.log(`  Output:    ${outputPath}`);
 console.log(`  Voice:     ${voice}\n`);
+
+// Quality checks — collected into quality-report.json, errors stop the run before render
+const quality = {};
+function gate(name, result) {
+  quality[name] = result;
+  printCheck(name, result);
+  if (result.errors?.length && !skipChecks) {
+    writeFileSync(join(outputDir, "quality-report.json"), JSON.stringify(quality, null, 2));
+    console.error(`\n  ✗ Stopping: fix the ${name} errors above (or pass --skip-checks to render anyway).\n`);
+    process.exit(1);
+  }
+}
+
+// Validate narration.json up front — cheap, and catches bad footage ranges before TTS/render
+{
+  const recordingForCheck = join(outputDir, "recording.mp4");
+  const rawDurationSec = skipRecord && existsSync(recordingForCheck)
+    ? parseFloat(execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${recordingForCheck}"`, { encoding: "utf8" }).trim())
+    : undefined;
+  console.log("══ Narration check ══\n");
+  gate("narration", validateNarration(narration, { rawDurationSec }));
+  console.log();
+}
 
 // ═══════════════════════════════════════════════════════════════════════
 // STEP 1: Generate TTS + word timings
@@ -153,6 +182,13 @@ else:
   }
 } else {
   console.log("══ STEP 1: TTS (skipped — using existing) ══\n");
+}
+
+// Did the TTS actually say the script? (truncation, dropped sentences, "dash" read aloud)
+if (existsSync(wordTimingsPath)) {
+  console.log("══ Transcript check ══\n");
+  gate("transcript", checkTranscript(JSON.parse(readFileSync(wordTimingsPath, "utf8")), narration.fullText));
+  console.log();
 }
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -449,6 +485,7 @@ if (segmentFiles.length === 1 && narration.segments.length > 1) {
 }
 
 const speedFiles = [];
+const speedItems = [];
 for (let i = 0; i < segmentFiles.length; i++) {
   const segFile = segmentFiles[i];
   if (!existsSync(segFile)) continue;
@@ -456,6 +493,7 @@ for (let i = 0; i < segmentFiles.length; i++) {
   const segDur = parseFloat(execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${segFile}"`, { encoding: "utf8" }).trim());
   const audioDur = segmentAudio[i]?.audioDur || segDur;
   const speed = segDur / audioDur;
+  speedItems.push({ label: narration.segments[i]?.sceneLabel || `seg${i}`, footageSec: segDur, audioSec: audioDur });
   const speedFile = join(outputDir, `seg${i}_speed.mp4`);
 
   if (Math.abs(speed - 1.0) < 0.05) {
@@ -468,6 +506,9 @@ for (let i = 0; i < segmentFiles.length; i++) {
   }
   speedFiles.push(speedFile);
 }
+
+console.log();
+gate("speed", checkSegmentSpeeds(speedItems));
 
 // ═══════════════════════════════════════════════════════════════════════
 // STEP 5: Concat + merge audio
@@ -489,6 +530,7 @@ console.log(`  Synced video: ${finalDur.toFixed(1)}s`);
 // ═══════════════════════════════════════════════════════════════════════
 // STEP 6: Remotion render (optional)
 // ═══════════════════════════════════════════════════════════════════════
+let expectedDurationSec;
 if (!noRemotion && !skipRender) {
   console.log("\n══ STEP 6: Remotion render ══\n");
 
@@ -594,6 +636,7 @@ if (!noRemotion && !skipRender) {
 
   const totalFrames = introDurationFrames + videoDurationFrames + outroDurationFrames;
   console.log(`  Props: ${totalFrames} frames (${(totalFrames / FPS).toFixed(1)}s)`);
+  expectedDurationSec = totalFrames / FPS;
   console.log(`  Word timings: ${wordTimings.length}`);
 
   // Check for custom composition (per-video or template)
@@ -636,6 +679,25 @@ if (!noRemotion && !skipRender) {
   console.log(`\n  ✅ Output (no Remotion): ${outputPath}`);
 } else {
   console.log("\n  Render skipped");
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// STEP 6b: Loudness master + post-render review
+// ═══════════════════════════════════════════════════════════════════════
+if (existsSync(outputPath) && !skipRender) {
+  console.log("\n══ STEP 6b: Master loudness + review render ══\n");
+  try {
+    const lufs = masterLoudness(outputPath);
+    if (lufs) console.log(`  Loudness: ${lufs.inputI.toFixed(1)} → ${lufs.outputI} LUFS`);
+  } catch (err) {
+    console.log(`  ⚠️  Loudness normalization failed: ${err.message}`);
+  }
+
+  const reviewDir = join(outputDir, "review-frames");
+  const review = reviewRender(outputPath, { reviewDir, expectedDurationSec });
+  quality.render = review;
+  printCheck("render", review);
+  console.log(`  Review frames: ${reviewDir}/ — look at these before calling the video done`);
 }
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -764,10 +826,22 @@ const bundleDir = join(outputDir, `bundle-${timestamp}`);
 mkdirSync(bundleDir, { recursive: true });
 mkdirSync(join(bundleDir, "segments"), { recursive: true });
 
-// Copy replay script and narration
-if (scriptPath && scriptPath !== "/dev/null" && existsSync(resolve(scriptPath))) {
+// Copy replay script and narration. Without --script, generate one from the MCP
+// screencast timeline so the demo can be re-recorded without the AI.
+const hasScript = scriptPath && scriptPath !== "/dev/null" && existsSync(resolve(scriptPath));
+let replayFromTimeline = false;
+if (hasScript) {
   copyFileSync(resolve(scriptPath), join(bundleDir, "replay-script.json"));
+} else {
+  const timelineJsonl = join(outputDir, "recording.jsonl");
+  if (existsSync(timelineJsonl)) {
+    const r = spawnSync("node", [join(ROOT, "scripts", "timeline-to-replay.mjs"), timelineJsonl, "--output", join(bundleDir, "replay-script.json")], { encoding: "utf8" });
+    replayFromTimeline = r.status === 0;
+    console.log(replayFromTimeline ? "  Replay script generated from recording.jsonl" : `  ⚠️  Replay generation failed: ${(r.stderr || "").trim().split("\n").pop()}`);
+  }
 }
+writeFileSync(join(outputDir, "quality-report.json"), JSON.stringify(quality, null, 2));
+copyFileSync(join(outputDir, "quality-report.json"), join(bundleDir, "quality-report.json"));
 copyFileSync(resolve(narrationPath), join(bundleDir, "narration.json"));
 copyFileSync(ttsPath, join(bundleDir, "narration.mp3"));
 if (existsSync(wordTimingsPath)) copyFileSync(wordTimingsPath, join(bundleDir, "word-timings.json"));
@@ -804,7 +878,9 @@ const manifest = {
     wordTimings: "word-timings.json",
     final: "final.mp4",
   },
-  howToReRecord: `node scripts/autodemo.mjs --script ${join(bundleDir, "replay-script.json")} --narration ${join(bundleDir, "narration.json")} --output-dir ${outputDir}`,
+  howToReRecord: replayFromTimeline
+    ? `node scripts/replay-demo.mjs ${join(bundleDir, "replay-script.json")} --output ${join(outputDir, "recording.mp4")}`
+    : `node scripts/autodemo.mjs --script ${join(bundleDir, "replay-script.json")} --narration ${join(bundleDir, "narration.json")} --output-dir ${outputDir}`,
 };
 writeFileSync(join(bundleDir, "manifest.json"), JSON.stringify(manifest, null, 2));
 
@@ -853,6 +929,17 @@ if (compSize) {
 }
 console.log(`║  Bundle:     bundle-${timestamp.padEnd(19)}║`);
 console.log("╚══════════════════════════════════════════╝\n");
-if (scriptPath && scriptPath !== "/dev/null") {
-  console.log(`  Re-record: node scripts/autodemo.mjs --script ${bundleDir}/replay-script.json --narration ${bundleDir}/narration.json\n`);
+if (hasScript || replayFromTimeline) {
+  console.log(`  Re-record: ${manifest.howToReRecord}\n`);
+}
+
+const qualityErrors = Object.entries(quality).flatMap(([k, r]) => (r.errors || []).map((e) => `${k}: ${e}`));
+const qualityWarnings = Object.values(quality).reduce((n, r) => n + (r.warnings?.length || 0), 0);
+if (qualityErrors.length) {
+  console.log(`  ✗ Quality: ${qualityErrors.length} error(s) — see ${join(outputDir, "quality-report.json")}`);
+  for (const e of qualityErrors) console.log(`      ${e}`);
+  console.log();
+  process.exitCode = 1;
+} else {
+  console.log(`  Quality: no errors, ${qualityWarnings} warning(s) — ${join(outputDir, "quality-report.json")}\n`);
 }

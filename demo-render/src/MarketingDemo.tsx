@@ -1,5 +1,5 @@
-import React from "react";
-import { AbsoluteFill, Audio, Sequence, interpolate, staticFile } from "remotion";
+import React, { useMemo } from "react";
+import { AbsoluteFill, Audio, Sequence, staticFile, useVideoConfig } from "remotion";
 import {
   TransitionSeries,
   linearTiming,
@@ -26,6 +26,7 @@ import { ProgressBar } from "./components/ProgressBar";
 import { Presenter, type MouthCue } from "./components/Presenter";
 import { SceneBreak } from "./components/SceneBreak";
 import type { ZoomRegion } from "./components/ZoomableVideo";
+import { duckedMusicVolume } from "./musicDucking";
 
 /**
  * MarketingDemo — Premium marketing video composition.
@@ -107,6 +108,19 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
   const mainContentDuration =
     (transitionDurationFrames || 0) + videoDurationFrames;
 
+  // Music ducks under narration; narration starts when main content fades in
+  const { fps, durationInFrames } = useVideoConfig();
+  const musicVolume = useMemo(
+    () =>
+      duckedMusicVolume({
+        wordTimings,
+        speechStartFrame: introDurationFrames - INTRO_TRANSITION_FRAMES,
+        totalFrames: durationInFrames,
+        fps,
+      }),
+    [wordTimings, introDurationFrames, durationInFrames, fps],
+  );
+
   return (
     <AbsoluteFill style={{ backgroundColor: "#050a08" }}>
       <TransitionSeries>
@@ -118,7 +132,7 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
         {/* Fade transition: intro → content */}
         <TransitionSeries.Transition
           presentation={fade()}
-          timing={linearTiming({ durationInFrames: 20 })}
+          timing={linearTiming({ durationInFrames: INTRO_TRANSITION_FRAMES })}
         />
 
         {/* ═══ MAIN CONTENT — device mockup + overlays ═══ */}
@@ -193,26 +207,8 @@ export const MarketingDemo: React.FC<MarketingDemoProps> = ({
         </TransitionSeries.Sequence>
       </TransitionSeries>
 
-      {/* Background music bed — quiet corporate track under narration */}
-      <Audio
-        src={staticFile("music-bed.mp3")}
-        loop
-        volume={(f) => {
-          const total =
-            introDurationFrames +
-            (transitionDurationFrames || 0) +
-            videoDurationFrames +
-            outroDurationFrames;
-          const fadeIn = interpolate(f, [0, 60], [0, 0.12], {
-            extrapolateRight: "clamp",
-          });
-          const fadeOut = interpolate(f, [total - 90, total], [0.12, 0], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-          });
-          return Math.min(fadeIn, fadeOut);
-        }}
-      />
+      {/* Background music bed — ducks under narration */}
+      <Audio src={staticFile("music-bed.mp3")} loop volume={musicVolume} />
     </AbsoluteFill>
   );
 };

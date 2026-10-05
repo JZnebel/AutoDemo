@@ -21,6 +21,7 @@
  *   --cut-threshold <ms>          Dead time cut threshold (default: 3000)
  *   --output-dir <path>           Output directory (default: screencast-output/)
  *   --name <string>               Output filename base
+ *   --skip-checks                 Don't stop on quality-check errors (still reported)
  */
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync, copyFileSync, statSync } from "fs";
@@ -28,6 +29,10 @@ import { join, dirname, resolve, basename, extname } from "path";
 import { fileURLToPath } from "url";
 import { execSync, spawnSync } from "child_process";
 import dotenv from "dotenv";
+import {
+  validateNarration, checkSegmentSpeeds, checkTranscript,
+  masterLoudness, reviewRender, printCheck,
+} from "../lib/quality-checks.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -67,6 +72,19 @@ const speedLoading = parseFloat(parseFlag("speed-loading") || "6");
 const cutThreshold = parseInt(parseFlag("cut-threshold") || "3000", 10);
 const outputDir = resolve(parseFlag("output-dir") || join(ROOT, "screencast-output"));
 const outputName = parseFlag("name") || basename(recordingPath, extname(recordingPath));
+const skipChecks = args.includes("--skip-checks");
+
+// Quality checks — collected into quality-report.json, errors stop the run before render
+const quality = {};
+function gate(name, result) {
+  quality[name] = result;
+  printCheck(name, result);
+  if (result.errors?.length && !skipChecks) {
+    writeFileSync(join(outputDir, "quality-report.json"), JSON.stringify(quality, null, 2));
+    console.error(`\n  ✗ Stopping: fix the ${name} errors above (or pass --skip-checks to render anyway).\n`);
+    process.exit(1);
+  }
+}
 
 // Preset config
 const PRESETS = {
@@ -348,6 +366,9 @@ if ((skipNarration || narrationSource) && existsSync(narrationPath)) {
   console.log(`  "${narration.fullText.substring(0, 150)}..."`);
 }
 
+console.log();
+gate("narration", validateNarration(narration, { rawDurationSec }));
+
 // ═══════════════════════════════════════════════════════════════════════
 // Step 5: TTS audio generation
 // ═══════════════════════════════════════════════════════════════════════
@@ -431,6 +452,11 @@ try {
   console.log(`  ${wordTimings.length} words (estimated)`);
 }
 
+if (wordTimings.length > 0) {
+  console.log();
+  gate("transcript", checkTranscript(wordTimings, narration.fullText));
+}
+
 // ═══════════════════════════════════════════════════════════════════════
 // Step 6b: Narration-driven video edit (deferred from Step 2)
 // ═══════════════════════════════════════════════════════════════════════
@@ -450,6 +476,11 @@ if (editDeferred) {
 
     if (narrationPlacements.length > 0) {
       console.log(`  ${narrationPlacements.length} narration placements built`);
+      gate("speed", checkSegmentSpeeds(narrationPlacements.map((p) => ({
+        label: p.label,
+        footageSec: p.videoEndSec - p.videoStartSec,
+        audioSec: p.narrationDurationSec,
+      }))));
 
       console.log("  Building narration-driven edit list...");
       const editList = buildNarrationDrivenEditList(timeline, narrationPlacements, rawDurationSec);
@@ -633,6 +664,13 @@ try {
     throw new Error(`Remotion exited with code ${result.status}`);
   }
   console.log(`\n  Video rendered: ${finalOutput}`);
+
+  try {
+    const lufs = masterLoudness(finalOutput);
+    if (lufs) console.log(`  Loudness: ${lufs.inputI.toFixed(1)} → ${lufs.outputI} LUFS`);
+  } catch (err) {
+    console.log(`  ⚠️  Loudness normalization failed: ${err.message}`);
+  }
 } catch (err) {
   console.error(`  Render failed: ${err.message}`);
   console.log("\n  Try previewing first: cd demo-render && npx remotion studio");
@@ -656,6 +694,19 @@ console.log(`  Duration: ${(totalFrames / FPS).toFixed(1)}s`);
 console.log(`  Edited from: ${rawDurationSec.toFixed(1)}s → ${editedDurationSec.toFixed(1)}s`);
 console.log(`  Narration: ${narration.fullText.length} chars, ${wordTimings.length} words`);
 console.log(`  TTS: ${ttsProvider}, Whisper: ${whisperModel}`);
+console.log("");
+
+const reviewDir = join(outputDir, "review-frames");
+quality.render = reviewRender(finalOutput, { reviewDir, expectedDurationSec: totalFrames / FPS });
+printCheck("render", quality.render);
+console.log(`  Review frames: ${reviewDir}/ — look at these before calling the video done`);
+writeFileSync(join(outputDir, "quality-report.json"), JSON.stringify(quality, null, 2));
+
+const qualityErrors = Object.entries(quality).flatMap(([k, r]) => (r.errors || []).map((e) => `${k}: ${e}`));
+if (qualityErrors.length) {
+  console.log(`\n  ✗ Quality: ${qualityErrors.length} error(s) — see ${join(outputDir, "quality-report.json")}`);
+  process.exitCode = 1;
+}
 console.log("");
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -983,6 +1034,7 @@ function buildNarrationPlacements(narration, wordTimings, timelineSegments, rawD
     videoEndSec = Math.max(videoStartSec + 0.01, Math.min(videoEndSec, rawDurationSec));
 
     placements.push({
+      label: seg.sceneLabel || `seg${i}`,
       videoStartSec,
       videoEndSec,
       narrationDurationSec,
