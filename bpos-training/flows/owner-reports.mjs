@@ -4,7 +4,11 @@ import { openAdmin, afterNav } from "../admin.mjs";
 
 export const meta = { id: "owner-reports", seed: ["--second-store"], viewport: { width: 1600, height: 900 } };
 
-export async function setup(ctx) { await openAdmin(ctx, { path: "/owner" }); }
+export async function setup(ctx) {
+  await openAdmin(ctx, { path: "/owner" });
+  // The owner dashboard adds up every store's week before it draws; give it time.
+  await ctx.page.waitForSelector('main a[href="/owner/reports/sales"]', { timeout: 90000 });
+}
 
 export async function run(ctx) {
   const { page } = ctx;
@@ -13,6 +17,7 @@ export async function run(ctx) {
   await ctx.pause(1200);
   await ctx.click('main a[href="/owner/reports/sales"]', { settle: 500 });
   await afterNav(ctx, { selector: '[data-store-picker-target="button"]' });
+  await page.waitForSelector('main a[href^="/owner/reports/staff_performance"]', { timeout: 60000 });
 
   await ctx.line("tabs");
   await ctx.pointAt('main a[href^="/owner/reports/staff_performance"]', { settle: 2500 });

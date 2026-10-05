@@ -13,16 +13,24 @@ s = Store.find_by!(subdomain: ENV.fetch("SUB"))
 ActsAsTenant.with_tenant(s) do
   clerk = User.find_by!(first_name: "Riley"); mgr = User.find_by!(first_name: "Sam")
   session = CashDrawerSession.find_by!(status: "open")
-  CashDrop.create!(cash_drawer_session: session, user: clerk, amount: 100, reason: "safe_drop", notes: "Midday safe drop")
-  CashDrop.create!(cash_drawer_session: session, user: clerk, amount: 25, reason: "payout", notes: "Cleaning supplies")
+  CashDrop.create!(cash_drawer_session: session, user: clerk, amount: 100, reason: "safe_drop", notes: ENV.fetch("NOTE_DROP"))
+  CashDrop.create!(cash_drawer_session: session, user: clerk, amount: 25, reason: "payout", notes: ENV.fetch("NOTE_PAYOUT"))
   session.reload
   session.close!(session.calculate_expected_cash, closed_by: mgr, close_type: "shift", carryover_float: 150)
 end
 `;
 
-export async function setup(ctx) {
+// What staff would have typed, in the take's language.
+const NOTES = {
+  en: { drop: "Midday safe drop", payout: "Cleaning supplies", deposit: "Taken to the safe" },
+  fr: { drop: "Dépôt au coffre du midi", payout: "Produits ménagers", deposit: "Apporté au coffre" },
+};
+let notes = NOTES.en;
+
+export async function setup(ctx, { lang }) {
+  notes = NOTES[lang] || NOTES.en;
   await ringSomeSales(ctx);
-  execFileSync("docker", ["exec", "-e", `SUB=${CONFIG.subdomain}`, "pos_app", "bin/rails", "runner", ACTIVITY], { stdio: "ignore" });
+  execFileSync("docker", ["exec", "-e", `SUB=${CONFIG.subdomain}`, "-e", `NOTE_DROP=${notes.drop}`, "-e", `NOTE_PAYOUT=${notes.payout}`, "pos_app", "bin/rails", "runner", ACTIVITY], { stdio: "ignore" });
   await openAdmin(ctx, { path: "/products" });
 }
 
@@ -77,7 +85,7 @@ export async function run(ctx) {
   await page.$eval(dep, (e) => e.scrollIntoView({ block: "center" }));
   await ctx.settle();
   await ctx.type(`${dep} input[type="number"]`, "100", { delay: 200, settle: 400 });
-  await ctx.type(`${dep} input[type="text"]`, "Taken to the safe", { delay: 70, settle: 500 });
+  await ctx.type(`${dep} input[type="text"]`, notes.deposit, { delay: 70, settle: 500 });
 
   await ctx.line("record");
   await ctx.click(`${dep} input[type="submit"]`, { settle: 500 });

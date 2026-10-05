@@ -10,7 +10,10 @@ const BOX = '[data-scan-to-receive-target="barcodeInput"]';
 async function scan(ctx, code) {
   await ctx.type(BOX, code, { delay: 25, settle: 100 });
   await ctx.page.keyboard.press("Enter");
-  await ctx.pause(1100);
+  // the page looks the code up, then clears the box; on a slow server the next scan
+  // would otherwise land on top of this one
+  await ctx.page.waitForFunction((sel) => document.querySelector(sel)?.value === "", { timeout: 30000 }, BOX);
+  await ctx.pause(700);
 }
 
 export async function run(ctx) {

@@ -22,12 +22,23 @@ export async function openAdmin(ctx, { who = "owner", path = "/products" } = {})
   await page.goto(`${BASE}/users/sign_in`, { waitUntil: "domcontentloaded" });
   const c = creds();
   await page.waitForSelector('input[type="password"]', { timeout: 20000 });
-  await page.$eval('input[type="email"], input[name="user[email]"]', (e, v) => { e.value = v; }, `${who}@${CONFIG.subdomain}.training`);
-  await page.$eval('input[type="password"]', (e, v) => { e.value = v; }, c.password);
+  const email = `${who}@${CONFIG.subdomain}.training`;
+  // On a slow server the page's scripts can connect after the fields are filled and clear
+  // the email (the remembered-email restore), so the form posts without it: fill, let the
+  // page settle, check, and only then submit.
+  for (let attempt = 0; ; attempt++) {
+    await page.waitForNetworkIdle({ idleTime: 500, timeout: 20000 }).catch(() => {});
+    await page.$eval('input[type="email"], input[name="user[email]"]', (e, v) => { e.value = v; }, email);
+    await page.$eval('input[type="password"]', (e, v) => { e.value = v; }, c.password);
+    await sleep(400);
+    const filled = await page.$eval('input[type="email"], input[name="user[email]"]', (e, v) => e.value === v, email);
+    if (filled || attempt >= 4) break;
+  }
   await Promise.all([
     page.waitForNavigation({ waitUntil: "domcontentloaded", timeout: 30000 }),
     page.$eval('form [type="submit"]', (b) => b.click()),
   ]);
+  if (page.url().includes("/users/sign_in")) throw new Error(`admin: sign-in as ${who} didn't take`);
   log(`admin: signed in as ${who}, now ${page.url()}`);
   await goAdmin(ctx, path);
 }

@@ -4,7 +4,11 @@ import { openAdmin, afterNav } from "../admin.mjs";
 
 export const meta = { id: "owner-staff", seed: ["--second-store"], viewport: { width: 1600, height: 900 } };
 
-export async function setup(ctx) { await openAdmin(ctx, { path: "/owner" }); }
+export async function setup(ctx) {
+  await openAdmin(ctx, { path: "/owner" });
+  // The owner dashboard adds up every store's week before it draws; give it time.
+  await ctx.page.waitForSelector('main a[href="/owner/staff"]', { timeout: 90000 });
+}
 
 export async function run(ctx) {
   const { page } = ctx;
@@ -34,6 +38,8 @@ export async function run(ctx) {
 
   await ctx.line("add");
   await ctx.click('form[action="/owner/staff"] input[type="submit"]', { settle: 500 });
+  // Saving a person takes a while on the local server; wait to leave the form.
+  await page.waitForFunction(() => !document.querySelector('form[action="/owner/staff"]'), { timeout: 60000 }).catch(() => {});
   await afterNav(ctx);
   const ok = await page.evaluate(() => /Jesse/.test(document.body.innerText));
   if (!ok) throw new Error("Jesse wasn't added");

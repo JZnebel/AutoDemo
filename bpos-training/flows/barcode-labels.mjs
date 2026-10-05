@@ -14,14 +14,18 @@ async function add(ctx, query, label, tag) {
   // so the search never sees the whole word; fire the one the box would have.
   await page.$eval(SEARCH, (e) => e.dispatchEvent(new Event("input", { bubbles: true })));
   await page.waitForFunction((l) => [...document.querySelectorAll('[data-barcode-labels-target="results"] > div')].some((r) => r.innerText.includes(l)), { timeout: 10000 }, label).catch(() => {});
-  await ctx.pause(400);
-  const ok = await page.evaluate((l, t) => {
-    const row = [...document.querySelectorAll('[data-barcode-labels-target="results"] > div')].find((r) => r.innerText.includes(l));
-    row?.querySelector("button")?.setAttribute("data-rec", t);
-    return !!row;
-  }, label, tag);
-  if (!ok) throw new Error(`no result for ${label}`);
-  await ctx.click(`[data-rec="${tag}"]`, { settle: 900 });
+  // The typed search and the fired input event can each come back and redraw the list,
+  // dropping the mark; let it settle and mark again until the click lands.
+  for (let attempt = 0; ; attempt++) {
+    await ctx.pause(attempt ? 1200 : 400);
+    const ok = await page.evaluate((l, t) => {
+      const row = [...document.querySelectorAll('[data-barcode-labels-target="results"] > div')].find((r) => r.innerText.includes(l));
+      row?.querySelector("button")?.setAttribute("data-rec", t);
+      return !!row?.querySelector("button");
+    }, label, tag);
+    if (!ok) { if (attempt < 5) continue; throw new Error(`no result for ${label}`); }
+    try { await ctx.click(`[data-rec="${tag}"]`, { settle: 900 }); return; } catch (e) { if (attempt >= 5) throw e; }
+  }
 }
 
 export async function run(ctx) {
