@@ -221,3 +221,13 @@ if ENV["TRAINING_SECOND_STORE"] == "1"
   [store, west].each { |st| StoreOwnership.find_or_create_by!(user: owner, store: st) { |o| o.role = "owner" } }
   puts "#{west.store_name} (#{second_subdomain}, store #{west.id}); #{owner.email} owns both"
 end
+
+# Store data, so the screen checks (checks.mjs) know these names are meant to stay as they
+# are in a French clip: product, category, customer and staff names aren't translated.
+data_names = [store, (Store.find_by(subdomain: second_subdomain) if ENV["TRAINING_SECOND_STORE"] == "1")].compact.flat_map do |st|
+  ActsAsTenant.with_tenant(st) do
+    [st.store_name, *Product.pluck(:name), *Category.pluck(:name), *Customer.pluck(:name),
+     *User.all.map { |u| [u.first_name, u.last_name, "#{u.first_name} #{u.last_name}"] }.flatten, *Register.pluck(:name)]
+  end
+end
+puts "STORE_DATA_JSON:#{data_names.compact.map(&:to_s).reject(&:empty?).uniq.to_json}"

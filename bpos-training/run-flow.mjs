@@ -12,6 +12,7 @@ import { readFileSync, renameSync, writeFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { connect, makeCtx, record, log } from "./recorder.mjs";
+import { CONFIG } from "./config.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const [clipId, lang] = process.argv.slice(2);
@@ -66,6 +67,10 @@ try {
   if (missing.length) throw new Error(`flow never reached line(s): ${missing.join(", ")}`);
   if (!dry) {
     writeFileSync(raw.replace(/\.mp4$/, ".marks.json"), JSON.stringify({ wall, marks: ctx.marks }, null, 1));
+    // For checks.mjs (what was on screen) and finish.mjs (dead time to cut, what to zoom on).
+    writeFileSync(raw.replace(/\.mp4$/, ".screen.json"), JSON.stringify({
+      subdomain: CONFIG.subdomain, actions: ctx.actions, busy: ctx.busy, issues: ctx.issues, snapshots: ctx.snapshots,
+    }));
     normalize(raw, wall);
   }
   log(`=== ${clipId} [${lang}] : OK (${wall.toFixed(1)}s) ===`);

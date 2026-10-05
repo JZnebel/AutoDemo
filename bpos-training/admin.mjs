@@ -7,7 +7,8 @@ import { existsSync, readFileSync } from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { BASE, CONFIG, creds } from "./config.mjs";
-import { log, sleep } from "./recorder.mjs";
+import { log, refinders, sleep } from "./recorder.mjs";
+import { refindQuickly, untilFound } from "./register.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -59,7 +60,7 @@ export async function goAdmin(ctx, path) {
 export async function afterNav(ctx, { selector = null, timeout = 20000 } = {}) {
   const { page } = ctx;
   if (selector) await page.waitForSelector(selector, { timeout });
-  else await sleep(1500);
+  await ctx.quiet({ min: selector ? 0 : 1500, max: timeout });
   await page.addStyleTag({ content: "*{scroll-behavior:auto !important}" }).catch(() => {});
   await ctx.ensureCursor();
   await ctx.settle();
@@ -81,9 +82,15 @@ export function A(en) {
   return [en, ...fr];
 }
 
+/** Every back-office label as [english, [french...]] (for checks.mjs). */
+export function adminLabels() {
+  try { A("Next"); } catch {}
+  return Object.entries(map || {}).map(([en, fr]) => [en, [].concat(fr)]);
+}
+
 /** Tag the label (for a hidden radio/checkbox) whose text starts with one of `texts`. */
 export async function labelFor(page, texts, tag) {
-  const ok = await page.evaluate((w, t) => {
+  const ok = await untilFound(() => page.evaluate((w, t) => {
     const norm = (s) => (s || "").replace(/\s+/g, " ").trim().toLowerCase();
     const want = w.map((x) => x.toLowerCase());
     const el = [...document.querySelectorAll("label")].filter((l) => {
@@ -93,8 +100,9 @@ export async function labelFor(page, texts, tag) {
     if (!el) return false;
     el.setAttribute("data-rec", t);
     return true;
-  }, [].concat(texts), tag);
+  }, [].concat(texts), tag));
   if (!ok) throw new Error(`no label starting ${JSON.stringify(texts)}`);
+  refinders.set(`[data-rec="${tag}"]`, refindQuickly(() => labelFor(page, texts, tag)));
   return `[data-rec="${tag}"]`;
 }
 

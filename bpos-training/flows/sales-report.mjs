@@ -1,6 +1,6 @@
 /** Reports -> Sales Report: dates, totals, the breakdowns, export. */
 import { openAdmin, afterNav, A } from "../admin.mjs";
-import { byText } from "../register.mjs";
+import { byText, once } from "../register.mjs";
 import { ringSomeSales } from "./_admin_common.mjs";
 
 export const meta = { id: "sales-report", seed: ["--open-drawer"], viewport: { width: 1600, height: 900 } };
@@ -25,7 +25,8 @@ export async function run(ctx) {
 
   await ctx.line("totals");
   await ctx.pause(400);
-  await ctx.pointAt(await byText(page, A("Net sales (before tax)"), "p, span, div, h3", "net"), { settle: 1600 }).catch(() => {});
+  await once(() => byText(page, A("Net sales (before tax)"), "p, span, div, h3", "net"))
+    .then((sel) => ctx.pointAt(sel, { settle: 1600 })).catch(() => {});
 
   await ctx.line("more");
   await ctx.pause(400);

@@ -41,7 +41,7 @@ export async function run(ctx) {
   await ctx.type(qtyInput, "5", { delay: 200, settle: 300 });
   await page.keyboard.press("Enter");
   await ctx.pause(900);
-  if ((await qtyOf(page, preRoll)) !== 5) throw new Error(`quantity is ${await qtyOf(page, preRoll)}, not 5`);
+  await ctx.expect(async () => (await qtyOf(page, preRoll)) === 5, async () => `quantity is ${await qtyOf(page, preRoll)}, not 5`);
 
   await ctx.line("remove");
   await ctx.click((await productCard(page, "Glass Hand Pipe")).sel, { settle: 1200 });

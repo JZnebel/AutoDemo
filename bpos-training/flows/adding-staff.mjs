@@ -2,7 +2,8 @@
 import { openAdmin, afterNav, A } from "../admin.mjs";
 import { byText } from "../register.mjs";
 
-export const meta = { id: "adding-staff", seed: [], viewport: { width: 1600, height: 900 } };
+// resources: two takes that create the same login can't record at once (make.mjs --jobs)
+export const meta = { id: "adding-staff", seed: [], viewport: { width: 1600, height: 900 }, resources: ["jesse@riverstone.training"] };
 
 export async function setup(ctx) { await openAdmin(ctx, { path: "/store_settings" }); }
 

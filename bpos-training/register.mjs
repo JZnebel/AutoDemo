@@ -5,7 +5,7 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 import { BASE, CONFIG, creds } from "./config.mjs";
-import { log, sleep } from "./recorder.mjs";
+import { log, refinders, sleep } from "./recorder.mjs";
 
 /** Open the register in a language, signed in with a PIN, cart empty, catalogue loaded. */
 export async function openRegister(ctx, { lang = "en", who = "clerk", signIn = true } = {}) {
@@ -34,8 +34,12 @@ export async function openRegister(ctx, { lang = "en", who = "clerk", signIn = t
   // fixed pause missed a slow-loading PIN pad and then waited for products that never came.
   await page.waitForFunction(() => document.querySelector("[data-product-id]") ||
     [...document.querySelectorAll("button")].some((b) => b.textContent.trim() === "5"), { timeout: 90000 }).catch(() => {});
-  if (!(await page.$("[data-product-id]")) && (await page.$('[aria-live="polite"][aria-atomic="true"], [aria-label$="digits entered"]') ||
-      await page.evaluate(() => /PIN|NIP/.test(document.body.innerText)))) {
+  const atPinPad = async () => !(await page.$("[data-product-id]")) &&
+    !!(await page.$('[aria-live="polite"][aria-atomic="true"], [aria-label$="digits entered"]') ||
+      await page.evaluate(() => /PIN|NIP/.test(document.body.innerText)));
+  // On a loaded server the pad can drop a PIN (taps land before it's listening, or the check
+  // times out and it resets): if it's still showing the pad after a while, enter it again.
+  for (let attempt = 1; attempt <= 3 && await atPinPad(); attempt++) {
     const pin = creds()[`${who}Pin`];
     for (const d of pin) {
       await page.evaluate((digit) => {
@@ -43,9 +47,11 @@ export async function openRegister(ctx, { lang = "en", who = "clerk", signIn = t
       }, d);
       await sleep(180);
     }
-    log(`signed in as ${who}`);
+    log(`signed in as ${who}${attempt > 1 ? ` (attempt ${attempt})` : ""}`);
+    const landed = await page.waitForSelector("[data-product-id]", { timeout: 30000 }).then(() => true, () => false);
+    if (landed) break;
   }
-  await page.waitForSelector("[data-product-id]", { timeout: 90000 });
+  await page.waitForSelector("[data-product-id]", { timeout: 60000 });
   // The first catalogue sync redraws the product grid when it lands; a tap before then can
   // hit a card that's about to be replaced. Wait for the sync badge to stop saying so.
   await page.waitForFunction(() => !/Syncing|Synchronisation|Sincroniz/i.test(document.querySelector('[data-tour="sync-status"]')?.innerText || ""), { timeout: 90000 }).catch(() => {});
@@ -59,13 +65,32 @@ export async function openRegister(ctx, { lang = "en", who = "clerk", signIn = t
   await sleep(2500);   // let toasts from signing in fade before the first frame
 }
 
+/**
+ * Run a finder (a page.evaluate that returns a falsy value when nothing matches) until it
+ * finds something, for up to 10s: on a slow server the item may not be in the cart yet, or
+ * the window not open. When the recorder calls a finder again to re-find a replaced element
+ * it already waits itself, so then look just once.
+ */
+let quick = false;
+export async function untilFound(find, timeout = 10000) {
+  const t0 = Date.now();
+  for (;;) {
+    const got = await find();
+    if (got || quick || Date.now() - t0 > timeout) return got;
+    await sleep(300);
+  }
+}
+export const refindQuickly = (fn) => async () => { quick = true; try { await fn(); } finally { quick = false; } };
+/** Look just once — for a flow asking "is it there?" rather than waiting for it. */
+export async function once(fn) { quick = true; try { return await fn(); } finally { quick = false; } }
+
 /** A selector for the product card whose name is exactly `name`. */
 export async function productCard(page, name) {
-  const id = await page.evaluate((n) => {
+  const id = await untilFound(() => page.evaluate((n) => {
     const el = [...document.querySelectorAll('[data-tour="product-grid"] [data-product-id]')]
       .find((e) => e.querySelector("h3, p, span, div") && e.innerText.split("\n").some((l) => l.trim() === n));
     return el?.getAttribute("data-product-id");
-  }, name);
+  }, name));
   if (!id) throw new Error(`no product card "${name}"`);
   return { id, sel: `[data-tour="product-grid"] [data-product-id="${id}"]` };
 }
@@ -74,7 +99,7 @@ export async function productCard(page, name) {
  *  `texts`, and return a selector for it. Lets one flow serve both languages. */
 export async function byText(page, texts, css = "button", tag = "t") {
   const want = [].concat(texts);
-  const ok = await page.evaluate((c, w, t) => {
+  const ok = await untilFound(() => page.evaluate((c, w, t) => {
     const norm = (s) => (s || "").replace(/\s+/g, " ").trim();
     const el = [...document.querySelectorAll(c)].find((e) => {
       const r = e.getBoundingClientRect();
@@ -84,8 +109,9 @@ export async function byText(page, texts, css = "button", tag = "t") {
     document.querySelectorAll(`[data-rec="${t}"]`).forEach((x) => x.removeAttribute("data-rec"));
     el.setAttribute("data-rec", t);
     return true;
-  }, css, want, tag);
+  }, css, want, tag));
   if (!ok) throw new Error(`not found: ${css} ${JSON.stringify(want)}`);
+  refinders.set(`[data-rec="${tag}"]`, refindQuickly(() => byText(page, texts, css, tag)));
   return `[data-rec="${tag}"]`;
 }
 
@@ -124,6 +150,12 @@ export function L(en) {
   const others = enToOthers.get(en);
   if (!others) throw new Error(`L(): no translation found for "${en}"`);
   return [en, ...others];
+}
+
+/** Every register label as [english, [french...]] (for checks.mjs). */
+export function registerLabels() {
+  try { L("Complete Sale"); } catch {}
+  return [...(enToOthers || new Map())].map(([en, fr]) => [en, [...fr]]);
 }
 
 /** Off camera (setup only): put products in the cart by name. A weighed product takes the
@@ -181,7 +213,7 @@ export async function quickSale(ctx, names, { pay = "cash" } = {}) {
  *  such as a customer or reward name), and return a selector for it. */
 export async function byTextStart(page, texts, css = "*", tag = "ts") {
   const want = [].concat(texts);
-  const ok = await page.evaluate((c, w, t) => {
+  const ok = await untilFound(() => page.evaluate((c, w, t) => {
     const norm = (s) => (s || "").replace(/\s+/g, " ").trim();
     const hits = [...document.querySelectorAll(c)].filter((e) => {
       const r = e.getBoundingClientRect();
@@ -192,14 +224,15 @@ export async function byTextStart(page, texts, css = "*", tag = "ts") {
     document.querySelectorAll(`[data-rec="${t}"]`).forEach((x) => x.removeAttribute("data-rec"));
     el.setAttribute("data-rec", t);
     return true;
-  }, css, want, tag);
+  }, css, want, tag));
   if (!ok) throw new Error(`not found: ${css} starting ${JSON.stringify(want)}`);
+  refinders.set(`[data-rec="${tag}"]`, refindQuickly(() => byTextStart(page, texts, css, tag)));
   return `[data-rec="${tag}"]`;
 }
 
 /** The most recent sale in the Recent Sales list. */
 export async function latestSaleRow(page) {
-  const ok = await page.evaluate(() => {
+  const ok = await untilFound(() => page.evaluate(() => {
     const norm = (s) => (s || "").replace(/\s+/g, " ").trim();
     const rows = [...document.querySelectorAll('[data-tour="cart-pane"] div')].filter((e) => /^#\d+/.test(norm(e.innerText)));
     // Innermost row wrapping the first (newest) receipt number.
@@ -208,8 +241,9 @@ export async function latestSaleRow(page) {
     if (!el) return false;
     el.setAttribute("data-rec", "sale-row");
     return true;
-  });
+  }));
   if (!ok) throw new Error("no sale in Recent Sales");
+  refinders.set('[data-rec="sale-row"]', refindQuickly(() => latestSaleRow(page)));
   return '[data-rec="sale-row"]';
 }
 
@@ -217,7 +251,7 @@ export async function latestSaleRow(page) {
  *  centre — the button in an open window, not the identically-labelled one behind it (a
  *  click there lands on the window's backdrop and closes it). */
 export async function topmost(page, texts, tag, css = "button") {
-  const ok = await page.evaluate((w, t, c) => {
+  const ok = await untilFound(() => page.evaluate((w, t, c) => {
     const norm = (s) => (s || "").replace(/\s+/g, " ").trim();
     const hits = [...document.querySelectorAll(c)].filter((e) => {
       if (!w.includes(norm(e.innerText))) return false;
@@ -243,15 +277,16 @@ export async function topmost(page, texts, tag, css = "button") {
     document.querySelectorAll(`[data-rec="${t}"]`).forEach((x) => x.removeAttribute("data-rec"));
     el.setAttribute("data-rec", t);
     return true;
-  }, [].concat(texts), tag, css);
+  }, [].concat(texts), tag, css));
   if (!ok) throw new Error(`no topmost ${css} ${JSON.stringify(texts)}`);
+  refinders.set(`[data-rec="${tag}"]`, refindQuickly(() => topmost(page, texts, tag, css)));
   return `[data-rec="${tag}"]`;
 }
 
 /** A control on one cart line: the line is the smallest box in the cart that holds both
  *  the product's name and a Remove button. */
 export async function cartLineControl(page, name, css, tag) {
-  const ok = await page.evaluate((n, c, t) => {
+  const ok = await untilFound(() => page.evaluate((n, c, t) => {
     const cart = document.querySelector('[data-tour="cart-pane"]') || document.body;
     const lines = [...cart.querySelectorAll("div")].filter((d) =>
       d.querySelector('[data-tour="remove-item"]') && d.innerText.split("\n").some((l) => l.trim() === n));
@@ -261,7 +296,8 @@ export async function cartLineControl(page, name, css, tag) {
     document.querySelectorAll(`[data-rec="${t}"]`).forEach((x) => x.removeAttribute("data-rec"));
     el.setAttribute("data-rec", t);
     return true;
-  }, name, css, tag);
+  }, name, css, tag));
   if (!ok) throw new Error(`no ${css} on the cart line "${name}"`);
+  refinders.set(`[data-rec="${tag}"]`, refindQuickly(() => cartLineControl(page, name, css, tag)));
   return `[data-rec="${tag}"]`;
 }

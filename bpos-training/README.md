@@ -10,8 +10,31 @@ node bpos-training/make.mjs making-a-sale          # both languages, then publis
 node bpos-training/make.mjs --all --lang fr        # every clip, French only
 ```
 
-Then build and ship the docs as usual. The videos land in
-`knowledge-base/static/videos/` (not in git), so they go out with the build.
+Then `node bpos-training/ship.mjs <clip-id ...>` puts them live: it publishes the videos, adds
+the `<TrainingVideo>` player under each page's intro if it isn't there, builds the help site and
+swaps the build in on the server (settings in `config.local.json`: `deployHost`, `deployDir`,
+`docsUrl`). `--no-deploy` stops after the build; `--commit` commits the pages it changed. The
+videos land in `knowledge-base/static/videos/` (not in git), so they go out with the build.
+
+### Batches
+
+```bash
+node bpos-training/make.mjs --all --queue --max-minutes 110   # stops starting takes at 110 min
+node bpos-training/make.mjs --all --queue --max-minutes 110   # ...then carries on where it stopped
+node bpos-training/make.mjs --status                          # what's done, failed, left
+node bpos-training/make.mjs --all --queue --jobs 2            # two takes at once
+```
+
+`--queue` keeps its state in `.local/queue.json`, so an interrupted run picks up where it was
+(`--fresh` starts over). Each take's full log is `.local/logs/<clip>.<lang>.log`; one line per
+state change goes to the screen and `.local/queue.log`. Rendering happens in the background
+while the next take records, and the store is rebuilt by one Rails process kept open for the
+run (about 4.5s a take instead of 11.5s).
+
+`--jobs 2` records two takes at once, each in its own store (`riverstone2`, ...) and Chrome
+(port 9335, ...). It's about 25% faster, not twice: the dev server is the bottleneck, and every
+take slows down when two run. Clips that create the same login (`meta.resources`) never record
+at the same time.
 
 ## The store
 
@@ -42,6 +65,17 @@ container `pos_app`). Point it at a dev machine, never production.
    (demo-render/src/TrainingClip.tsx), which puts the captions in a strip **below** the picture,
    not over it, because the register's Cash / Complete Sale buttons live at the bottom edge.
    It then encodes a ~2 MB web copy and a poster frame.
+   Before rendering, `finish.mjs` runs the **screen checks** (`checks.mjs`) on what the
+   recorder saw on screen each second: English app text in a French take stops the clip
+   (a missing translation — or add the text to the clip's `screenAllow` if it's meant to be);
+   a line naming a button or product that never shows while it's spoken, a spinner held for
+   3s+, or a toast over a control as it was clicked are warnings. Then it **cuts dead time**
+   (stretches where nobody speaks and the screen only waits on the server, kept to a short
+   beat; clicks are never cut) and **zooms in** on the controls each line works with, up to
+   1.4×, when they sit in a small part of the screen (`--no-zoom`, or `"zoom": false` on the
+   clip). After rendering it normalizes loudness to -16 LUFS and reviews the result; the
+   report and sample frames are in `out/review/<clip>.<lang>/`. A clip that fails is renamed
+   `.rejected.mp4`, so it isn't published.
 5. **Publish.** `publish.mjs` copies them to the docs and updates `manifest.json`, which the
    docs' `<TrainingVideo id="..." />` player reads (EN/FR switch, remembers the choice).
 
@@ -58,6 +92,19 @@ container `pos_app`). Point it at a dev machine, never production.
    node bpos-training/run-flow.mjs <id> en --dry`.
 4. `node bpos-training/make.mjs <id>`, look at the frames, then add `<TrainingVideo id="<id>" />`
    to the docs page under its intro line.
+
+## Waiting
+
+Every `ctx.click`, `type`, `pointAt` and the rest waits for its target to be on the page,
+visible and holding still (a list that's redrawing moves between looks), and re-finds it if the
+page replaced it (helpers like `byText` and `topmost` register how). After the action, `settle`
+is the *least* it waits: it then waits for what the action started to finish — a save, a page
+load, a lookup fired by the click — and for the page to stop changing, up to 12s. The
+register's background polling doesn't count. The finders (`byText`, `cartLineControl`, ...)
+keep looking for 10s; wrap one in `once()` to ask "is it there?" without waiting.
+
+For a result check, use `ctx.expect(check, message)` rather than a fixed pause followed by an
+`if`: it polls until the result shows (20s), which is what holds up on a slow server.
 
 ## Gotchas
 

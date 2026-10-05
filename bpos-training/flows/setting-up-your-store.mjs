@@ -2,7 +2,7 @@
 import { openAdmin, afterNav, A } from "../admin.mjs";
 import { byText } from "../register.mjs";
 
-export const meta = { id: "setting-up-your-store", seed: ["--setup-wizard"], viewport: { width: 1600, height: 900 } };
+export const meta = { id: "setting-up-your-store", seed: ["--setup-wizard"], viewport: { width: 1600, height: 900 }, resources: ["jesse@riverstone.training"] };
 
 export async function setup(ctx) { await openAdmin(ctx, { path: "/admin/setup/basics" }); }
 

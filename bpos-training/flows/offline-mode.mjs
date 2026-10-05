@@ -1,6 +1,6 @@
 /** Selling with no internet: the register queues the sale and sends it when it's back. The
  *  connection is cut with Chrome's network emulation, which the register sees as offline. */
-import { openRegister, productCard, topmost, L } from "../register.mjs";
+import { once, openRegister, productCard, topmost, L } from "../register.mjs";
 
 export const meta = { id: "offline-mode", seed: ["--open-drawer"], offlineOnPurpose: true, viewport: { width: 1600, height: 900 } };
 
@@ -34,7 +34,7 @@ export async function run(ctx) {
   await net(false);
   await ctx.pause(1500);
   await ctx.click('[data-tour="sync-status"]', { settle: 1200 });
-  const syncNow = await topmost(page, L("Sync Now"), "sync-now").catch(() => null);
+  const syncNow = await once(() => topmost(page, L("Sync Now"), "sync-now")).catch(() => null);
   if (syncNow) await ctx.click(syncNow, { settle: 3000 });
   const synced = await page.waitForFunction(async () => {
     const r = await fetch("/api/v1/sales?per_page=5", { credentials: "include" }).catch(() => null);

@@ -35,12 +35,12 @@ export const CONFIG = {
 CONFIG.base = `http://${CONFIG.filmHost}`;
 export const BASE = CONFIG.base;
 
-/** Chrome flags for the filming browser. */
-export function browserArgs() {
+/** Chrome flags for the filming browser (make.mjs --jobs starts one per worker, on its own port). */
+export function browserArgs(port = CONFIG.chromePort) {
   const local = new URL(CONFIG.localBase);
   return [
-    "--headless=new", `--remote-debugging-port=${CONFIG.chromePort}`,
-    `--user-data-dir=/tmp/bt-chrome-${CONFIG.chromePort}`, "--window-size=1600,900", "--hide-scrollbars", "--no-first-run",
+    "--headless=new", `--remote-debugging-port=${port}`,
+    `--user-data-dir=/tmp/bt-chrome-${port}`, "--window-size=1600,900", "--hide-scrollbars", "--no-first-run",
     "--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader",
     // Every *.brotherpos.ca address goes to the local server (port 80 → its port), not just the
     // film host: a flow run with another store must never reach the real, production site.
