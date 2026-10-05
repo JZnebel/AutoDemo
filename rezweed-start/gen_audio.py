@@ -55,6 +55,8 @@ async def one(clip):
                 # ran long, push this one back rather than let two lines speak over
                 # each other -- overlapping narration is unlistenable, and a line
                 # landing slightly late is only slightly late.
+                if not isinstance(seg["atSec"], (int, float)):
+                    raise ValueError(f'segment {i} atSec must be numeric, got {seg["atSec"]!r}')
                 at_s = max(seg["atSec"], prev_end + 0.25)
                 if at_s > seg["atSec"] + 0.01:
                     print(f'  · {clip["id"]} line {i} pushed {seg["atSec"]}s -> {at_s:.1f}s')
