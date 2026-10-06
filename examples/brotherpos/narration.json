@@ -6278,8 +6278,13 @@
     },
     {
      "id": "tabs",
-     "en": "For bar tabs without a table, use the Tabs button. Pours can't go on a tab yet.",
-     "fr": "Pour les ardoises au bar sans table, utilisez le bouton Ardoises. Les verres ne peuvent pas encore aller sur une ardoise."
+     "en": "Running a tab? Tap Tabs, then Save cart as tab, and give it the customer's name.",
+     "fr": "Le client ouvre une addition? Touchez Additions, puis Enregistrer le panier comme ardoise, et donnez-lui le nom du client."
+    },
+    {
+     "id": "later",
+     "en": "Pours and cocktails stay on the tab until they close it and pay.",
+     "fr": "Les verres et les cocktails restent sur l'ardoise jusqu'à ce que le client la ferme et paie."
     }
    ]
   }
