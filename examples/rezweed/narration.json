@@ -1,0 +1,234 @@
+{
+ "voices": {
+  "en": {
+   "voice": "en-CA-ClaraNeural",
+   "rate": "-4%"
+  }
+ },
+ "clips": [
+  {
+   "id": "01-claim",
+   "flow": "flows/01-claim.mjs",
+   "title": "Find your shop and claim it",
+   "lines": [
+    {
+     "id": "page",
+     "en": "Start on the owner page and type your shop's name."
+    },
+    {
+     "id": "pick",
+     "en": "Pick it out of the list, and the claim form opens up."
+    },
+    {
+     "id": "fill",
+     "en": "Fill in your name and an email we can reach you on, add a phone number and your role if you like, then hit submit."
+    },
+    {
+     "id": "done",
+     "en": "That's it. Somebody here checks it over and emails you back."
+    }
+   ]
+  },
+  {
+   "id": "02-details",
+   "flow": "flows/02-details.mjs",
+   "title": "Put your details and menu up",
+   "lines": [
+    {
+     "id": "dashboard",
+     "en": "Signing in takes you to your own dashboard, with a checklist of what your listing still needs."
+    },
+    {
+     "id": "hours",
+     "en": "Open Edit Store and you'll find your hours. Set Monday, copy it across the week, and save."
+    },
+    {
+     "id": "ticked",
+     "en": "That's one ticked off."
+    },
+    {
+     "id": "products",
+     "en": "The Products tab is your menu."
+    },
+    {
+     "id": "typing",
+     "en": "Start typing — if it's something we already know, pick it from the catalogue and the details fill themselves in."
+    },
+    {
+     "id": "price",
+     "en": "Set a price, add it, and it's live on your listing straight away. Nothing here waits to be approved."
+    }
+   ]
+  },
+  {
+   "id": "04-loyalty-customer",
+   "flow": "flows/04-loyalty-customer.mjs",
+   "title": "Rewards — the customer's side",
+   "lines": [
+    {
+     "id": "scan",
+     "en": "This is what a customer sees when they scan the card on your counter."
+    },
+    {
+     "id": "tap",
+     "en": "One tap. No account, no app."
+    },
+    {
+     "id": "code",
+     "en": "They get a code to show the budtender, and that is the whole thing."
+    },
+    {
+     "id": "wallet",
+     "en": "Or they save it straight to their phone's wallet."
+    }
+   ],
+   "frame": "phone"
+  },
+  {
+   "id": "05-tv-menu",
+   "flow": "flows/05-tv-menu.mjs",
+   "title": "A menu board for the shop TV",
+   "lines": [
+    {
+     "id": "board",
+     "en": "Every shop gets a free menu board for a screen behind the counter."
+    },
+    {
+     "id": "pick",
+     "en": "Pick the categories to show, and size the text for the room."
+    },
+    {
+     "id": "screens",
+     "en": "It tells you how many screens that is, so you can keep it to one."
+    },
+    {
+     "id": "link",
+     "en": "Take the short link — four characters to type into a TV."
+    },
+    {
+     "id": "load",
+     "en": "Load it on any screen. It updates itself as your menu changes."
+    }
+   ]
+  },
+  {
+   "id": "06-import",
+   "flow": "flows/06-import.mjs",
+   "title": "Bring your menu across from your POS",
+   "lines": [
+    {
+     "id": "intro",
+     "en": "If your menu already lives in another system, you do not have to retype it."
+    },
+    {
+     "id": "export",
+     "en": "Export it from your POS — any POS — and drop the file in."
+    },
+    {
+     "id": "columns",
+     "en": "It reads the columns itself, whatever they happen to be called."
+    },
+    {
+     "id": "grouped",
+     "en": "Then it shows you what it worked out, grouped the way your export was."
+    },
+    {
+     "id": "untick",
+     "en": "Untick whatever does not belong on a cannabis menu. The lighters, the gift card."
+    },
+    {
+     "id": "add",
+     "en": "Check the list, and add the lot."
+    },
+    {
+     "id": "sizes",
+     "en": "Sizes, prices and brands all come across with it."
+    }
+   ]
+  },
+  {
+   "id": "07-loyalty",
+   "title": "Rewards, start to finish",
+   "shots": [
+    {
+     "flow": "flows/07a-loyalty-till.mjs",
+     "frame": "none"
+    },
+    {
+     "flow": "flows/07b-loyalty-card.mjs",
+     "frame": "phone"
+    }
+   ],
+   "lines": [
+    {
+     "id": "on",
+     "en": "Rewards are already on for every shop, and there are two numbers behind them."
+    },
+    {
+     "id": "worth",
+     "en": "What a point is worth. Say ten cents."
+    },
+    {
+     "id": "costs",
+     "en": "The till works out what that actually costs you. Ten percent back, which is steep."
+    },
+    {
+     "id": "earn",
+     "en": "So slow the earning down: one point for every five dollars."
+    },
+    {
+     "id": "afford",
+     "en": "Two percent. That is a programme you can afford."
+    },
+    {
+     "id": "till",
+     "en": "Next, a till your staff can use without your login."
+    },
+    {
+     "id": "pin",
+     "en": "A link they bookmark and a PIN shown once. Lose it and you make a new one."
+    },
+    {
+     "id": "counter",
+     "en": "A customer at the counter: put in their number."
+    },
+    {
+     "id": "join",
+     "en": "Not a member? Sign them up right there. No app, no account."
+    },
+    {
+     "id": "scan",
+     "en": "Turn the screen round and let them scan the card onto their phone."
+    },
+    {
+     "id": "spend",
+     "en": "Then type what they spent. Sixty dollars, twelve points."
+    },
+    {
+     "id": "next",
+     "en": "Next time in, their balance is waiting, and what it is worth here."
+    },
+    {
+     "id": "claim",
+     "en": "When they claim a reward, use the points."
+    },
+    {
+     "id": "twice",
+     "en": "It takes them off, so nothing gets claimed twice."
+    },
+    {
+     "id": "got",
+     "en": "And this is what the customer got."
+    },
+    {
+     "id": "tap",
+     "en": "One tap, and a code to read out at the counter."
+    },
+    {
+     "id": "wallet",
+     "en": "Or straight into Apple or Google Wallet."
+    }
+   ]
+  }
+ ]
+}

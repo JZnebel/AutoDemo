@@ -1,9 +1,5 @@
 {
   "mcpServers": {
-    "narrator": {
-      "command": "node",
-      "args": ["./mcp-server/index.js"]
-    },
     "chrome-devtools": {
       "type": "stdio",
       "command": "node",
