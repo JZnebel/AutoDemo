@@ -148,10 +148,13 @@ for (const id of new Set(queue.items.map((i) => i.id))) {
 const flowOf = (id) => flows.get(id);
 const keysOf = (it, flow) => [`clip:${it.id}`, ...(flow.meta.resources || [])];
 
-/** Take the next item no other worker conflicts with. */
-function claim() {
+/** Take the next item no other worker conflicts with. A flow with meta.worker1 shows the
+ *  store's own address on screen (a storefront URL, a register's display link), so only
+ *  worker 1, the real store, may record it. */
+function claim(k = 1) {
   for (const it of queue.items) {
     if (it.status !== "pending") continue;
+    if (k !== 1 && flowOf(it.id).meta.worker1) continue;
     const keys = keysOf(it, flowOf(it.id));
     if (keys.some((k) => busy.has(k))) continue;
     keys.forEach((k) => busy.add(k));
@@ -169,7 +172,7 @@ async function worker(k) {
   await ensureChrome(port);
   for (;;) {
     if (Date.now() > deadline) return;
-    const got = claim();
+    const got = claim(k);
     if (!got) {
       // Nothing free: done if nothing is pending, else wait for a conflicting take to finish.
       if (!queue.items.some((i) => i.status === "pending")) return;

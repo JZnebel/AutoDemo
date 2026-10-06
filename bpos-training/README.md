@@ -34,7 +34,8 @@ run (about 4.5s a take instead of 11.5s).
 `--jobs 2` records two takes at once, each in its own store (`riverstone2`, ...) and Chrome
 (port 9335, ...). It's about 25% faster, not twice: the dev server is the bottleneck, and every
 take slows down when two run. Clips that create the same login (`meta.resources`) never record
-at the same time.
+at the same time. A clip whose screen shows the store's own address (a storefront page,
+a register's display link) sets `meta.worker1: true`, so only worker 1, the real store, records it.
 
 ## The store
 

@@ -3740,6 +3740,1033 @@
      "fr": "La connexion et l'horodateur utilisent le clavier à l'écran."
     }
    ]
+  },
+  {
+   "id": "navigating-the-pos",
+   "flow": "flows/navigating-the-pos.mjs",
+   "docs": "getting-started/navigating-the-pos",
+   "title": {
+    "en": "Finding your way around the register",
+    "fr": "Se repérer dans la caisse"
+   },
+   "lines": [
+    {
+     "id": "parts",
+     "en": "The register has three parts: the bar along the top, your products on the left, and the cart on the right.",
+     "fr": "La caisse a trois parties : la barre du haut, vos produits à gauche, et le panier à droite."
+    },
+    {
+     "id": "find",
+     "en": "Tap a category, type in the search box, or just scan the barcode.",
+     "fr": "Touchez une catégorie, tapez dans la recherche, ou numérisez simplement le code-barres."
+    },
+    {
+     "id": "add",
+     "en": "Tap a product to add it. Flower asks you to pick a weight.",
+     "fr": "Touchez un produit pour l'ajouter. Le cannabis séché vous demande de choisir un poids."
+    },
+    {
+     "id": "pay",
+     "en": "Add the customer at the top of the cart, then take payment with the buttons under the total.",
+     "fr": "Ajoutez le client en haut du panier, puis encaissez avec les boutons sous le total."
+    },
+    {
+     "id": "lock",
+     "en": "Stepping away? Tap the padlock. The next person signs in with their PIN, and the drawer stays open.",
+     "fr": "Vous vous absentez? Touchez le cadenas. La personne suivante entre son NIP, et le tiroir reste ouvert."
+    },
+    {
+     "id": "settings",
+     "en": "The gear holds this register's display settings, the language, and quick actions.",
+     "fr": "L'engrenage contient l'affichage de cette caisse, la langue, et les actions rapides."
+    }
+   ]
+  },
+  {
+   "id": "navigating-the-admin",
+   "flow": "flows/navigating-the-admin.mjs",
+   "docs": "getting-started/navigating-the-admin",
+   "title": {
+    "en": "Finding your way around the back office",
+    "fr": "Se repérer dans l'arrière-boutique"
+   },
+   "lines": [
+    {
+     "id": "dashboard",
+     "en": "After you sign in, the dashboard shows today's sales, your drawers, and low stock.",
+     "fr": "Une fois connecté, le tableau de bord montre les ventes du jour, vos tiroirs, et les stocks bas."
+    },
+    {
+     "id": "menu",
+     "en": "The menu across the top takes you to products, orders, reports and settings.",
+     "fr": "Le menu du haut mène aux produits, aux commandes, aux rapports et aux paramètres."
+    },
+    {
+     "id": "search",
+     "en": "Can't find something? Click the magnifying glass, or press Control K, and type what you're after.",
+     "fr": "Vous ne trouvez pas? Cliquez sur la loupe, ou appuyez sur Contrôle K, et tapez ce que vous cherchez."
+    },
+    {
+     "id": "more",
+     "en": "Most pages keep their main buttons at the top, and the rest under More Actions.",
+     "fr": "La plupart des pages gardent leurs boutons principaux en haut, et le reste sous Plus d'actions."
+    },
+    {
+     "id": "you",
+     "en": "Your name, top right, opens your account, help, support, and Sign Out.",
+     "fr": "Votre nom, en haut à droite, ouvre votre compte, l'aide, le soutien, et la déconnexion."
+    }
+   ]
+  },
+  {
+   "id": "online-orders-admin",
+   "flow": "flows/online-orders-admin.mjs",
+   "docs": "admin/orders/online-orders",
+   "title": {
+    "en": "Handling online orders",
+    "fr": "Traiter les commandes en ligne"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Orders from your website are under Orders, then Online Orders. The number shows how many are waiting.",
+     "fr": "Les commandes de votre site sont dans Commandes, puis Commandes en ligne. Le nombre indique combien attendent."
+    },
+    {
+     "id": "filter",
+     "en": "Click Pending to see the new ones.",
+     "fr": "Cliquez sur En attente pour voir les nouvelles."
+    },
+    {
+     "id": "ready",
+     "en": "Open an order and pack it. When it's ready, click Mark Ready, and the customer gets an email.",
+     "fr": "Ouvrez une commande et préparez-la. Quand elle est prête, cliquez sur Marquer prête, et le client reçoit un courriel."
+    },
+    {
+     "id": "complete",
+     "en": "When they pick it up, click Complete Order, choose how they paid, and record it.",
+     "fr": "Quand le client la récupère, cliquez sur Terminer la commande, choisissez le mode de paiement, et enregistrez."
+    },
+    {
+     "id": "cancel",
+     "en": "Can't fill an order? Cancel puts the items back on the shelf and lets the customer know.",
+     "fr": "Impossible de remplir une commande? Annuler remet les articles en stock et avise le client."
+    }
+   ]
+  },
+  {
+   "id": "revenue-centers",
+   "flow": "flows/revenue-centers.mjs",
+   "docs": "admin/other/revenue-centers",
+   "title": {
+    "en": "Revenue centers",
+    "fr": "Centres de revenus"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "If your building has more than one counter, like a lounge and a retail counter, revenue centers split their sales.",
+     "fr": "Si votre bâtiment a plus d'un comptoir, comme un salon et un comptoir de détail, les centres de revenus séparent leurs ventes."
+    },
+    {
+     "id": "open",
+     "en": "Go to Cash Drawers, Manage Registers, then Revenue Centers.",
+     "fr": "Allez dans Tiroirs-caisses, Gérer les caisses, puis Centres de revenus."
+    },
+    {
+     "id": "add",
+     "en": "Click Add Revenue Center, name it, and save.",
+     "fr": "Cliquez sur Ajouter un centre de revenus, nommez-le, et enregistrez."
+    },
+    {
+     "id": "register",
+     "en": "Edit a register and pick its revenue center. Every sale rung there now counts for it.",
+     "fr": "Modifiez une caisse et choisissez son centre. Chaque vente faite là compte maintenant pour lui."
+    },
+    {
+     "id": "categories",
+     "en": "Tick centers on a category, so each register only shows its own items. Stock stays shared.",
+     "fr": "Cochez des centres sur une catégorie, pour que chaque caisse n'affiche que ses articles. Le stock reste partagé."
+    },
+    {
+     "id": "toggle",
+     "en": "At the register, the center button shows all products for a one-off sale.",
+     "fr": "À la caisse, le bouton du centre affiche tous les produits pour une vente ponctuelle."
+    }
+   ]
+  },
+  {
+   "id": "customer-sharing",
+   "flow": "flows/customer-sharing.mjs",
+   "docs": "admin/multi-store/owner-customer-sharing",
+   "title": {
+    "en": "Sharing customers between your stores",
+    "fr": "Partager les clients entre vos magasins"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "If you own more than one store, they can share customers: one account, one card, one points balance.",
+     "fr": "Si vous avez plus d'un magasin, ils peuvent partager les clients : un compte, une carte, un solde de points."
+    },
+    {
+     "id": "open",
+     "en": "Open Owner, then the Customers tab, and tick the stores that should share.",
+     "fr": "Ouvrez Propriétaire, puis l'onglet Clients, et cochez les magasins qui partagent."
+    },
+    {
+     "id": "loyalty",
+     "en": "Pick whose loyalty program they'll all use, and save.",
+     "fr": "Choisissez le programme de fidélité qu'ils utiliseront tous, et enregistrez."
+    },
+    {
+     "id": "combine",
+     "en": "If someone signed up at both stores, they show here. Check it's really one person, then click Combine.",
+     "fr": "Si quelqu'un s'est inscrit aux deux magasins, il apparaît ici. Vérifiez que c'est la même personne, puis cliquez sur Combiner."
+    },
+    {
+     "id": "settle",
+     "en": "If two people share one card number, click Settle and print one of them a new card.",
+     "fr": "Si deux personnes partagent un numéro de carte, cliquez sur Régler et imprimez une nouvelle carte à l'une d'elles."
+    }
+   ]
+  },
+  {
+   "id": "stock-reservations",
+   "flow": "flows/stock-reservations.mjs",
+   "docs": "admin/inventory/reservations",
+   "title": {
+    "en": "Reserved stock",
+    "fr": "Stock réservé"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Sometimes the register says an item is out of stock while it's on the shelf. Usually it's being held for an order.",
+     "fr": "Parfois la caisse indique un article en rupture alors qu'il est en tablette. Il est souvent réservé pour une commande."
+    },
+    {
+     "id": "open",
+     "en": "Open the product, and click the Inventory tab.",
+     "fr": "Ouvrez le produit, et cliquez sur l'onglet Inventaire."
+    },
+    {
+     "id": "numbers",
+     "en": "Current stock is on the shelf. Reserved is held for unfinished orders. Available is what you can sell.",
+     "fr": "Le stock actuel est en tablette. Réservé est retenu pour des commandes non terminées. Disponible, c'est ce que vous pouvez vendre."
+    },
+    {
+     "id": "list",
+     "en": "The list below shows each hold, and when it runs out.",
+     "fr": "La liste montre chaque réservation, et quand elle expire."
+    },
+    {
+     "id": "free",
+     "en": "To free it, finish or cancel the order. Don't add stock to get around it.",
+     "fr": "Pour la libérer, terminez ou annulez la commande. N'ajoutez pas de stock pour la contourner."
+    }
+   ]
+  },
+  {
+   "id": "pricing-models",
+   "flow": "flows/pricing-models.mjs",
+   "docs": "admin/pricing/pricing-models",
+   "title": {
+    "en": "How products are priced",
+    "fr": "Comment les produits sont tarifés"
+   },
+   "lines": [
+    {
+     "id": "where",
+     "en": "Every product's price is on its Pricing tab. Prices go in before tax.",
+     "fr": "Le prix de chaque produit est dans son onglet Prix. Les prix s'entrent avant taxes."
+    },
+    {
+     "id": "tier",
+     "en": "Flower sold by weight can use Quality Tier. Pick a grade, and every weight gets that grade's price.",
+     "fr": "Le cannabis vendu au poids peut utiliser le palier de qualité. Choisissez une catégorie, et chaque poids prend son prix."
+    },
+    {
+     "id": "custom",
+     "en": "Or choose Custom Weight, to type your own price for each weight.",
+     "fr": "Ou choisissez Poids personnalisé, pour entrer votre prix pour chaque poids."
+    },
+    {
+     "id": "simple",
+     "en": "Most other items use Simple Pricing: one price, and what it costs you.",
+     "fr": "La plupart des autres articles utilisent le prix simple : un prix, et ce qu'il vous coûte."
+    },
+    {
+     "id": "bulk",
+     "en": "For a deal like five pre-rolls for forty dollars, turn on bulk pricing and enter five and forty.",
+     "fr": "Pour une offre comme cinq préroulés pour quarante dollars, activez la tarification en gros et entrez cinq et quarante."
+    },
+    {
+     "id": "save",
+     "en": "Click Update Product. The register picks it up on its next sync.",
+     "fr": "Cliquez sur Mettre à jour le produit. La caisse le reçoit à sa prochaine synchronisation."
+    }
+   ]
+  },
+  {
+   "id": "rezweed-sync",
+   "flow": "flows/rezweed-sync.mjs",
+   "docs": "integrations/rezweed/menu-sync",
+   "title": {
+    "en": "Your RezWeed listing",
+    "fr": "Votre fiche RezWeed"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "RezWeed is a free directory for Indigenous and independent cannabis stores. Brother POS keeps your listing up to date.",
+     "fr": "RezWeed est un répertoire gratuit pour les magasins de cannabis autochtones et indépendants. Brother POS tient votre fiche à jour."
+    },
+    {
+     "id": "on",
+     "en": "In Settings, Edit Settings, tick the RezWeed integration, and update your settings.",
+     "fr": "Dans Paramètres, Modifier les paramètres, cochez l'intégration RezWeed, et mettez à jour vos paramètres."
+    },
+    {
+     "id": "map",
+     "en": "Match your categories to RezWeed's. Most match by name already. Then save the mapping.",
+     "fr": "Associez vos catégories à celles de RezWeed. La plupart correspondent déjà par leur nom. Puis enregistrez."
+    },
+    {
+     "id": "publish",
+     "en": "Tick the box to publish your menu, and save. Your menu, prices and photos go out on their own.",
+     "fr": "Cochez la case pour publier votre menu, et enregistrez. Votre menu, vos prix et vos photos partent d'eux-mêmes."
+    },
+    {
+     "id": "product",
+     "en": "To keep a product off RezWeed, untick Show on RezWeed on that product.",
+     "fr": "Pour retirer un produit de RezWeed, décochez Afficher sur RezWeed sur ce produit."
+    },
+    {
+     "id": "deals",
+     "en": "Freebie deals you choose to show appear on your listing too.",
+     "fr": "Les offres de produit gratuit que vous choisissez apparaissent aussi sur votre fiche."
+    }
+   ]
+  },
+  {
+   "id": "storefront-overview",
+   "flow": "flows/storefront-overview.mjs",
+   "docs": "admin/other/storefront",
+   "title": {
+    "en": "Your online storefront",
+    "fr": "Votre magasin en ligne"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Click Storefront to see whether your website is live.",
+     "fr": "Cliquez sur Magasin en ligne pour voir si votre site est en ligne."
+    },
+    {
+     "id": "construction",
+     "en": "While you build, Under Construction shows a coming soon page instead.",
+     "fr": "Pendant la création, En construction affiche plutôt une page bientôt disponible."
+    },
+    {
+     "id": "customize",
+     "en": "Click Customize to pick a theme, colours, and your homepage sections.",
+     "fr": "Cliquez sur Personnaliser pour choisir un thème, des couleurs, et les sections de l'accueil."
+    },
+    {
+     "id": "publish",
+     "en": "Save keeps a draft. Publish puts it live.",
+     "fr": "Enregistrer garde un brouillon. Publier le met en ligne."
+    },
+    {
+     "id": "ordering",
+     "en": "Turn on online ordering, so customers can order for pickup.",
+     "fr": "Activez la commande en ligne, pour que les clients commandent pour ramassage."
+    },
+    {
+     "id": "age",
+     "en": "Cannabis stores ask visitors their age before they see the menu.",
+     "fr": "Les magasins de cannabis demandent l'âge des visiteurs avant d'afficher le menu."
+    }
+   ]
+  },
+  {
+   "id": "abandoned-carts",
+   "flow": "flows/abandoned-carts.mjs",
+   "docs": "admin/storefront/abandoned-cart-recovery",
+   "title": {
+    "en": "Abandoned carts",
+    "fr": "Paniers abandonnés"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "When a shopper leaves at checkout, their cart is saved.",
+     "fr": "Quand un client quitte à la caisse, son panier est conservé."
+    },
+    {
+     "id": "open",
+     "en": "To see them, open Storefront, then Abandoned Carts.",
+     "fr": "Pour les voir, ouvrez Magasin en ligne, puis Paniers abandonnés."
+    },
+    {
+     "id": "email",
+     "en": "About an hour later, they get one reminder email with a button that puts their items back.",
+     "fr": "Environ une heure plus tard, ils reçoivent un courriel de rappel avec un bouton qui remet leurs articles."
+    },
+    {
+     "id": "tiles",
+     "en": "The top shows how many carts were left, and how many came back.",
+     "fr": "Le haut montre combien de paniers ont été laissés, et combien sont revenus."
+    },
+    {
+     "id": "status",
+     "en": "Notified means the email went out. Recovered means they ordered.",
+     "fr": "Notifié veut dire que le courriel est parti. Récupéré veut dire qu'ils ont commandé."
+    },
+    {
+     "id": "nothing",
+     "en": "There's nothing to send by hand.",
+     "fr": "Il n'y a rien à envoyer à la main."
+    }
+   ]
+  },
+  {
+   "id": "analytics-tracking",
+   "flow": "flows/analytics-tracking.mjs",
+   "docs": "admin/storefront/analytics-tracking",
+   "title": {
+    "en": "Website analytics",
+    "fr": "Statistiques du site"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "To see who visits your website, connect Google Analytics.",
+     "fr": "Pour voir qui visite votre site, connectez Google Analytics."
+    },
+    {
+     "id": "open",
+     "en": "Open Storefront, Customize, then Analytics.",
+     "fr": "Ouvrez Magasin en ligne, Personnaliser, puis Statistiques."
+    },
+    {
+     "id": "ga",
+     "en": "Paste your Google Analytics ID.",
+     "fr": "Collez votre identifiant Google Analytics."
+    },
+    {
+     "id": "others",
+     "en": "Leave the ones you don't use blank.",
+     "fr": "Laissez vides ceux que vous n'utilisez pas."
+    },
+    {
+     "id": "save",
+     "en": "Save, then Publish.",
+     "fr": "Enregistrez, puis publiez."
+    },
+    {
+     "id": "check",
+     "en": "Then check Google's real-time report to see your visit come in.",
+     "fr": "Vérifiez ensuite le rapport en temps réel de Google pour voir votre visite."
+    }
+   ]
+  },
+  {
+   "id": "custom-domains",
+   "flow": "flows/custom-domains.mjs",
+   "docs": "admin/storefront/custom-domains",
+   "title": {
+    "en": "Your own web address",
+    "fr": "Votre propre adresse web"
+   },
+   "lines": [
+    {
+     "id": "free",
+     "en": "Your website starts on a free address.",
+     "fr": "Votre site commence sur une adresse gratuite."
+    },
+    {
+     "id": "own",
+     "en": "Already own a domain? Type it in, and point an A record at the address shown.",
+     "fr": "Vous avez déjà un nom de domaine? Tapez-le, et pointez un enregistrement A vers l'adresse indiquée."
+    },
+    {
+     "id": "verify",
+     "en": "Click Verify. The internet can take a few hours to catch up, and it keeps checking on its own.",
+     "fr": "Cliquez sur Vérifier. Internet peut prendre quelques heures, et la vérification se refait d'elle-même."
+    },
+    {
+     "id": "search",
+     "en": "Or search for a new domain, and the setup is done for you.",
+     "fr": "Ou cherchez un nouveau domaine, et la configuration se fait pour vous."
+    },
+    {
+     "id": "live",
+     "en": "When it's connected, the storefront page shows it in green.",
+     "fr": "Une fois connecté, la page Magasin en ligne l'affiche en vert."
+    }
+   ]
+  },
+  {
+   "id": "online-menu-embed",
+   "flow": "flows/online-menu-embed.mjs",
+   "docs": "admin/storefront/online-menu-embed",
+   "title": {
+    "en": "Your menu on your own website",
+    "fr": "Votre menu sur votre propre site"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Already have a website? Put your live menu on it.",
+     "fr": "Vous avez déjà un site web? Mettez-y votre menu en direct."
+    },
+    {
+     "id": "open",
+     "en": "In Settings, Edit Settings, Sales and Integrations, open the embed code page.",
+     "fr": "Dans Paramètres, Modifier les paramètres, Ventes et intégrations, ouvrez la page du code d'intégration."
+    },
+    {
+     "id": "copy",
+     "en": "Copy the read-only menu snippet.",
+     "fr": "Copiez le code du menu en lecture seule."
+    },
+    {
+     "id": "paste",
+     "en": "Paste it into an HTML block on your website. Prices and stock stay up to date.",
+     "fr": "Collez-le dans un bloc HTML de votre site. Les prix et le stock restent à jour."
+    },
+    {
+     "id": "builder",
+     "en": "Use the builder to show one category, or a dark theme.",
+     "fr": "Utilisez le générateur pour afficher une seule catégorie, ou un thème sombre."
+    },
+    {
+     "id": "age",
+     "en": "Cannabis menus ask the visitor's age first, unless your site already does.",
+     "fr": "Les menus de cannabis demandent d'abord l'âge du visiteur, sauf si votre site le fait déjà."
+    }
+   ]
+  },
+  {
+   "id": "shop-embed",
+   "flow": "flows/shop-embed.mjs",
+   "docs": "admin/storefront/embedding",
+   "title": {
+    "en": "Shopping inside your own website",
+    "fr": "Magasiner dans votre propre site"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "The shoppable menu lets customers order without leaving your website.",
+     "fr": "Le menu avec panier permet de commander sans quitter votre site."
+    },
+    {
+     "id": "copy",
+     "en": "Copy the shoppable snippet from the same embed page.",
+     "fr": "Copiez le code avec panier sur la même page d'intégration."
+    },
+    {
+     "id": "paste",
+     "en": "Paste it on every page of your website.",
+     "fr": "Collez-le sur chaque page de votre site."
+    },
+    {
+     "id": "cart",
+     "en": "Customers add to the cart, and it slides in from the side. The cart is kept for thirty days.",
+     "fr": "Les clients ajoutent au panier, qui glisse sur le côté. Le panier est conservé trente jours."
+    },
+    {
+     "id": "test",
+     "en": "Test it in a private window, like a new customer.",
+     "fr": "Testez-le dans une fenêtre privée, comme un nouveau client."
+    }
+   ]
+  },
+  {
+   "id": "product-reviews",
+   "flow": "flows/product-reviews.mjs",
+   "docs": "admin/storefront/product-reviews",
+   "title": {
+    "en": "Product reviews",
+    "fr": "Avis sur les produits"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Customer reviews wait for you under Storefront, then Reviews.",
+     "fr": "Les avis des clients vous attendent dans Magasin en ligne, puis Avis."
+    },
+    {
+     "id": "pending",
+     "en": "Click Pending to see the new ones.",
+     "fr": "Cliquez sur En attente pour voir les nouveaux."
+    },
+    {
+     "id": "approve",
+     "en": "Approve shows a review on your site right away.",
+     "fr": "Approuver affiche l'avis sur votre site tout de suite."
+    },
+    {
+     "id": "reject",
+     "en": "Reject deletes it for good.",
+     "fr": "Rejeter le supprime définitivement."
+    },
+    {
+     "id": "hide",
+     "en": "Hide Reviews turns them all off, without deleting anything.",
+     "fr": "Masquer les avis les retire tous, sans rien supprimer."
+    }
+   ]
+  },
+  {
+   "id": "promo-codes",
+   "flow": "flows/promo-codes.mjs",
+   "docs": "admin/storefront/promo-codes",
+   "title": {
+    "en": "Promo codes",
+    "fr": "Codes promo"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Open Storefront, Promo Codes, then New Promo Code.",
+     "fr": "Ouvrez Magasin en ligne, Codes promo, puis Nouveau code promo."
+    },
+    {
+     "id": "code",
+     "en": "Type a short code customers can remember.",
+     "fr": "Tapez un code court dont les clients se souviendront."
+    },
+    {
+     "id": "type",
+     "en": "Choose a percentage or dollars off, and how much.",
+     "fr": "Choisissez un pourcentage ou un montant, et combien."
+    },
+    {
+     "id": "limits",
+     "en": "Add a minimum order or a limit if you like, and create it.",
+     "fr": "Ajoutez un minimum ou une limite si vous voulez, et créez-le."
+    },
+    {
+     "id": "use",
+     "en": "Customers enter it at checkout.",
+     "fr": "Les clients l'entrent au paiement."
+    },
+    {
+     "id": "pause",
+     "en": "To pause a code, untick Active.",
+     "fr": "Pour suspendre un code, décochez Actif."
+    }
+   ]
+  },
+  {
+   "id": "product-gallery",
+   "flow": "flows/product-gallery.mjs",
+   "docs": "admin/storefront/product-gallery",
+   "title": {
+    "en": "Product photos",
+    "fr": "Photos de produits"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Open the product's Details tab, then Product Images.",
+     "fr": "Ouvrez l'onglet Détails du produit, puis Images du produit."
+    },
+    {
+     "id": "main",
+     "en": "Choose the main photo.",
+     "fr": "Choisissez la photo principale."
+    },
+    {
+     "id": "more",
+     "en": "Add more photos under Additional Images.",
+     "fr": "Ajoutez d'autres photos sous Images supplémentaires."
+    },
+    {
+     "id": "save",
+     "en": "Update the product.",
+     "fr": "Mettez le produit à jour."
+    },
+    {
+     "id": "site",
+     "en": "On your website, the product page shows the main photo, with the others underneath.",
+     "fr": "Sur votre site, la page du produit montre la photo principale, avec les autres en dessous."
+    },
+    {
+     "id": "cards",
+     "en": "Menu cards show only the main photo.",
+     "fr": "Les cartes du menu n'affichent que la photo principale."
+    }
+   ],
+   "screenAllow": [
+    "https://example.com/image.jpg"
+   ]
+  },
+  {
+   "id": "big-brother",
+   "flow": "flows/big-brother.mjs",
+   "docs": "admin/other/ai-assistant",
+   "title": {
+    "en": "Big Brother, your AI assistant",
+    "fr": "Big Brother, votre assistant IA"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Big Brother lets you run the back office by typing plain language.",
+     "fr": "Big Brother vous permet de gérer l'arrière-boutique en écrivant simplement."
+    },
+    {
+     "id": "ask",
+     "en": "Be specific: the product, the category, the price, how much.",
+     "fr": "Soyez précis : le produit, la catégorie, le prix, la quantité."
+    },
+    {
+     "id": "check",
+     "en": "Before anything changes, it shows exactly what it will do. Check it, then confirm.",
+     "fr": "Avant tout changement, il montre exactement ce qu'il va faire. Vérifiez, puis confirmez."
+    },
+    {
+     "id": "undo",
+     "en": "Changed your mind? Click Undo.",
+     "fr": "Vous changez d'idée? Cliquez sur Annuler."
+    },
+    {
+     "id": "question",
+     "en": "Questions, like what's running low, are answered right away.",
+     "fr": "Les questions, comme ce qui manque bientôt, ont une réponse immédiate."
+    },
+    {
+     "id": "history",
+     "en": "Your past chats stay in the list on the left.",
+     "fr": "Vos conversations restent dans la liste à gauche."
+    }
+   ]
+  },
+  {
+   "id": "woo-setup",
+   "flow": "flows/woo-setup.mjs",
+   "docs": "integrations/woocommerce/setup",
+   "title": {
+    "en": "Connecting your WooCommerce website",
+    "fr": "Connecter votre site WooCommerce"
+   },
+   "lines": [
+    {
+     "id": "on",
+     "en": "First, switch on WooCommerce in Settings, on the Sales and Integrations tab.",
+     "fr": "D'abord, activez WooCommerce dans Paramètres, onglet Ventes et intégrations."
+    },
+    {
+     "id": "mode",
+     "en": "In WooCommerce settings, choose the plugin connection, and save.",
+     "fr": "Dans les paramètres WooCommerce, choisissez la connexion par extension, et enregistrez."
+    },
+    {
+     "id": "copy",
+     "en": "Brother POS shows your key and connection details, ready to copy.",
+     "fr": "Brother POS affiche votre clé et vos détails de connexion, prêts à copier."
+    },
+    {
+     "id": "plugin",
+     "en": "On your website, open the Brother POS plugin's setup page.",
+     "fr": "Sur votre site, ouvrez la page de configuration de l'extension Brother POS."
+    },
+    {
+     "id": "paste",
+     "en": "Paste the key, then the connection details, and save each.",
+     "fr": "Collez la clé, puis les détails de connexion, et enregistrez chacun."
+    },
+    {
+     "id": "sync",
+     "en": "Then sync your products, and check Diagnostics if anything looks off.",
+     "fr": "Puis synchronisez vos produits, et vérifiez les diagnostics si quelque chose cloche."
+    }
+   ],
+   "screenAllow": [
+    "Brands"
+   ]
+  },
+  {
+   "id": "woo-product-sync",
+   "flow": "flows/woo-product-sync.mjs",
+   "docs": "integrations/woocommerce/product-sync",
+   "title": {
+    "en": "Sending products to your website",
+    "fr": "Envoyer vos produits sur votre site"
+   },
+   "lines": [
+    {
+     "id": "master",
+     "en": "Brother POS is the master copy of your products. Your website copies it.",
+     "fr": "Brother POS est la copie maîtresse de vos produits. Votre site la copie."
+    },
+    {
+     "id": "pull",
+     "en": "One click on the website pulls your whole catalogue.",
+     "fr": "Un clic sur le site récupère tout votre catalogue."
+    },
+    {
+     "id": "sku",
+     "en": "Products are matched by SKU, so nothing gets doubled.",
+     "fr": "Les produits sont associés par code SKU, donc rien n'est en double."
+    },
+    {
+     "id": "product",
+     "en": "To keep a product off the website, tick Don't sync to WooCommerce on it.",
+     "fr": "Pour garder un produit hors du site, cochez Ne pas synchroniser avec WooCommerce sur ce produit."
+    },
+    {
+     "id": "category",
+     "en": "To keep a whole category off, switch off its WooCommerce sync.",
+     "fr": "Pour garder une catégorie entière hors du site, désactivez sa synchronisation WooCommerce."
+    }
+   ],
+   "screenAllow": [
+    "Brands"
+   ]
+  },
+  {
+   "id": "woo-inventory-sync",
+   "flow": "flows/woo-inventory-sync.mjs",
+   "docs": "integrations/woocommerce/inventory-sync",
+   "title": {
+    "en": "Keeping website stock right",
+    "fr": "Garder le stock du site à jour"
+   },
+   "lines": [
+    {
+     "id": "one-way",
+     "en": "Stock flows one way: from Brother POS to your website.",
+     "fr": "Le stock va dans un seul sens : de Brother POS vers votre site."
+    },
+    {
+     "id": "sale",
+     "en": "Sell in store, receive a delivery, or adjust stock, all in Brother POS.",
+     "fr": "Vendez en magasin, recevez une livraison, ou ajustez le stock, tout dans Brother POS."
+    },
+    {
+     "id": "next",
+     "en": "Your website picks up the new count on its next sync.",
+     "fr": "Votre site prend le nouveau compte à sa prochaine synchronisation."
+    },
+    {
+     "id": "half",
+     "en": "Half a gram left still shows as one, so the item stays in stock.",
+     "fr": "Un demi-gramme restant s'affiche quand même comme un, donc l'article reste en stock."
+    },
+    {
+     "id": "dont",
+     "en": "Don't edit stock in WooCommerce. It's replaced on the next sync.",
+     "fr": "Ne modifiez pas le stock dans WooCommerce. Il est remplacé à la prochaine synchronisation."
+    }
+   ],
+   "screenAllow": [
+    "Brands",
+    "Pre-Roll",
+    "Hand-rolled with AAAA hybrid flower. 1g per joint."
+   ]
+  },
+  {
+   "id": "woo-order-sync",
+   "flow": "flows/woo-order-sync.mjs",
+   "docs": "integrations/woocommerce/order-sync",
+   "title": {
+    "en": "Website orders in Brother POS",
+    "fr": "Les commandes du site dans Brother POS"
+   },
+   "lines": [
+    {
+     "id": "checkout",
+     "en": "A customer checks out on your website.",
+     "fr": "Un client passe sa commande sur votre site."
+    },
+    {
+     "id": "lands",
+     "en": "The order lands in Orders, with a WooCommerce badge.",
+     "fr": "La commande arrive dans Commandes, avec un badge WooCommerce."
+    },
+    {
+     "id": "view",
+     "en": "Open it to see the items, the customer, and how they're getting it.",
+     "fr": "Ouvrez-la pour voir les articles, le client, et comment il la récupère."
+    },
+    {
+     "id": "complete",
+     "en": "Complete the order when it's handed over. That makes the sale.",
+     "fr": "Terminez la commande quand elle est remise. Cela crée la vente."
+    },
+    {
+     "id": "void",
+     "en": "If it can't be filled, void it, and it's cancelled on the website too.",
+     "fr": "Si elle ne peut pas être remplie, annulez-la, et elle est annulée sur le site aussi."
+    }
+   ],
+   "screenAllow": [
+    "Brands"
+   ]
+  },
+  {
+   "id": "woo-freebie-sync",
+   "flow": "flows/woo-freebie-sync.mjs",
+   "docs": "integrations/woocommerce/freebie-sync",
+   "title": {
+    "en": "Freebie deals on your website",
+    "fr": "Les offres de produit gratuit sur votre site"
+   },
+   "lines": [
+    {
+     "id": "create",
+     "en": "Create a freebie campaign, the kind where spending enough gets a free item.",
+     "fr": "Créez une campagne de produit gratuit, où dépenser assez donne un article gratuit."
+    },
+    {
+     "id": "amount",
+     "en": "Set the amount to spend, and the free item.",
+     "fr": "Réglez le montant à dépenser, et l'article gratuit."
+    },
+    {
+     "id": "tick",
+     "en": "Tick the box to show it on your WooCommerce site, and create it.",
+     "fr": "Cochez la case pour l'afficher sur votre site WooCommerce, et créez-la."
+    },
+    {
+     "id": "website",
+     "en": "Your website picks it up within a few minutes.",
+     "fr": "Votre site la récupère en quelques minutes."
+    },
+    {
+     "id": "shopper",
+     "en": "Shoppers then see how much more to spend for the free item.",
+     "fr": "Les clients voient alors combien il leur reste à dépenser pour l'article gratuit."
+    }
+   ],
+   "screenAllow": [
+    "Brands"
+   ]
+  },
+  {
+   "id": "woo-health-monitor",
+   "flow": "flows/woo-health-monitor.mjs",
+   "docs": "integrations/woocommerce/health-monitor",
+   "title": {
+    "en": "Checking your WooCommerce connection",
+    "fr": "Vérifier votre connexion WooCommerce"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To check the connection, open WooCommerce Monitor from Settings.",
+     "fr": "Pour vérifier la connexion, ouvrez le moniteur WooCommerce dans Paramètres."
+    },
+    {
+     "id": "healthy",
+     "en": "Healthy means your website has checked in lately, and nothing failed in the last hour.",
+     "fr": "En santé veut dire que votre site s'est connecté récemment, et que rien n'a échoué depuis une heure."
+    },
+    {
+     "id": "logs",
+     "en": "Recent syncs are listed below, with any that failed.",
+     "fr": "Les synchronisations récentes sont listées plus bas, avec celles qui ont échoué."
+    },
+    {
+     "id": "detail",
+     "en": "Open a failed one to see why.",
+     "fr": "Ouvrez celle qui a échoué pour voir pourquoi."
+    },
+    {
+     "id": "plugin",
+     "en": "For problems on the website's side, check the plugin's Diagnostics page.",
+     "fr": "Pour les problèmes du côté du site, vérifiez la page Diagnostics de l'extension."
+    }
+   ],
+   "screenAllow": [
+    "Brands"
+   ]
+  },
+  {
+   "id": "woo-diagnostics",
+   "flow": "flows/woo-diagnostics.mjs",
+   "docs": "integrations/woocommerce/diagnostics",
+   "title": {
+    "en": "Plugin diagnostics",
+    "fr": "Diagnostics de l'extension"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "In WordPress, open WooCommerce, then Brother POS Diagnostics.",
+     "fr": "Dans WordPress, ouvrez WooCommerce, puis Diagnostics Brother POS."
+    },
+    {
+     "id": "rows",
+     "en": "Each row is either fine, a warning, or a problem.",
+     "fr": "Chaque ligne est soit correcte, soit un avertissement, soit un problème."
+    },
+    {
+     "id": "sync",
+     "en": "The sync rows confirm the connection to Brother POS, and the last product pull.",
+     "fr": "Les lignes de synchronisation confirment la connexion à Brother POS, et la dernière récupération des produits."
+    },
+    {
+     "id": "fix",
+     "en": "If the WordPress editor or media library breaks, one button here fixes it.",
+     "fr": "Si l'éditeur ou la médiathèque de WordPress se brise, un bouton ici le répare."
+    },
+    {
+     "id": "report",
+     "en": "Copy the report at the bottom when you contact support.",
+     "fr": "Copiez le rapport en bas quand vous contactez le soutien."
+    }
+   ],
+   "screenAllow": [
+    "Brands",
+    "vérification impossible : cURL error 7: Failed to connect to localhost port 8891 after 0 ms: Could not connect to server",
+    "échec : cURL error 7: Failed to connect to localhost port 8891 after 0 ms: Could not connect to server"
+   ]
+  },
+  {
+   "id": "woo-register-orders",
+   "flow": "flows/woo-register-orders.mjs",
+   "docs": "pos/orders/woocommerce-orders",
+   "title": {
+    "en": "Website orders at the register",
+    "fr": "Les commandes du site à la caisse"
+   },
+   "lines": [
+    {
+     "id": "tab",
+     "en": "With the cart empty, tap Orders. The number shows how many are waiting.",
+     "fr": "Avec le panier vide, touchez Commandes. Le nombre indique combien attendent."
+    },
+    {
+     "id": "find",
+     "en": "Find the customer's order.",
+     "fr": "Trouvez la commande du client."
+    },
+    {
+     "id": "check",
+     "en": "Check the items, and any note they left.",
+     "fr": "Vérifiez les articles, et toute note laissée."
+    },
+    {
+     "id": "load",
+     "en": "Tap Load into Register.",
+     "fr": "Touchez Charger dans la caisse."
+    },
+    {
+     "id": "pay",
+     "en": "Then take payment as usual. The order is marked done.",
+     "fr": "Puis encaissez comme d'habitude. La commande est marquée terminée."
+    }
+   ],
+   "screenAllow": [
+    "Brands"
+   ]
   }
  ]
 }

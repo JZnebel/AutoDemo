@@ -44,7 +44,10 @@ export function browserArgs(port = CONFIG.chromePort) {
     "--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader",
     // Every *.brotherpos.ca address goes to the local server (port 80 → its port), not just the
     // film host: a flow run with another store must never reach the real, production site.
-    `--host-resolver-rules=MAP *.brotherpos.ca 127.0.0.1:${local.port || 80}, MAP brotherpos.ca 127.0.0.1:${local.port || 80}`,
+    // The public storefronts live on *.trafficstores.ca (STOREFRONT_DOMAIN); map those too, or a
+    // storefront take would land on the real site.
+    `--host-resolver-rules=MAP *.brotherpos.ca 127.0.0.1:${local.port || 80}, MAP brotherpos.ca 127.0.0.1:${local.port || 80}, ` +
+      `MAP *.trafficstores.ca 127.0.0.1:${local.port || 80}, MAP trafficstores.ca 127.0.0.1:${local.port || 80}`,
     "about:blank",
   ];
 }

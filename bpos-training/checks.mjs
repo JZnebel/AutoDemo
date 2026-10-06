@@ -75,6 +75,20 @@ function namedIn(text, lang, storeNames) {
 /**
  * @returns {{ errors: string[], warnings: string[] }}
  */
+
+// Words that are English and never French, so two of them in one piece of text mean English.
+const EN_WORDS = new Set("the your you and with from this that when will are is of to for on it be or not all by have has only my me our we they their what which how than then into out up off any each per its was were been can should would could if no yes save edit view show hide enable enabled disable disabled".split(" "));
+const EN_DATE = /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{1,2}(, \d{4}|,? \d{1,2}:\d{2})/;
+const EN_TIME = /\b\d{1,2}:\d{2} ?(AM|PM)\b/;
+const EN_MONEY = /(^|[\s(])-?\$\d/;
+function looksEnglish(text) {
+  if (EN_DATE.test(text) || EN_TIME.test(text) || EN_MONEY.test(text)) return true;
+  const words = text.toLowerCase().match(/[a-z']+/g) || [];
+  if (words.length < 2) return false;
+  const hits = new Set(words.filter((w) => EN_WORDS.has(w)));
+  return hits.size >= 2 && hits.size / words.length >= 0.15;
+}
+
 export function screenChecks(clipId, lang) {
   const errors = [];
   const warnings = [];
@@ -102,6 +116,21 @@ export function screenChecks(clipId, lang) {
       }
     }
     for (const [text, t] of seen) errors.push(`English on screen at ${fmt(t)}: "${text}" (not translated? add it to screenAllow if it's meant to be)`);
+  }
+
+  // 1b. English the label list can't know about: text hard-coded in a view or script, English
+  // dates ("Oct 05, 2026") and dollar-first money ("$20.00"). Store data (product names,
+  // descriptions, emails) is filtered out by the store-data list and screenAllow.
+  if (lang === "fr") {
+    const seen = new Map();
+    for (const s of snaps) {
+      for (const t of s.texts) {
+        const k = squash(t);
+        if (allow.has(k) || seen.has(k) || /^(https?:|<|\/|[\w.+-]+@)/.test(k)) continue;
+        if (looksEnglish(k)) seen.set(k, s.t);
+      }
+    }
+    for (const [text, t] of seen) errors.push(`English on screen at ${fmt(t)}: "${text.slice(0, 90)}" (hard-coded? add it to screenAllow if it's meant to be)`);
   }
 
   // 2. Another worker's store address

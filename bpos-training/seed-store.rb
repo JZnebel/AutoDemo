@@ -20,6 +20,8 @@
 #   TRAINING_WEEK_OF_SALES=1 a week of sales in this store (without the second store)
 #   TRAINING_SHIFTS=1 shift scheduling on, with this week's shifts for Riley and Sam
 #   TRAINING_HOUSE_ACCOUNT=1 house accounts on; Pat Lee has a tab with two charges and a payment
+#   TRAINING_STOREFRONT=1 a live storefront (config, theme, age gate) with reviews + abandoned carts on
+#   TRAINING_AI=1 Big Brother on, with no monthly message cap
 #   TRAINING_ONLINE_ORDERS=1 storefront + online ordering on (the register's online-order alerts)
 #   TRAINING_SMART_RECEIVING=1 / TRAINING_CASH_FLOW=1 switch on Supplier Invoices / Financials
 #   TRAINING_SCALE=1 to switch on the scale features (the give-away report clip)
@@ -118,8 +120,11 @@ store = Store.create!(
   payment_gift_card_enabled: ENV["TRAINING_GIFT_CARDS"] == "1",
   payment_store_credit_enabled: ENV["TRAINING_STORE_CREDIT"] == "1",
   feature_flags: Store::INDUSTRY_DEFAULTS["cannabis"].merge(
-    "enable_storefront" => ENV["TRAINING_ONLINE_ORDERS"] == "1",
-    "enable_online_ordering" => ENV["TRAINING_ONLINE_ORDERS"] == "1",
+    "enable_storefront" => ENV["TRAINING_ONLINE_ORDERS"] == "1" || ENV["TRAINING_STOREFRONT"] == "1",
+    "enable_online_ordering" => ENV["TRAINING_ONLINE_ORDERS"] == "1" || ENV["TRAINING_STOREFRONT"] == "1",
+    "enable_product_reviews" => ENV["TRAINING_STOREFRONT"] == "1",
+    "enable_abandoned_cart_recovery" => ENV["TRAINING_STOREFRONT"] == "1",
+    "enable_ai_assistant" => ENV["TRAINING_AI"] == "1",
     "enable_shift_scheduling" => ENV["TRAINING_SHIFTS"] == "1",
     "enable_age_verification" => false,
     "enable_customers" => true,
@@ -171,6 +176,18 @@ ActsAsTenant.with_tenant(store) do
   end
 
   seed_week_of_sales(users[:manager], busier: 1.4) if ENV["TRAINING_SECOND_STORE"] == "1" || ENV["TRAINING_WEEK_OF_SALES"] == "1"
+
+  if ENV["TRAINING_STOREFRONT"] == "1" || ENV["TRAINING_AI"] == "1"
+    # The top storefront tier: no AI message cap, every storefront tool available.
+    store.update_columns(storefront_tier: "pos")
+  end
+
+  if ENV["TRAINING_STOREFRONT"] == "1"
+    cfg = store.storefront_config || store.create_storefront_config!
+    hero_text = ENV.fetch("TRAINING_LOCALE", "en") == "fr" ? ["Commandez en ligne, ramassez en magasin", "Voir le menu"] : ["Order online, pick up in store", "Shop the menu"]
+    cfg.update!(enabled: true, wizard_completed: true, theme: "cannabis-island", age_gate_enabled: true, age_gate_minimum_age: 19,
+                hero: (cfg.hero || {}).merge("heading" => "Riverstone Cannabis", "subtext" => hero_text[0], "cta_text" => hero_text[1]))
+  end
 
   if ENV["TRAINING_SHIFTS"] == "1"
     wk = Date.current.beginning_of_week
