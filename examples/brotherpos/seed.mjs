@@ -75,6 +75,12 @@ export function seedEnv(flags, subdomain = CONFIG.subdomain) {
     TRAINING_STOREFRONT: on("--storefront"),
     TRAINING_AI: on("--ai"),
     TRAINING_UOM: on("--uom"),
+    TRAINING_PROMO_GAMES: on("--promo-games"),
+    TRAINING_PROMO_GAME: on("--promo-game"),
+    TRAINING_RAFFLES: on("--raffles"),
+    TRAINING_SLOTS: on("--slots"),
+    TRAINING_RESTAURANT: on("--restaurant"),
+    TRAINING_BAR: on("--bar"),
     TRAINING_WHOLESALE: (flags.find((a) => a.startsWith("--wholesale")) || "").replace(/^--wholesale=?/, "") || (on("--wholesale") === "1" ? "1" : ""),
     TRAINING_LOCALE: (flags.find((a) => a.startsWith("--lang=")) || "--lang=en").slice(7),
   };

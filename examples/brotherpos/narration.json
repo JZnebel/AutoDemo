@@ -5710,6 +5710,578 @@
      "fr": "Quelque chose bloque encore? Le moniteur WooCommerce, dans Paramètres, montre les synchronisations récentes et les erreurs."
     }
    ]
+  },
+  {
+   "id": "promo-games",
+   "flow": "flows/promo-games.mjs",
+   "docs": "admin/pricing/promo-games",
+   "title": {
+    "en": "Setting up promo games",
+    "fr": "Configurer les jeux promotionnels"
+   },
+   "lines": [
+    {
+     "id": "what",
+     "en": "Promo games let customers spin a wheel or scratch a card after paying, for a chance at a prize.",
+     "fr": "Les jeux promotionnels permettent aux clients de faire tourner une roue ou de gratter une carte après avoir payé, pour courir la chance de gagner un prix."
+    },
+    {
+     "id": "on",
+     "en": "Turn them on in Settings, Edit Settings, Operations, and save.",
+     "fr": "Activez-les dans Paramètres, Modifier les paramètres, Opérations, puis enregistrez."
+    },
+    {
+     "id": "new",
+     "en": "Open Promo Games and click New Game.",
+     "fr": "Ouvrez Jeux promotionnels et cliquez sur Nouveau jeu."
+    },
+    {
+     "id": "templates",
+     "en": "Pick a ready-made game. For All Sales games don't need a customer on the sale.",
+     "fr": "Choisissez un jeu tout prêt. Les jeux Pour toutes les ventes n'ont pas besoin d'un client sur la vente."
+    },
+    {
+     "id": "prizes",
+     "en": "Check the prize pool. Add a prize, or change one with the pencil.",
+     "fr": "Vérifiez la liste des prix. Ajoutez un prix, ou modifiez-en un avec le crayon."
+    },
+    {
+     "id": "activate",
+     "en": "New games start switched off. Click Activate.",
+     "fr": "Les nouveaux jeux sont désactivés au départ. Cliquez sur Activer."
+    },
+    {
+     "id": "plays",
+     "en": "From now on, the game plays on the register after a sale.",
+     "fr": "Désormais, le jeu se joue à la caisse après une vente."
+    }
+   ]
+  },
+  {
+   "id": "promo-games-register",
+   "flow": "flows/promo-games-register.mjs",
+   "docs": "pos/sales/promo-games",
+   "title": {
+    "en": "Promo games at the register",
+    "fr": "Les jeux promotionnels à la caisse"
+   },
+   "lines": [
+    {
+     "id": "sale",
+     "en": "Ring up the sale and take payment as usual.",
+     "fr": "Saisissez la vente et prenez le paiement comme d'habitude."
+    },
+    {
+     "id": "close",
+     "en": "When you close the payment screen, the game starts by itself.",
+     "fr": "Quand vous fermez l'écran de paiement, le jeu démarre de lui-même."
+    },
+    {
+     "id": "plays",
+     "en": "It plays on the register and on the customer display.",
+     "fr": "Il se joue sur la caisse et sur l'écran client."
+    },
+    {
+     "id": "code",
+     "en": "A win shows a prize code the customer can use on a later visit.",
+     "fr": "Un gain affiche un code de prix que le client peut utiliser lors d'une prochaine visite."
+    },
+    {
+     "id": "redeem",
+     "en": "On their next visit, ring up the sale, then type or scan the code into the product search.",
+     "fr": "À la prochaine visite, saisissez la vente, puis tapez ou numérisez le code dans la recherche de produits."
+    },
+    {
+     "id": "apply",
+     "en": "The prize shows up. Apply it.",
+     "fr": "Le prix s'affiche. Appliquez-le."
+    },
+    {
+     "id": "finish",
+     "en": "Then finish the sale. Each code works once.",
+     "fr": "Puis terminez la vente. Chaque code ne sert qu'une fois."
+    }
+   ]
+  },
+  {
+   "id": "raffles",
+   "shots": [
+    {
+     "flow": "flows/raffles.mjs"
+    },
+    {
+     "flow": "flows/raffles-register.mjs"
+    },
+    {
+     "flow": "flows/raffles-draw.mjs"
+    }
+   ],
+   "docs": "admin/pricing/raffles",
+   "title": {
+    "en": "Running a raffle",
+    "fr": "Organiser un tirage"
+   },
+   "lines": [
+    {
+     "id": "on",
+     "en": "Turn raffles on in Settings, Edit Settings, Operations, and save.",
+     "fr": "Activez les tirages dans Paramètres, Modifier les paramètres, Opérations, puis enregistrez."
+    },
+    {
+     "id": "new",
+     "en": "Open Raffles and click New Raffle.",
+     "fr": "Ouvrez Tirages et cliquez sur Nouveau tirage."
+    },
+    {
+     "id": "fill",
+     "en": "Give it a name, the prize, and the price of an entry.",
+     "fr": "Donnez-lui un nom, le prix à gagner et le prix d'un billet."
+    },
+    {
+     "id": "when",
+     "en": "Pick how often it draws, and the day. Then create it.",
+     "fr": "Choisissez la fréquence du tirage, et le jour. Puis créez-le."
+    },
+    {
+     "id": "product",
+     "en": "An entry product is added to your catalogue, ready to sell.",
+     "fr": "Un produit de billet est ajouté à votre catalogue, prêt à vendre."
+    },
+    {
+     "id": "customer",
+     "en": "At the register, put the customer on the sale first. Entries need a name to win.",
+     "fr": "À la caisse, mettez d'abord le client sur la vente. Un billet doit avoir un nom pour gagner."
+    },
+    {
+     "id": "entries",
+     "en": "Ring up the entries and take payment.",
+     "fr": "Saisissez les billets et prenez le paiement."
+    },
+    {
+     "id": "each",
+     "en": "Each one sold is one entry in the draw.",
+     "fr": "Chaque billet vendu est une chance dans le tirage."
+    },
+    {
+     "id": "auto",
+     "en": "On draw day, the draw runs by itself.",
+     "fr": "Le jour du tirage, il se fait de lui-même."
+    },
+    {
+     "id": "now",
+     "en": "To draw now, open the raffle and click Draw Now.",
+     "fr": "Pour tirer maintenant, ouvrez le tirage et cliquez sur Tirer maintenant."
+    },
+    {
+     "id": "winner",
+     "en": "A winner is picked at random.",
+     "fr": "Un gagnant est choisi au hasard."
+    },
+    {
+     "id": "live",
+     "en": "Go Live and Draw shows the draw on your store's live screen instead.",
+     "fr": "Diffuser et tirer montre plutôt le tirage sur l'écran en direct du magasin."
+    }
+   ]
+  },
+  {
+   "id": "casino-payouts",
+   "shots": [
+    {
+     "flow": "flows/casino-payouts.mjs"
+    },
+    {
+     "flow": "flows/casino-payouts-register.mjs"
+    },
+    {
+     "flow": "flows/casino-payouts-report.mjs"
+    }
+   ],
+   "docs": "admin/other/gaming",
+   "title": {
+    "en": "Slot machine payouts",
+    "fr": "Paiements des machines à sous"
+   },
+   "lines": [
+    {
+     "id": "on",
+     "en": "To pay out machine winnings from the till, turn on Payouts and Slot Machine Payouts under Settings, Operations.",
+     "fr": "Pour payer les gains des machines à partir de la caisse, activez Paiements et Paiements des machines à sous dans Paramètres, Opérations."
+    },
+    {
+     "id": "machines",
+     "en": "Then add your machines from the Gaming card on the Reports page.",
+     "fr": "Ajoutez ensuite vos machines à partir de la carte Jeux, dans la page Rapports."
+    },
+    {
+     "id": "bulk",
+     "en": "Add them one at a time, or paste a whole list and click Add all.",
+     "fr": "Ajoutez-les une à une, ou collez toute une liste et cliquez sur Tout ajouter."
+    },
+    {
+     "id": "drop",
+     "en": "At the register, tap the Cash Drop button at the top.",
+     "fr": "À la caisse, touchez le bouton Dépôt de caisse, en haut."
+    },
+    {
+     "id": "reason",
+     "en": "Choose Machine Payout, and pick the machine.",
+     "fr": "Choisissez Paiement de machine, et sélectionnez la machine."
+    },
+    {
+     "id": "amount",
+     "en": "Type the amount and tap Record Pay Out.",
+     "fr": "Tapez le montant et touchez Enregistrer le paiement."
+    },
+    {
+     "id": "drawer",
+     "en": "It comes out of the drawer's cash, so the count still balances at close.",
+     "fr": "Le montant sort de l'argent du tiroir, donc le compte balance toujours à la fermeture."
+    },
+    {
+     "id": "report",
+     "en": "Back on the Gaming page, you see what each machine paid out.",
+     "fr": "De retour dans la page Jeux, vous voyez ce que chaque machine a payé."
+    },
+    {
+     "id": "export",
+     "en": "Export it any time for your records.",
+     "fr": "Exportez-le en tout temps pour vos dossiers."
+    }
+   ]
+  },
+  {
+   "id": "modifier-lists",
+   "shots": [
+    {
+     "flow": "flows/modifier-lists.mjs"
+    },
+    {
+     "flow": "flows/modifier-lists-register.mjs"
+    }
+   ],
+   "docs": "admin/other/modifier-lists",
+   "title": {
+    "en": "Modifiers: add-ons and choices",
+    "fr": "Modificateurs : extras et choix"
+   },
+   "lines": [
+    {
+     "id": "what",
+     "en": "Modifiers are the choices on an item, like burger toppings, each with its own price.",
+     "fr": "Les modificateurs sont les choix sur un article, comme les garnitures d'un burger, chacun avec son prix."
+    },
+    {
+     "id": "open",
+     "en": "Open Products, More Actions, Modifier Lists, then New Modifier List.",
+     "fr": "Ouvrez Produits, Plus d'actions, Listes de modificateurs, puis Nouvelle liste de modificateurs."
+    },
+    {
+     "id": "name",
+     "en": "Name it, then set how many a customer can pick. Zero minimum makes it optional.",
+     "fr": "Nommez-la, puis indiquez combien de choix le client peut faire. Un minimum de zéro la rend facultative."
+    },
+    {
+     "id": "options",
+     "en": "Add one row per option, with its extra price, and create the list.",
+     "fr": "Ajoutez une ligne par option, avec son supplément, puis créez la liste."
+    },
+    {
+     "id": "attach",
+     "en": "Then edit the product, open the Options tab, tick the list under Modifiers, and update it.",
+     "fr": "Puis modifiez le produit, ouvrez l'onglet Options, cochez la liste sous Modificateurs, et mettez-le à jour."
+    },
+    {
+     "id": "tap",
+     "en": "At the register, tap the burger.",
+     "fr": "À la caisse, touchez le burger."
+    },
+    {
+     "id": "choose",
+     "en": "The choices come up. Pick them, and add it to the cart.",
+     "fr": "Les choix s'affichent. Sélectionnez-les, puis ajoutez au panier."
+    },
+    {
+     "id": "price",
+     "en": "The extras show on the line, and the price includes them.",
+     "fr": "Les extras paraissent sur la ligne, et le prix les inclut."
+    }
+   ],
+   "screenAllow": [
+    "Solid value indica. Affordable everyday smoke with notes of dark berries."
+   ]
+  },
+  {
+   "id": "floor-plans",
+   "flow": "flows/floor-plans.mjs",
+   "docs": "admin/restaurant/tables-and-floor-plans",
+   "title": {
+    "en": "Floor plans and tables",
+    "fr": "Plans de salle et tables"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Open Reservations, then Floor Plans and Tables, then New Floor Plan.",
+     "fr": "Ouvrez Réservations, puis Plans de salle et tables, puis Nouveau plan de salle."
+    },
+    {
+     "id": "name",
+     "en": "Name the room, like the patio, and create it.",
+     "fr": "Nommez la salle, comme la terrasse, et créez-la."
+    },
+    {
+     "id": "add",
+     "en": "Click Add Table for each table in the room.",
+     "fr": "Cliquez sur Ajouter une table pour chaque table de la salle."
+    },
+    {
+     "id": "drag",
+     "en": "Drag each table to where it sits.",
+     "fr": "Glissez chaque table à sa place."
+    },
+    {
+     "id": "edit",
+     "en": "Click a table to set its number, seats and shape.",
+     "fr": "Cliquez sur une table pour régler son numéro, ses places et sa forme."
+    },
+    {
+     "id": "saves",
+     "en": "Everything saves as you go. The register shows the same layout.",
+     "fr": "Tout s'enregistre à mesure. La caisse affiche le même plan."
+    }
+   ]
+  },
+  {
+   "id": "table-service",
+   "flow": "flows/table-service.mjs",
+   "docs": "admin/restaurant/table-service",
+   "title": {
+    "en": "Table service at the register",
+    "fr": "Service aux tables à la caisse"
+   },
+   "lines": [
+    {
+     "id": "tables",
+     "en": "Tap the Tables tab above the products. Green tables are free.",
+     "fr": "Touchez l'onglet Tables au-dessus des produits. Les tables vertes sont libres."
+    },
+    {
+     "id": "seat",
+     "en": "Tap a table, enter how many guests, and tap Seat Table. Its tab opens.",
+     "fr": "Touchez une table, entrez le nombre de personnes, puis Asseoir à la table. Son ardoise s'ouvre."
+    },
+    {
+     "id": "add",
+     "en": "To order, tap the table, View Tab, then Add Item. Tap the dishes, then Done Adding.",
+     "fr": "Pour commander, touchez la table, Voir l'ardoise, puis Ajouter un article. Touchez les plats, puis Terminer l'ajout."
+    },
+    {
+     "id": "send",
+     "en": "Tap Send, and the new items go to the kitchen.",
+     "fr": "Touchez Envoyer, et les nouveaux articles partent en cuisine."
+    },
+    {
+     "id": "pay",
+     "en": "When they're done, tap Close Tab, then Close and Pay, and take payment as usual.",
+     "fr": "Quand ils ont terminé, touchez Fermer l'ardoise, puis Fermer et payer, et prenez le paiement comme d'habitude."
+    },
+    {
+     "id": "clear",
+     "en": "Once it's cleaned, tap the table and Mark Available.",
+     "fr": "Une fois nettoyée, touchez la table et Marquer disponible."
+    }
+   ]
+  },
+  {
+   "id": "reservations",
+   "shots": [
+    {
+     "flow": "flows/reservations.mjs"
+    },
+    {
+     "flow": "flows/reservations-register.mjs"
+    }
+   ],
+   "docs": "admin/restaurant/reservations",
+   "title": {
+    "en": "Table reservations",
+    "fr": "Réservations de tables"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To book a table, open Reservations and click New Reservation.",
+     "fr": "Pour réserver une table, ouvrez Réservations et cliquez sur Nouvelle réservation."
+    },
+    {
+     "id": "who",
+     "en": "Type the customer's name and phone number.",
+     "fr": "Tapez le nom et le numéro de téléphone du client."
+    },
+    {
+     "id": "when",
+     "en": "Pick the table, the date, the time and the party size, and create it.",
+     "fr": "Choisissez la table, la date, l'heure et le nombre de personnes, puis créez-la."
+    },
+    {
+     "id": "register",
+     "en": "You can also book right from the register: tap a free table, then Reserve Table.",
+     "fr": "Vous pouvez aussi réserver à la caisse : touchez une table libre, puis Réserver la table."
+    },
+    {
+     "id": "upcoming",
+     "en": "On the register's Tables screen, a table with a booking soon shows when the party is due.",
+     "fr": "Dans l'écran Tables de la caisse, une table réservée bientôt indique l'heure d'arrivée prévue."
+    },
+    {
+     "id": "arrive",
+     "en": "When they arrive, tap the table and Seat Reservation.",
+     "fr": "À leur arrivée, touchez la table et Asseoir la réservation."
+    },
+    {
+     "id": "tab",
+     "en": "The table turns busy and its tab opens, ready for their order.",
+     "fr": "La table devient occupée et son ardoise s'ouvre, prête pour la commande."
+    }
+   ]
+  },
+  {
+   "id": "kitchen-display",
+   "shots": [
+    {
+     "flow": "flows/kitchen-display.mjs"
+    },
+    {
+     "flow": "flows/kitchen-display-register.mjs"
+    },
+    {
+     "flow": "flows/kitchen-display-kds.mjs"
+    }
+   ],
+   "docs": "admin/other/kitchen-display",
+   "title": {
+    "en": "The kitchen display",
+    "fr": "L'écran de cuisine"
+   },
+   "lines": [
+    {
+     "id": "what",
+     "en": "The kitchen display shows the cooks each food order as soon as it's rung in.",
+     "fr": "L'écran de cuisine montre aux cuisiniers chaque commande de nourriture dès qu'elle est saisie."
+    },
+    {
+     "id": "setting",
+     "en": "Turn on the kitchen ticket workflow in Settings, Sales and Integrations, and name your station.",
+     "fr": "Activez le flux des billets de cuisine dans Paramètres, Ventes et intégrations, et nommez votre poste."
+    },
+    {
+     "id": "categories",
+     "en": "On Categories, switch the kitchen column on for food, so only food goes to the kitchen.",
+     "fr": "Dans Catégories, activez la colonne cuisine pour les repas, afin que seule la nourriture aille en cuisine."
+    },
+    {
+     "id": "order",
+     "en": "Ring up the order as usual at the register.",
+     "fr": "Saisissez la commande comme d'habitude à la caisse."
+    },
+    {
+     "id": "screen",
+     "en": "On the kitchen screen, open your store address with slash K D S, and sign in with your PIN. The order is there.",
+     "fr": "Sur l'écran de cuisine, ouvrez l'adresse de votre magasin suivie de barre oblique K D S, et entrez votre NIP. La commande y est."
+    },
+    {
+     "id": "start",
+     "en": "Tap Start when you begin cooking.",
+     "fr": "Touchez Commencer quand vous commencez à cuisiner."
+    },
+    {
+     "id": "ready",
+     "en": "Ready when it's done,",
+     "fr": "Prête quand elle est terminée,"
+    },
+    {
+     "id": "picked",
+     "en": "and Picked Up when it's handed over. It leaves the screen.",
+     "fr": "et Ramassée quand elle est remise. Elle quitte l'écran."
+    },
+    {
+     "id": "tablet",
+     "en": "Any tablet or screen in the kitchen works.",
+     "fr": "N'importe quelle tablette ou écran en cuisine fait l'affaire."
+    }
+   ]
+  },
+  {
+   "id": "bar-drinks",
+   "shots": [
+    {
+     "flow": "flows/bar-drinks.mjs"
+    },
+    {
+     "flow": "flows/bar-drinks-cocktail.mjs"
+    },
+    {
+     "flow": "flows/bar-drinks-register.mjs"
+    }
+   ],
+   "docs": "admin/restaurant/bar-drinks",
+   "title": {
+    "en": "Bar drinks: pours and cocktails",
+    "fr": "Boissons au bar : verres et cocktails"
+   },
+   "lines": [
+    {
+     "id": "on",
+     "en": "For a bar, turn on Units of Measure and Bar Drinks in Settings, Products and Inventory.",
+     "fr": "Pour un bar, activez Unités de mesure et Boissons au bar dans Paramètres, Produits et inventaire."
+    },
+    {
+     "id": "bottle",
+     "en": "Open the bottle's product, go to Inventory, and click Set this up as a liquor bottle.",
+     "fr": "Ouvrez le produit de la bouteille, allez dans Inventaire, et cliquez sur Configurer comme bouteille d'alcool."
+    },
+    {
+     "id": "size",
+     "en": "Pick the bottle size and the pours you serve, then set it up.",
+     "fr": "Choisissez le format de la bouteille et les verres que vous servez, puis configurez-la."
+    },
+    {
+     "id": "prices",
+     "en": "Pours start at zero, so type a price for each and save the levels.",
+     "fr": "Les verres partent à zéro, alors tapez un prix pour chacun et enregistrez les niveaux."
+    },
+    {
+     "id": "library",
+     "en": "For cocktails, open the Cocktail Library from Products.",
+     "fr": "Pour les cocktails, ouvrez la bibliothèque de cocktails à partir de Produits."
+    },
+    {
+     "id": "can",
+     "en": "Drinks you have the bottles for say Can make. Click Add to menu.",
+     "fr": "Les boissons pour lesquelles vous avez les bouteilles indiquent Possible. Cliquez sur Ajouter au menu."
+    },
+    {
+     "id": "price",
+     "en": "Set its menu price and category, and add it.",
+     "fr": "Fixez son prix au menu et sa catégorie, puis ajoutez-le."
+    },
+    {
+     "id": "pour",
+     "en": "At the register, tap the bottle and pick the pour.",
+     "fr": "À la caisse, touchez la bouteille et choisissez le verre."
+    },
+    {
+     "id": "cocktail",
+     "en": "A cocktail sells like any other item, and the spirit comes off your bottle stock.",
+     "fr": "Un cocktail se vend comme n'importe quel article, et l'alcool est déduit du stock de la bouteille."
+    },
+    {
+     "id": "tabs",
+     "en": "For bar tabs without a table, use the Tabs button. Pours can't go on a tab yet.",
+     "fr": "Pour les ardoises au bar sans table, utilisez le bouton Ardoises. Les verres ne peuvent pas encore aller sur une ardoise."
+    }
+   ]
   }
  ]
 }

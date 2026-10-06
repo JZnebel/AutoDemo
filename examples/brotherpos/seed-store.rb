@@ -24,6 +24,10 @@
 #   TRAINING_AI=1 Big Brother on, with no monthly message cap
 #   TRAINING_ONLINE_ORDERS=1 storefront + online ordering on (the register's online-order alerts)
 #   TRAINING_SMART_RECEIVING=1 / TRAINING_CASH_FLOW=1 switch on Supplier Invoices / Financials
+#   TRAINING_PROMO_GAMES=1 promo games on; TRAINING_PROMO_GAME=1 also one live always-win wheel
+#   TRAINING_RAFFLES=1 raffles on; TRAINING_SLOTS=1 slot machine payouts on with Slot 1-3
+#   TRAINING_RESTAURANT=1 tables/kitchen/modifiers on, a Food category, 3 dishes, a 6-table Dining Room
+#   TRAINING_BAR=1 the restaurant set plus bar drinks + UoM, a Bar category, Vodka and Rum bottles
 #   TRAINING_UOM=1 to switch on unit-of-measure levels (case/unit; the UoM clip)
 #   TRAINING_SCALE=1 to switch on the scale features (the give-away report clip)
 #   TRAINING_LOSS_PREVENTION=1 to switch on the Loss Prevention review queue (that clip)
@@ -197,6 +201,45 @@ ActsAsTenant.with_tenant(store) do
                 hero: (cfg.hero || {}).merge("heading" => "Riverstone Cannabis", "subtext" => hero_text[0], "cta_text" => hero_text[1]))
   end
 
+
+  # A mixed venue, as many on-reserve stores are: dispensary + kitchen + bar + gaming.
+  if ENV["TRAINING_PROMO_GAMES"] == "1" || ENV["TRAINING_PROMO_GAME"] == "1"
+    store.update!(feature_flags: (store.feature_flags || {}).merge("enable_promo_games" => true), game_credit_threshold: nil)
+    if ENV["TRAINING_PROMO_GAME"] == "1"
+      # One live game that always wins, so the register clip shows a prize every take.
+      game = PromoGame.create_from_template!("wheel_discounts", store: store)
+      game.update!(active: true, win_probability: 100, min_spend: 0, max_wins_per_customer_per_day: nil, require_customer: false)
+    end
+  end
+  store.update!(feature_flags: (store.feature_flags || {}).merge("enable_raffles" => true)) if ENV["TRAINING_RAFFLES"] == "1"
+  if ENV["TRAINING_SLOTS"] == "1"
+    store.update!(feature_flags: (store.feature_flags || {}).merge("enable_payouts" => true, "enable_slot_machines" => true))
+    ["Slot 1", "Slot 2", "Slot 3"].each { |l| GamingMachine.create!(label: l, active: true) }
+  end
+  if ENV["TRAINING_RESTAURANT"] == "1" || ENV["TRAINING_BAR"] == "1"
+    fr = ENV.fetch("TRAINING_LOCALE", "en") == "fr"
+    store.update!(enable_table_management: true, enable_open_tabs: true, enable_kitchen_workflow: true, enable_modifiers: true,
+                  station_label: fr ? "Cuisine" : "Kitchen")
+    food = Category.create!(name: fr ? "Repas" : "Food", slug: "food", kitchen_print: true)
+    [["Bannock Burger", 14], [fr ? "Frites" : "Fries", 5], ["Indian Taco", 13]].each_with_index do |(n, pr), i|
+      prod = Product.new(sku: "FOOD-00#{i + 1}", name: n, barcode: "3000000#{i + 1}", price: pr, unit_type: "unit", current_stock: 200, active: true, cost: (pr * 0.35).round(2))
+      prod.product_categories.build(category: food, primary: true)
+      prod.save!
+    end
+    plan = FloorPlan.create!(name: fr ? "Salle à manger" : "Dining Room", active: true)
+    [[1, 40, 40], [2, 180, 40], [3, 320, 40], [4, 40, 180], [5, 180, 180], [6, 320, 180]].each do |(n, x, y)|
+      Table.create!(floor_plan: plan, number: n.to_s, capacity: 4, position_x: x, position_y: y, active: true)
+    end
+  end
+  if ENV["TRAINING_BAR"] == "1"
+    store.update!(feature_flags: (store.feature_flags || {}).merge("enable_uom_hierarchy" => true, "enable_bar_drinks" => true))
+    bar = Category.create!(name: "Bar", slug: "bar")
+    [["Vodka 750ml", "BAR-VOD"], ["White Rum 750ml", "BAR-RUM"], [fr ? "Jus d'orange 1L" : "Orange Juice 1L", "BAR-OJ"]].each_with_index do |(n, sku), i|
+      prod = Product.new(sku: sku, name: n, barcode: "4000000#{i + 1}", price: 0, unit_type: "unit", current_stock: 12, active: true, cost: 28)
+      prod.product_categories.build(category: bar, primary: true)
+      prod.save!
+    end
+  end
   if ENV["TRAINING_SHIFTS"] == "1"
     wk = Date.current.beginning_of_week
     (0..4).each { |d| Shift.create!(user: users[:clerk], date: wk + d, start_time: "09:00", end_time: "17:00", shift_role: d.zero? ? "opener" : "general") }
