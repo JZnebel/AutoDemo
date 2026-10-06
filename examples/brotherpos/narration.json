@@ -4767,6 +4767,949 @@
    "screenAllow": [
     "Brands"
    ]
+  },
+  {
+   "id": "wholesale-pairing",
+   "shots": [
+    {
+     "flow": "flows/wholesale-pairing.mjs"
+    },
+    {
+     "flow": "flows/wholesale-pairing-retailer.mjs"
+    },
+    {
+     "flow": "flows/wholesale-pairing-approve.mjs"
+    }
+   ],
+   "docs": "integrations/wholesale/pairing",
+   "title": {
+    "en": "Connecting a distributor and a retailer",
+    "fr": "Relier un distributeur et un détaillant"
+   },
+   "lines": [
+    {
+     "id": "intro",
+     "en": "To sell wholesale to a store, connect the two first. Here, Northern Lights Wholesale is the distributor.",
+     "fr": "Pour vendre en gros à un magasin, reliez d'abord les deux. Ici, Northern Lights Wholesale est le distributeur."
+    },
+    {
+     "id": "codes",
+     "en": "On Retailers, open Pairing Codes, then Generate Pairing Code.",
+     "fr": "Dans Détaillants, ouvrez Codes de jumelage, puis Générer un code de jumelage."
+    },
+    {
+     "id": "label",
+     "en": "Name who it's for, pick how long it lasts, and generate it.",
+     "fr": "Indiquez pour qui il est, choisissez sa durée, et générez-le."
+    },
+    {
+     "id": "share",
+     "en": "Give these six characters to the retailer, by phone, email or in person.",
+     "fr": "Donnez ces six caractères au détaillant, par téléphone, par courriel ou en personne."
+    },
+    {
+     "id": "retailer",
+     "en": "The retailer opens Distributor Connections, then Connect to Distributor.",
+     "fr": "Le détaillant ouvre Connexions distributeurs, puis Se connecter à un distributeur."
+    },
+    {
+     "id": "enter",
+     "en": "They type the code and a name for the distributor, and connect.",
+     "fr": "Il tape le code et un nom pour le distributeur, puis se connecte."
+    },
+    {
+     "id": "waits",
+     "en": "The request now waits for the distributor's approval.",
+     "fr": "La demande attend maintenant l'approbation du distributeur."
+    },
+    {
+     "id": "approve",
+     "en": "Back at the distributor, open the retailer on the Retailers page and click Approve Connection.",
+     "fr": "Chez le distributeur, ouvrez le détaillant dans la page Détaillants et cliquez sur Approuver la connexion."
+    },
+    {
+     "id": "done",
+     "en": "They're connected, and the retailer can start ordering.",
+     "fr": "Les deux sont reliés, et le détaillant peut commencer à commander."
+    }
+   ]
+  },
+  {
+   "id": "wholesale-retailer-orders",
+   "shots": [
+    {
+     "flow": "flows/wholesale-retailer-orders.mjs"
+    },
+    {
+     "flow": "flows/wholesale-retailer-receive.mjs"
+    }
+   ],
+   "docs": "integrations/wholesale/retailer-features",
+   "title": {
+    "en": "Ordering from a distributor",
+    "fr": "Commander auprès d'un distributeur"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "To order wholesale, open Distributor Connections and click Place order on the distributor.",
+     "fr": "Pour commander en gros, ouvrez Connexions distributeurs et cliquez sur Passer une commande chez le distributeur."
+    },
+    {
+     "id": "catalog",
+     "en": "This is their catalog, at your wholesale prices.",
+     "fr": "Voici son catalogue, à vos prix de gros."
+    },
+    {
+     "id": "add",
+     "en": "Type a quantity and click Add for each product you want.",
+     "fr": "Tapez une quantité et cliquez sur Ajouter pour chaque produit voulu."
+    },
+    {
+     "id": "place",
+     "en": "Then place the order.",
+     "fr": "Puis passez la commande."
+    },
+    {
+     "id": "sent",
+     "en": "It goes straight to the distributor, and shows here as a purchase order.",
+     "fr": "Elle part directement chez le distributeur, et paraît ici comme bon de commande."
+    },
+    {
+     "id": "arrived",
+     "en": "Once they've approved it and the boxes arrive, open the purchase order and click Receive Order.",
+     "fr": "Une fois la commande approuvée et les boîtes arrivées, ouvrez le bon de commande et cliquez sur Recevoir la commande."
+    },
+    {
+     "id": "check",
+     "en": "Check what actually came. Change a quantity if it's different.",
+     "fr": "Vérifiez ce qui est vraiment arrivé. Changez une quantité si elle diffère."
+    },
+    {
+     "id": "complete",
+     "en": "Then complete receiving.",
+     "fr": "Puis terminez la réception."
+    },
+    {
+     "id": "stock",
+     "en": "The stock is added, and new products arrive with their details and photo.",
+     "fr": "Le stock est ajouté, et les nouveaux produits arrivent avec leurs détails et leur photo."
+    }
+   ]
+  },
+  {
+   "id": "wholesale-distributor-orders",
+   "flow": "flows/wholesale-distributor-orders.mjs",
+   "docs": "integrations/wholesale/distributor-features",
+   "title": {
+    "en": "Filling a wholesale order",
+    "fr": "Remplir une commande en gros"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "New wholesale orders land on Wholesale Orders, with a count of how many are waiting.",
+     "fr": "Les nouvelles commandes en gros arrivent dans Commandes en gros, avec le nombre en attente."
+    },
+    {
+     "id": "pending",
+     "en": "Open a pending order and check the lines.",
+     "fr": "Ouvrez une commande en attente et vérifiez les lignes."
+    },
+    {
+     "id": "approve",
+     "en": "Click Approve Order.",
+     "fr": "Cliquez sur Approuver la commande."
+    },
+    {
+     "id": "invoice",
+     "en": "The stock comes off, and the invoice is made and emailed to the buyer.",
+     "fr": "Le stock est retiré, et la facture est créée et envoyée à l'acheteur."
+    },
+    {
+     "id": "pack",
+     "en": "Pick the items, then click Mark as Packed.",
+     "fr": "Préparez les articles, puis cliquez sur Marquer comme emballée."
+    },
+    {
+     "id": "ready",
+     "en": "For a pickup, mark it Ready for Pickup.",
+     "fr": "Pour un ramassage, marquez-la Prête pour le ramassage."
+    },
+    {
+     "id": "pickedup",
+     "en": "And Picked Up when they collect it.",
+     "fr": "Puis Ramassée quand l'acheteur vient la chercher."
+    },
+    {
+     "id": "other",
+     "en": "Delivery and shipping orders have their own steps, out for delivery or shipped, then delivered.",
+     "fr": "Les livraisons et les expéditions ont leurs propres étapes : en livraison ou expédiée, puis livrée."
+    }
+   ]
+  },
+  {
+   "id": "wholesale-invoicing",
+   "flow": "flows/wholesale-invoicing.mjs",
+   "docs": "integrations/wholesale/invoicing",
+   "title": {
+    "en": "Wholesale invoices and payments",
+    "fr": "Factures et paiements en gros"
+   },
+   "lines": [
+    {
+     "id": "made",
+     "en": "Approving a wholesale order makes its invoice and emails it to the buyer.",
+     "fr": "Approuver une commande en gros crée sa facture et l'envoie par courriel à l'acheteur."
+    },
+    {
+     "id": "view",
+     "en": "When they pay, open the order and click View Invoice.",
+     "fr": "Quand l'acheteur paie, ouvrez la commande et cliquez sur Voir la facture."
+    },
+    {
+     "id": "amount",
+     "en": "Check the amount, pick how it was paid, and add the transfer or cheque number.",
+     "fr": "Vérifiez le montant, choisissez le mode de paiement, et ajoutez le numéro de virement ou de chèque."
+    },
+    {
+     "id": "record",
+     "en": "Click Record Payment.",
+     "fr": "Cliquez sur Enregistrer le paiement."
+    },
+    {
+     "id": "paid",
+     "en": "The invoice shows as paid.",
+     "fr": "La facture paraît maintenant payée."
+    },
+    {
+     "id": "report",
+     "en": "Check outstanding and overdue invoices each week under Reports, Wholesale.",
+     "fr": "Vérifiez chaque semaine les factures impayées et en retard dans Rapports, Gros."
+    }
+   ]
+  },
+  {
+   "id": "wholesale-payment-notices",
+   "shots": [
+    {
+     "flow": "flows/wholesale-payment-notices.mjs"
+    },
+    {
+     "flow": "flows/wholesale-payment-confirm.mjs"
+    }
+   ],
+   "docs": "integrations/wholesale/payment-notices-and-statements",
+   "title": {
+    "en": "Payment notices and statements",
+    "fr": "Avis de paiement et relevés"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Paid a distributor by e-Transfer or cheque? Tell them in Brother POS.",
+     "fr": "Vous avez payé un distributeur par virement ou par chèque? Dites-le-lui dans Brother POS."
+    },
+    {
+     "id": "open",
+     "en": "Open the purchase order and click Send payment notice.",
+     "fr": "Ouvrez le bon de commande et cliquez sur Envoyer un avis de paiement."
+    },
+    {
+     "id": "fill",
+     "en": "Pick how it was paid, check the amount and date, and add the reference.",
+     "fr": "Choisissez le mode de paiement, vérifiez le montant et la date, et ajoutez la référence."
+    },
+    {
+     "id": "send",
+     "en": "Then send it.",
+     "fr": "Puis envoyez-le."
+    },
+    {
+     "id": "waiting",
+     "en": "The balance goes down once the distributor confirms the money arrived.",
+     "fr": "Le solde baisse dès que le distributeur confirme que l'argent est arrivé."
+    },
+    {
+     "id": "seller",
+     "en": "The distributor sees the notice on the invoice.",
+     "fr": "Le distributeur voit l'avis sur la facture."
+    },
+    {
+     "id": "check",
+     "en": "Once the money has arrived, click Confirm received.",
+     "fr": "Une fois l'argent reçu, cliquez sur Confirmer la réception."
+    },
+    {
+     "id": "balance",
+     "en": "The payment is recorded, and the balance drops.",
+     "fr": "Le paiement est enregistré, et le solde baisse."
+    },
+    {
+     "id": "statement",
+     "en": "For the whole picture, open the retailer and click Statement.",
+     "fr": "Pour une vue d'ensemble, ouvrez le détaillant et cliquez sur Relevé."
+    },
+    {
+     "id": "shows",
+     "en": "It lists every invoice and payment, and what's still owing.",
+     "fr": "Il liste chaque facture et chaque paiement, et ce qui reste dû."
+    }
+   ]
+  },
+  {
+   "id": "wholesale-portal",
+   "shots": [
+    {
+     "flow": "flows/wholesale-portal.mjs"
+    },
+    {
+     "flow": "flows/wholesale-portal-buyer.mjs"
+    }
+   ],
+   "docs": "integrations/wholesale/wholesale-portal",
+   "title": {
+    "en": "The wholesale portal",
+    "fr": "Le portail de gros"
+   },
+   "lines": [
+    {
+     "id": "what",
+     "en": "Buyers who don't use Brother POS can still order from you, on your wholesale portal.",
+     "fr": "Les acheteurs qui n'utilisent pas Brother POS peuvent quand même commander, sur votre portail de gros."
+    },
+    {
+     "id": "open",
+     "en": "Go to Customers, More Actions, Wholesale Portal Access, and click Generate Code.",
+     "fr": "Allez dans Clients, Plus d'actions, Accès au portail de gros, et cliquez sur Générer un code."
+    },
+    {
+     "id": "fill",
+     "en": "Type the business name, pick their pricing tier and how long the code works, and generate it.",
+     "fr": "Tapez le nom de l'entreprise, choisissez son palier de prix et la durée du code, puis générez-le."
+    },
+    {
+     "id": "send",
+     "en": "Copy the code and send it with your portal address: your store address, slash wholesale.",
+     "fr": "Copiez le code et envoyez-le avec l'adresse de votre portail : l'adresse de votre magasin, barre oblique wholesale."
+    },
+    {
+     "id": "buyer",
+     "en": "The buyer opens the portal and enters the code.",
+     "fr": "L'acheteur ouvre le portail et entre le code."
+    },
+    {
+     "id": "catalog",
+     "en": "They see your wholesale catalog at their prices, and order from it.",
+     "fr": "Il voit votre catalogue de gros à ses prix, et commande à partir de celui-ci."
+    },
+    {
+     "id": "orders",
+     "en": "Their orders arrive on Wholesale Orders, like any other.",
+     "fr": "Ses commandes arrivent dans Commandes en gros, comme les autres."
+    }
+   ]
+  },
+  {
+   "id": "uom-levels",
+   "flow": "flows/uom-levels.mjs",
+   "docs": "admin/inventory/unit-of-measure-levels",
+   "title": {
+    "en": "Cases and units",
+    "fr": "Caisses et unités"
+   },
+   "lines": [
+    {
+     "id": "why",
+     "en": "Buy pre-rolls by the case but sell them one at a time? Set up unit levels.",
+     "fr": "Vous achetez les préroulés à la caisse mais les vendez à l'unité? Configurez des niveaux d'unités."
+    },
+    {
+     "id": "open",
+     "en": "On the product's Stock tab, click the link to set up case and unit levels.",
+     "fr": "Dans l'onglet Stock du produit, cliquez sur le lien pour configurer les niveaux caisse et unité."
+    },
+    {
+     "id": "tick",
+     "en": "Tick that this product is sold in levels.",
+     "fr": "Cochez que ce produit est vendu par niveaux."
+    },
+    {
+     "id": "single",
+     "en": "The first level is one item. Name it and give it a price.",
+     "fr": "Le premier niveau, c'est un article. Nommez-le et donnez-lui un prix."
+    },
+    {
+     "id": "case",
+     "en": "Add a level for the case: fifty items, with the barcode printed on the box.",
+     "fr": "Ajoutez un niveau pour la caisse : cinquante articles, avec le code-barres imprimé sur la boîte."
+    },
+    {
+     "id": "save",
+     "en": "Save the levels.",
+     "fr": "Enregistrez les niveaux."
+    },
+    {
+     "id": "receive",
+     "en": "When a delivery comes in, receive it by the case: pick Case, the number of cases, and what you paid.",
+     "fr": "À l'arrivée d'une livraison, recevez-la à la caisse : choisissez Caisse, le nombre de caisses et ce que vous avez payé."
+    },
+    {
+     "id": "added",
+     "en": "Two cases add one hundred pre-rolls to your stock.",
+     "fr": "Deux caisses ajoutent cent préroulés à votre stock."
+    }
+   ],
+   "screenAllow": [
+    "Unit"
+   ]
+  },
+  {
+   "id": "rezweed-deals",
+   "flow": "flows/rezweed-deals.mjs",
+   "docs": "integrations/rezweed/deals-sync",
+   "title": {
+    "en": "Your deals on RezWeed",
+    "fr": "Vos promotions sur RezWeed"
+   },
+   "lines": [
+    {
+     "id": "what",
+     "en": "With RezWeed publishing on, your sales show up on your RezWeed listing by themselves.",
+     "fr": "Quand la publication RezWeed est active, vos promotions paraissent d'elles-mêmes sur votre fiche RezWeed."
+    },
+    {
+     "id": "open",
+     "en": "Open Products, More Actions, Sales Campaigns, and create or edit a campaign.",
+     "fr": "Ouvrez Produits, Plus d'actions, Campagnes de ventes, et créez ou modifiez une campagne."
+    },
+    {
+     "id": "storefront",
+     "en": "Keep Show on storefront ticked.",
+     "fr": "Laissez Afficher sur la vitrine coché."
+    },
+    {
+     "id": "save",
+     "en": "Save it, and the deal goes to your listing right away.",
+     "fr": "Enregistrez, et la promotion part aussitôt sur votre fiche."
+    },
+    {
+     "id": "off",
+     "en": "Untick it to keep a sale off RezWeed and your storefront. It still works at the register.",
+     "fr": "Décochez-le pour garder une promotion hors de RezWeed et de votre vitrine. Elle fonctionne quand même à la caisse."
+    },
+    {
+     "id": "freebie",
+     "en": "A free-item deal also has its own RezWeed box, to hide just that one from your listing.",
+     "fr": "Une offre d'article gratuit a aussi sa propre case RezWeed, pour la retirer seulement de votre fiche."
+    }
+   ]
+  },
+  {
+   "id": "feature-switches",
+   "flow": "flows/feature-switches.mjs",
+   "docs": "admin/settings/feature-flags",
+   "title": {
+    "en": "Turning features on and off",
+    "fr": "Activer et désactiver des fonctions"
+   },
+   "lines": [
+    {
+     "id": "what",
+     "en": "Features you don't use stay hidden. Here's how to switch one on.",
+     "fr": "Les fonctions que vous n'utilisez pas restent cachées. Voici comment en activer une."
+    },
+    {
+     "id": "open",
+     "en": "Go to Settings and click Edit Settings.",
+     "fr": "Allez dans Paramètres et cliquez sur Modifier les paramètres."
+    },
+    {
+     "id": "tabs",
+     "en": "Open the tab the feature lives on. The scale is under Hardware.",
+     "fr": "Ouvrez l'onglet de la fonction. La balance est dans Matériel."
+    },
+    {
+     "id": "tick",
+     "en": "Tick it to turn it on, or untick it to turn it off.",
+     "fr": "Cochez-la pour l'activer, ou décochez-la pour la désactiver."
+    },
+    {
+     "id": "save",
+     "en": "Then click Update Settings.",
+     "fr": "Puis cliquez sur Mettre à jour les paramètres."
+    },
+    {
+     "id": "appear",
+     "en": "Its menus and screens appear right away.",
+     "fr": "Ses menus et ses écrans apparaissent aussitôt."
+    },
+    {
+     "id": "setup",
+     "en": "Some features need a bit more setup after this, like connecting the scale.",
+     "fr": "Certaines fonctions demandent ensuite un peu de configuration, comme brancher la balance."
+    }
+   ]
+  },
+  {
+   "id": "pos-phone-orders",
+   "flow": "flows/pos-phone-orders.mjs",
+   "docs": "pos/orders/fulfillment",
+   "title": {
+    "en": "Phone orders for pickup",
+    "fr": "Commandes téléphoniques pour ramassage"
+   },
+   "lines": [
+    {
+     "id": "create",
+     "en": "A customer calls to order ahead. With the cart empty, tap Create Order.",
+     "fr": "Un client appelle pour commander d'avance. Avec le panier vide, touchez Créer une commande."
+    },
+    {
+     "id": "who",
+     "en": "Type their name and phone number, then Continue.",
+     "fr": "Tapez son nom et son numéro de téléphone, puis Continuer."
+    },
+    {
+     "id": "how",
+     "en": "Pick In-Store Pickup and how they plan to pay, then Start Adding Items.",
+     "fr": "Choisissez Ramassage en magasin et le mode de paiement prévu, puis Commencer à ajouter des articles."
+    },
+    {
+     "id": "ring",
+     "en": "Ring up the order as usual.",
+     "fr": "Saisissez la commande comme d'habitude."
+    },
+    {
+     "id": "save",
+     "en": "Tap Save Order for Pickup.",
+     "fr": "Touchez Enregistrer la commande pour ramassage."
+    },
+    {
+     "id": "nocharge",
+     "en": "Nothing is charged yet. The stock is set aside for them.",
+     "fr": "Rien n'est encore facturé. Le stock est mis de côté pour le client."
+    },
+    {
+     "id": "pays",
+     "en": "When they come in, open the Orders tab and tap their order.",
+     "fr": "Quand le client arrive, ouvrez l'onglet Commandes et touchez sa commande."
+    },
+    {
+     "id": "complete",
+     "en": "Tap Mark Completed, pick how they paid, and Complete.",
+     "fr": "Touchez Marquer comme terminée, choisissez le mode de paiement, puis Terminer."
+    },
+    {
+     "id": "done",
+     "en": "The sale is done, and it counts on today's sales.",
+     "fr": "La vente est terminée, et elle compte dans les ventes du jour."
+    }
+   ]
+  },
+  {
+   "id": "printer-bridge",
+   "flow": "flows/printer-bridge.mjs",
+   "docs": "admin/hardware/printer-bridge",
+   "title": {
+    "en": "Installing the Printer Bridge",
+    "fr": "Installer le Printer Bridge"
+   },
+   "lines": [
+    {
+     "id": "what",
+     "en": "On a Windows or Linux computer, the Printer Bridge lets the register print to your receipt and label printers.",
+     "fr": "Sur un ordinateur Windows ou Linux, le Printer Bridge permet à la caisse d'imprimer sur vos imprimantes de reçus et d'étiquettes."
+    },
+    {
+     "id": "open",
+     "en": "Open Cash Drawers, then Registers, and edit the register on that computer.",
+     "fr": "Ouvrez Tiroirs-caisses, puis Caisses, et modifiez la caisse de cet ordinateur."
+    },
+    {
+     "id": "download",
+     "en": "Download the Printer Bridge from this page.",
+     "fr": "Téléchargez le Printer Bridge depuis cette page."
+    },
+    {
+     "id": "run",
+     "en": "Run it, pick your printers in its window, and tick Auto-start so it starts with the computer.",
+     "fr": "Lancez-le, choisissez vos imprimantes dans sa fenêtre, et cochez Démarrage automatique pour qu'il démarre avec l'ordinateur."
+    },
+    {
+     "id": "check",
+     "en": "Back here, click Check Again. The banner shows the bridge was found.",
+     "fr": "De retour ici, cliquez sur Vérifier à nouveau. La bannière montre que le bridge a été trouvé."
+    },
+    {
+     "id": "test",
+     "en": "Click Test Print to make sure a receipt comes out.",
+     "fr": "Cliquez sur Impression test pour vérifier qu'un reçu sort."
+    },
+    {
+     "id": "save",
+     "en": "Then Update Register.",
+     "fr": "Puis Mettre à jour la caisse."
+    },
+    {
+     "id": "ipad",
+     "en": "On the iPad or Android app you don't need it: the app prints directly.",
+     "fr": "Avec l'application iPad ou Android, vous n'en avez pas besoin : l'application imprime directement."
+    }
+   ]
+  },
+  {
+   "id": "cash-drawer",
+   "flow": "flows/cash-drawer.mjs",
+   "docs": "admin/hardware/cash-drawers",
+   "title": {
+    "en": "Connecting the cash drawer",
+    "fr": "Brancher le tiroir-caisse"
+   },
+   "lines": [
+    {
+     "id": "cable",
+     "en": "The cash drawer opens through the receipt printer. Plug its phone-style cable into the printer's port marked DK.",
+     "fr": "Le tiroir-caisse s'ouvre par l'imprimante de reçus. Branchez son câble de type téléphone dans le port DK de l'imprimante."
+    },
+    {
+     "id": "settings",
+     "en": "On the register, tap the gear button.",
+     "fr": "Sur la caisse, touchez le bouton d'engrenage."
+    },
+    {
+     "id": "option",
+     "en": "Turn on Print receipts after sales, or Open drawer without printing if you don't want paper.",
+     "fr": "Activez Imprimer les reçus après les ventes, ou Ouvrir le tiroir sans imprimer si vous ne voulez pas de papier."
+    },
+    {
+     "id": "sale",
+     "en": "Ring up a small cash sale to test it.",
+     "fr": "Faites une petite vente comptant pour tester."
+    },
+    {
+     "id": "pops",
+     "en": "When the sale completes, the drawer pops open.",
+     "fr": "À la fin de la vente, le tiroir s'ouvre."
+    },
+    {
+     "id": "button",
+     "en": "Managers can also open it any time with the drawer button at the top.",
+     "fr": "Les gérants peuvent aussi l'ouvrir en tout temps avec le bouton du tiroir, en haut."
+    },
+    {
+     "id": "voltage",
+     "en": "Mixing brands? Check the printer and drawer use the same voltage, usually twenty-four volts.",
+     "fr": "Vous mélangez les marques? Vérifiez que l'imprimante et le tiroir ont la même tension, habituellement vingt-quatre volts."
+    }
+   ]
+  },
+  {
+   "id": "pos-quick-fixes",
+   "flow": "flows/pos-quick-fixes.mjs",
+   "docs": "troubleshooting/faq/pos",
+   "title": {
+    "en": "Quick fixes at the register",
+    "fr": "Solutions rapides à la caisse"
+   },
+   "lines": [
+    {
+     "id": "manual",
+     "en": "Item not in the system? Tap Manual Item, type a name, the price and why, and add it.",
+     "fr": "Un article absent du système? Touchez Article manuel, tapez un nom, le prix et la raison, puis ajoutez-le."
+    },
+    {
+     "id": "hold",
+     "en": "Customer stepping away? Tap Hold and give the sale a name.",
+     "fr": "Le client s'éloigne? Touchez Mettre en attente et donnez un nom à la vente."
+    },
+    {
+     "id": "recall",
+     "en": "When they're back, tap Recall and pick it.",
+     "fr": "À son retour, touchez Rappeler et choisissez-la."
+    },
+    {
+     "id": "pay",
+     "en": "Then finish the sale as usual.",
+     "fr": "Puis terminez la vente comme d'habitude."
+    },
+    {
+     "id": "reprint",
+     "en": "Receipt didn't print? Tap the sale in Recent Sales, then Print.",
+     "fr": "Le reçu ne s'est pas imprimé? Touchez la vente dans Ventes récentes, puis Imprimer."
+    },
+    {
+     "id": "offline",
+     "en": "And if the internet drops, keep selling. Sales are sent when it comes back.",
+     "fr": "Et si Internet tombe, continuez de vendre. Les ventes partent dès qu'il revient."
+    }
+   ]
+  },
+  {
+   "id": "troubleshoot-common",
+   "flow": "flows/troubleshoot-common.mjs",
+   "docs": "troubleshooting/common-issues",
+   "title": {
+    "en": "Fixing common problems",
+    "fr": "Régler les problèmes courants"
+   },
+   "lines": [
+    {
+     "id": "price",
+     "en": "A price was changed in the back office, but the register still shows the old one?",
+     "fr": "Un prix a changé dans l'arrière-boutique, mais la caisse affiche encore l'ancien?"
+    },
+    {
+     "id": "sync",
+     "en": "Tap the sync status at the top, then Sync Now. The new price comes through.",
+     "fr": "Touchez l'état de synchronisation en haut, puis Synchroniser. Le nouveau prix arrive."
+    },
+    {
+     "id": "printer",
+     "en": "Receipts not printing? Check the printer is on, has paper, and shows no error light. On a computer, the Printer Bridge must be running.",
+     "fr": "Les reçus ne s'impriment pas? Vérifiez que l'imprimante est allumée, a du papier et n'affiche aucun voyant d'erreur. Sur un ordinateur, le Printer Bridge doit être ouvert."
+    },
+    {
+     "id": "test",
+     "en": "Then tap the gear and Test Print.",
+     "fr": "Puis touchez l'engrenage et Impression de test."
+    },
+    {
+     "id": "pin",
+     "en": "Forgot a PIN? PINs can't be looked up. An admin sets a new one in Manage Users.",
+     "fr": "PIN oublié? Un PIN ne peut pas être retrouvé. Un administrateur en définit un nouveau dans Gérer les utilisateurs."
+    },
+    {
+     "id": "stuck",
+     "en": "Still stuck? Write down the exact message, take a photo, and send a support ticket.",
+     "fr": "Toujours bloqué? Notez le message exact, prenez une photo, et envoyez une demande de soutien."
+    }
+   ]
+  },
+  {
+   "id": "admin-quick-fixes",
+   "flow": "flows/admin-quick-fixes.mjs",
+   "docs": "troubleshooting/faq/admin",
+   "title": {
+    "en": "Quick fixes in the back office",
+    "fr": "Solutions rapides dans l'arrière-boutique"
+   },
+   "lines": [
+    {
+     "id": "count",
+     "en": "The stock count for a product is wrong? Count what's on the shelf first.",
+     "fr": "Le stock d'un produit est faux? Comptez d'abord ce qu'il y a sur la tablette."
+    },
+    {
+     "id": "fix",
+     "en": "Open the product, go to the Inventory tab, type the right count, and update the product.",
+     "fr": "Ouvrez le produit, allez dans l'onglet Stock, tapez le bon compte, et mettez le produit à jour."
+    },
+    {
+     "id": "kept",
+     "en": "The change is kept in the product's history.",
+     "fr": "Le changement est gardé dans l'historique du produit."
+    },
+    {
+     "id": "daily",
+     "en": "Need the end-of-day numbers? Open Reports, then Daily Close.",
+     "fr": "Besoin des chiffres de fin de journée? Ouvrez Rapports, puis Clôture de la journée."
+    },
+    {
+     "id": "date",
+     "en": "It opens on today. Pick another date to look back.",
+     "fr": "Il s'ouvre sur aujourd'hui. Choisissez une autre date pour revenir en arrière."
+    },
+    {
+     "id": "timezone",
+     "en": "Report times look off? Check your store's time zone under Settings, Edit Settings, General.",
+     "fr": "Les heures des rapports semblent fausses? Vérifiez le fuseau horaire du magasin dans Paramètres, Modifier les paramètres, Général."
+    }
+   ]
+  },
+  {
+   "id": "support-tickets",
+   "flow": "flows/support-tickets.mjs",
+   "docs": "troubleshooting/support-tickets",
+   "title": {
+    "en": "Getting help from support",
+    "fr": "Obtenir de l'aide du soutien"
+   },
+   "lines": [
+    {
+     "id": "open",
+     "en": "Need help from a person? Click your name at the top right, then Get Support.",
+     "fr": "Besoin de l'aide d'une personne? Cliquez sur votre nom en haut à droite, puis Obtenir de l'aide."
+    },
+    {
+     "id": "what",
+     "en": "Pick what the problem is about.",
+     "fr": "Choisissez le sujet du problème."
+    },
+    {
+     "id": "blocking",
+     "en": "Say whether it's stopping you from selling. That makes it urgent.",
+     "fr": "Indiquez si cela vous empêche de vendre. La demande devient alors urgente."
+    },
+    {
+     "id": "describe",
+     "en": "Give it a short title, and describe what happened and any message you saw.",
+     "fr": "Donnez-lui un titre court, et décrivez ce qui s'est passé et tout message affiché."
+    },
+    {
+     "id": "details",
+     "en": "Your store and printer details are added for the support team by themselves.",
+     "fr": "Les détails de votre magasin et de votre imprimante sont ajoutés d'eux-mêmes pour l'équipe de soutien."
+    },
+    {
+     "id": "send",
+     "en": "Then submit it.",
+     "fr": "Puis envoyez-la."
+    },
+    {
+     "id": "number",
+     "en": "Keep the ticket number. On the register, the same form is under the gear button.",
+     "fr": "Gardez le numéro de demande. Sur la caisse, le même formulaire est sous le bouton d'engrenage."
+    }
+   ]
+  },
+  {
+   "id": "payment-issues",
+   "shots": [
+    {
+     "flow": "flows/payment-issues.mjs"
+    },
+    {
+     "flow": "flows/payment-issues-register.mjs"
+    }
+   ],
+   "docs": "troubleshooting/payment-issues",
+   "title": {
+    "en": "Fixing payment problems",
+    "fr": "Régler les problèmes de paiement"
+   },
+   "lines": [
+    {
+     "id": "missing",
+     "en": "A payment button is missing at the register? It's switched off in your settings.",
+     "fr": "Un bouton de paiement manque à la caisse? Il est désactivé dans vos paramètres."
+    },
+    {
+     "id": "settings",
+     "en": "An admin opens Settings, Edit Settings, then the Operations tab.",
+     "fr": "Un administrateur ouvre Paramètres, Modifier les paramètres, puis l'onglet Opérations."
+    },
+    {
+     "id": "tick",
+     "en": "Under Payment Types, tick the one you need, here e-Transfer, and save.",
+     "fr": "Sous Types de paiement, cochez celui qu'il vous faut, ici le virement, et enregistrez."
+    },
+    {
+     "id": "appears",
+     "en": "Now it's on the register, ready to use.",
+     "fr": "Il est maintenant sur la caisse, prêt à servir."
+    },
+    {
+     "id": "declined",
+     "en": "Card declined? That's the bank, not Brother POS. Try again, or ask for another card.",
+     "fr": "Carte refusée? C'est la banque, pas Brother POS. Réessayez, ou demandez une autre carte."
+    },
+    {
+     "id": "lost",
+     "en": "Lost the connection during a card payment? Don't charge again. Tap Recover Payment to check whether it went through.",
+     "fr": "Connexion perdue pendant un paiement par carte? Ne débitez pas de nouveau. Touchez Récupérer le paiement pour vérifier s'il est passé."
+    },
+    {
+     "id": "change",
+     "en": "And if the change looks off, check the amount typed. Cash rounding to five cents is expected.",
+     "fr": "Et si la monnaie semble fausse, vérifiez le montant tapé. L'arrondi au cinq cents est normal."
+    }
+   ]
+  },
+  {
+   "id": "pos-not-loading",
+   "flow": "flows/pos-not-loading.mjs",
+   "docs": "troubleshooting/pos-not-loading",
+   "title": {
+    "en": "When the register won't load",
+    "fr": "Quand la caisse ne se charge pas"
+   },
+   "lines": [
+    {
+     "id": "internet",
+     "en": "Register stuck loading or blank? First check another website loads on this device.",
+     "fr": "La caisse reste bloquée ou blanche? Vérifiez d'abord qu'un autre site Web s'ouvre sur cet appareil."
+    },
+    {
+     "id": "refresh",
+     "en": "Then refresh the page. On a computer, Control Shift R does a full refresh.",
+     "fr": "Puis actualisez la page. Sur un ordinateur, Contrôle Majuscule R fait une actualisation complète."
+    },
+    {
+     "id": "pending",
+     "en": "Before you clear any browser data, tap the sync status.",
+     "fr": "Avant d'effacer les données du navigateur, touchez l'état de synchronisation."
+    },
+    {
+     "id": "safe",
+     "en": "Make sure no sales are waiting to be sent. Clearing data deletes sales still on the device.",
+     "fr": "Assurez-vous qu'aucune vente n'attend d'être envoyée. Effacer les données supprime les ventes encore sur l'appareil."
+    },
+    {
+     "id": "tabs",
+     "en": "A recent change missing? Close every register tab and open it again. On the app, close it fully and reopen.",
+     "fr": "Un changement récent manque? Fermez tous les onglets de la caisse et rouvrez-la. Dans l'application, fermez-la complètement et rouvrez-la."
+    },
+    {
+     "id": "device",
+     "en": "Still nothing? Try another device. If it works there, the problem is the first device.",
+     "fr": "Toujours rien? Essayez un autre appareil. Si ça marche là, le problème vient du premier appareil."
+    }
+   ]
+  },
+  {
+   "id": "troubleshoot-woo-sync",
+   "flow": "flows/troubleshoot-woo-sync.mjs",
+   "docs": "troubleshooting/sync-issues",
+   "title": {
+    "en": "A product missing from your website",
+    "fr": "Un produit absent de votre site Web"
+   },
+   "screenAllow": [
+    "Brands"
+   ],
+   "lines": [
+    {
+     "id": "missing",
+     "en": "A product isn't showing on your website? Here, the glass pipe is missing.",
+     "fr": "Un produit n'apparaît pas sur votre site Web? Ici, la pipe en verre manque."
+    },
+    {
+     "id": "check",
+     "en": "In Brother POS, check the product is active and has a SKU, then open Categories.",
+     "fr": "Dans Brother POS, vérifiez que le produit est actif et a une UGS, puis ouvrez Catégories."
+    },
+    {
+     "id": "on",
+     "en": "Its category needs WooCommerce sync turned on. Turn it on.",
+     "fr": "Sa catégorie doit avoir la synchronisation WooCommerce activée. Activez-la."
+    },
+    {
+     "id": "pull",
+     "en": "Then, in WordPress, click Sync all products from Brother POS now.",
+     "fr": "Puis, dans WordPress, cliquez sur Synchroniser tous les produits depuis Brother POS."
+    },
+    {
+     "id": "there",
+     "en": "The product is on your website.",
+     "fr": "Le produit est sur votre site Web."
+    },
+    {
+     "id": "monitor",
+     "en": "Something still stuck? The WooCommerce Monitor in Settings shows the recent syncs and any errors.",
+     "fr": "Quelque chose bloque encore? Le moniteur WooCommerce, dans Paramètres, montre les synchronisations récentes et les erreurs."
+    }
+   ]
   }
  ]
 }

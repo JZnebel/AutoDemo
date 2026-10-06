@@ -24,6 +24,7 @@
 #   TRAINING_AI=1 Big Brother on, with no monthly message cap
 #   TRAINING_ONLINE_ORDERS=1 storefront + online ordering on (the register's online-order alerts)
 #   TRAINING_SMART_RECEIVING=1 / TRAINING_CASH_FLOW=1 switch on Supplier Invoices / Financials
+#   TRAINING_UOM=1 to switch on unit-of-measure levels (case/unit; the UoM clip)
 #   TRAINING_SCALE=1 to switch on the scale features (the give-away report clip)
 #   TRAINING_LOSS_PREVENTION=1 to switch on the Loss Prevention review queue (that clip)
 #   TRAINING_SCAN_TO_RECEIVE=1 to switch on Scan to Receive (that clip)
@@ -36,6 +37,9 @@
 #   TRAINING_EMAIL_RECEIPTS=1 to let the register email receipts (the receipts clip)
 #   TRAINING_CLERK_NO_VOID=1 to take Void Sales away from cashiers, so a void asks for a
 #   manager's PIN (the manager-override clip)
+#   TRAINING_WHOLESALE=1 also builds Northern Lights Wholesale (a distributor with its own admin,
+#     owner@northernlights.training) with four wholesale products, and turns on wholesale
+#     ordering here. =connected also pairs the two stores (the ordering/portal/invoice clips).
 #   TRAINING_SECOND_STORE=1 to also build a second store Morgan owns, with a week of sales in
 #   both (for the owner-portal clips: comparing stores, moving stock between them)
 
@@ -49,11 +53,14 @@ pins       = {
 }
 
 second_subdomain = "#{subdomain}-west"
+# The wholesale clips' distributor: its own store and login. Worker copies get the worker's
+# number (northernlights2), but those clips are worker 1 only, since the address is on screen.
+wholesale_subdomain = "northernlights#{subdomain[/\d+\z/]}"
 # Logins are unique per store, so every worker's copy (riverstone2, ...) uses the same
 # addresses as riverstone: the signed-in email shows in the admin header, and a worker
 # number there would be on camera.
 mail = subdomain.sub(/\d+\z/, "")
-[subdomain, second_subdomain].each do |sub|
+[subdomain, second_subdomain, wholesale_subdomain].each do |sub|
   next unless (old = Store.find_by(subdomain: sub))
   old.update_columns(active: false)
   StorePurger.new(old).purge!
@@ -141,6 +148,7 @@ store = Store.create!(
     "enable_receipt_printing" => ENV["TRAINING_RECEIPT_PRINTING"] == "1",
     "enable_smart_receiving" => ENV["TRAINING_SMART_RECEIVING"] == "1",
     "enable_cash_flow_report" => ENV["TRAINING_CASH_FLOW"] == "1",
+    "enable_uom_hierarchy" => ENV["TRAINING_UOM"] == "1",
   ),
 )
 # Store#after_create normally provisions; make sure the defaults (categories, weight
@@ -220,10 +228,11 @@ ActsAsTenant.with_tenant(store) do
   end
 
   if ENV["TRAINING_DEALS"] == "1"
-    SaleCampaign.create!(name: "Edibles Weekend", campaign_type: "discount", discount_type: "percentage",
+    fr = ENV.fetch("TRAINING_LOCALE", "en") == "fr"
+    SaleCampaign.create!(name: fr ? "Week-end comestibles" : "Edibles Weekend", campaign_type: "discount", discount_type: "percentage",
                          discount_value: 20, apply_to: "categories", category_ids: [Category.find_by!(name: "Edibles").id],
                          application_type: "automatic", active: true, starts_at: 1.hour.ago, ends_at: 7.days.from_now)
-    SaleCampaign.create!(name: "Free Pre-Roll over $50", campaign_type: "freebie_threshold", min_spend_threshold: 50,
+    SaleCampaign.create!(name: fr ? "Préroulé gratuit dès 50 $" : "Free Pre-Roll over $50", campaign_type: "freebie_threshold", min_spend_threshold: 50,
                          freebie_product_id: Product.find_by!(name: "House Pre-Roll 1g").id, freebie_quantity: 1,
                          application_type: "automatic", active: true, starts_at: 1.hour.ago, ends_at: 7.days.from_now)
   end
@@ -272,9 +281,57 @@ if ENV["TRAINING_SECOND_STORE"] == "1"
   puts "#{west.store_name} (#{second_subdomain}, store #{west.id}); #{owner.email} owns both"
 end
 
+
+if (wholesale = ENV["TRAINING_WHOLESALE"].presence) && wholesale != "0"
+  dist = Store.create!(
+    store.attributes.slice("store_type", "tax_rate", "tax_name", "currency_symbol", "timezone", "locale", "province",
+                           "active", "enable_age_verification", "enforce_purchase_limit", "slga_enabled",
+                           "setup_wizard_completed_at", "pos_plan")
+      .merge("store_name" => "Northern Lights Wholesale", "subdomain" => wholesale_subdomain,
+             "is_distributor" => true, "is_retailer" => false, "relay_server_url" => nil),
+  )
+  StoreProvisioner.new(dist).provision! unless ActsAsTenant.with_tenant(dist) { Register.exists? }
+  dist.update!(feature_flags: (dist.feature_flags || {}).merge("enable_retailer_connections" => true, "enable_wholesale_portal" => true))
+  store.update!(relay_server_url: nil, feature_flags: (store.feature_flags || {}).merge("enable_distributor_ordering" => true))
+  ActsAsTenant.with_tenant(dist) do
+    User.create!(first_name: "Sam", last_name: "Okafor", role: "admin", email: "owner@#{mail.sub('riverstone', 'northernlights')}.training",
+                 store: dist, password: password, password_confirmation: password, pin: pins[:owner])
+    cat = ->(slug) { Category.find_by(slug: slug) }
+    [
+      ["NL-PR-005", "Northern Lights Pre-Roll 5-Pack", "pre-rolls", 32.0, 18.0, 400, "pre_roll", "hybrid", 21.0, "%"],
+      ["NL-VAP-010", "Aurora Live Resin Cart 1g", "vapes", 55.0, 30.0, 250, "vape", "sativa", 82.0, "%"],
+      ["NL-EDI-010", "Boreal Berry Gummies 10x10mg", "edibles", 22.0, 11.0, 600, "edible", nil, 100.0, "mg"],
+      ["NL-EDI-020", "Midnight Mint Chocolate 10mg", "edibles", 12.0, 6.0, 500, "edible", nil, 10.0, "mg"],
+    ].each_with_index do |(sku, name, slug, price, wprice, stock, fmt, strain, thc, unit), i|
+      prod = Product.create!(sku: sku, name: name, barcode: "2000000#{i + 1}", price: price, wholesale_price: wprice,
+                             wholesale_enabled: true, unit_type: "unit", current_stock: stock, cost: (wprice * 0.6).round(2),
+                             active: true, is_cannabis_product: true, product_format: fmt, strain_type: strain,
+                             thc_content: thc, thc_unit: unit, cbd_content: 0, cbd_unit: unit)
+      ProductCategory.find_or_create_by!(product: prod, category: cat.(slug)) if cat.(slug)
+    end
+  end
+  if wholesale == "connected"
+    code = ActsAsTenant.with_tenant(dist) do
+      PairingCode.create!(distributor_uuid: dist.store_uuid, distributor_public_key: dist.encryption_public_key,
+                          label: store_name, expires_in_hours: 72).code
+    end
+    result = ActsAsTenant.with_tenant(store) do
+      PairingCodeHandshakeService.new(retailer_store: store, code: code, distributor_label: "Northern Lights Wholesale").call
+    end
+    raise "pairing failed: #{result.error}" unless result.success?
+    ActsAsTenant.with_tenant(dist) do
+      rc = RetailerConnection.find(result.retailer_connection.id)
+      rc.update!(status: :active, connected_at: Time.current)
+      PairingCodeHandshakeService.activate_retailer_side!(distributor_store: dist, retailer_connection: rc)
+    end
+  end
+  puts "#{dist.store_name} (#{wholesale_subdomain}, store #{dist.id})#{' paired with ' + store_name if wholesale == 'connected'}"
+end
+
 # Store data, so the screen checks (checks.mjs) know these names are meant to stay as they
 # are in a French clip: product, category, customer and staff names aren't translated.
-data_names = [store, (Store.find_by(subdomain: second_subdomain) if ENV["TRAINING_SECOND_STORE"] == "1")].compact.flat_map do |st|
+data_names = [store, (Store.find_by(subdomain: second_subdomain) if ENV["TRAINING_SECOND_STORE"] == "1"),
+              Store.find_by(subdomain: wholesale_subdomain)].compact.flat_map do |st|
   ActsAsTenant.with_tenant(st) do
     [st.store_name, *Product.pluck(:name), *Category.pluck(:name), *Customer.pluck(:name),
      *User.all.map { |u| [u.first_name, u.last_name, "#{u.first_name} #{u.last_name}"] }.flatten, *Register.pluck(:name)]

@@ -74,6 +74,8 @@ export function seedEnv(flags, subdomain = CONFIG.subdomain) {
     TRAINING_ONLINE_ORDERS: on("--online-orders"),
     TRAINING_STOREFRONT: on("--storefront"),
     TRAINING_AI: on("--ai"),
+    TRAINING_UOM: on("--uom"),
+    TRAINING_WHOLESALE: (flags.find((a) => a.startsWith("--wholesale")) || "").replace(/^--wholesale=?/, "") || (on("--wholesale") === "1" ? "1" : ""),
     TRAINING_LOCALE: (flags.find((a) => a.startsWith("--lang=")) || "--lang=en").slice(7),
   };
 }
